@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f5f6f8;
+  --surface-subtle: #e5e5e5;
+  --text-primary: #14213d;
+  --text-secondary: #46536a;
+  --text-muted: #687386;
+  --border: #d9dee7;
+  --accent: #fca311;
+  --accent-hover: #e99100;
+  --accent-pressed: #cc7f00;
+  --on-accent: #14213d;
+  --focus-ring: #14213d;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0b1220;
+  --surface: #111b2e;
+  --surface-muted: #17243a;
+  --surface-subtle: #14213d;
+  --text-primary: #ffffff;
+  --text-secondary: #d5dce7;
+  --text-muted: #a6b0c0;
+  --border: #2b3950;
+  --accent: #fca311;
+  --accent-hover: #ffb338;
+  --accent-pressed: #e99100;
+  --on-accent: #14213d;
+  --focus-ring: #fca311;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-pressed: var(--accent-pressed);
+  --color-on-accent: var(--on-accent);
+  --color-brand-white: #ffffff;
+  --color-brand-gray: #e5e5e5;
+  --color-brand-amber: #fca311;
+  --color-brand-navy: #14213d;
+  --color-brand-black: #000000;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Theme-aware brand mark: dark artwork on light theme, light artwork on dark */
+.logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
+/* Mobile nav drawer: drops down from the header */
+@keyframes menu-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-drop {
+  animation: menu-drop 200ms ease-out;
+  transform-origin: top center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
