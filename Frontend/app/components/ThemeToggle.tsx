@@ -53,25 +53,23 @@ export default function ThemeToggle() {
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       title={`Switch to ${isDark ? "light" : "dark"} theme`}
       aria-pressed={isDark}
-      className="relative inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-surface text-text-primary transition-all duration-300 hover:border-accent hover:bg-surface-muted active:scale-95"
+      className="relative inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-surface text-text-primary transition-all duration-300 hover:border-accent hover:bg-surface-muted active:scale-95"
     >
       <span
         aria-hidden="true"
-        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
-          isDark
-            ? "rotate-0 scale-100 opacity-100"
-            : "rotate-90 scale-50 opacity-0"
-        }`}
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isDark
+          ? "rotate-0 scale-100 opacity-100"
+          : "rotate-90 scale-50 opacity-0"
+          }`}
       >
         <Moon className="h-5 w-5" strokeWidth={2} />
       </span>
       <span
         aria-hidden="true"
-        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
-          isDark
-            ? "-rotate-90 scale-50 opacity-0"
-            : "rotate-0 scale-100 opacity-100"
-        }`}
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isDark
+          ? "-rotate-90 scale-50 opacity-0"
+          : "rotate-0 scale-100 opacity-100"
+          }`}
       >
         <Sun className="h-5 w-5" strokeWidth={2} />
       </span>

@@ -101,6 +101,9 @@ body {
   transform-origin: top center;
 }
 
+/* Hero carousel travels on a track (translateX); the global
+   reduced-motion rule already neutralises it when requested. */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
