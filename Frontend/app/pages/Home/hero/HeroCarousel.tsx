@@ -78,7 +78,7 @@ export default function HeroCarousel() {
     <section
       aria-roledescription="carousel"
       aria-label="Hustle Learning offerings"
-      className="mx-auto w-full max-w-[1380px] px-4 pt-6 pb-8 md:px-6"
+      className="band band-hero w-full"
       onKeyDown={onRegionKeyDown}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -96,7 +96,7 @@ export default function HeroCarousel() {
         else prev();
       }}
     >
-      <div className="grid gap-6 lg:h-[70vh] lg:max-h-[680px] lg:min-h-[540px] lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10">
+      <div className="relative mx-auto grid w-full max-w-[1380px] gap-6 px-4 pt-6 pb-8 md:px-6 lg:h-[70vh] lg:max-h-[680px] lg:min-h-[540px] lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10">
         {/* Stage — slides travel on a track, exiting left as the next enters */}
         <div className="flex min-w-0 flex-col overflow-hidden">
           <div className="min-h-0 flex-1">
@@ -124,7 +124,10 @@ export default function HeroCarousel() {
                       aria-label={`${slide.heading} — activate to fill the enquiry form`}
                       className="grid h-full cursor-pointer content-center items-center gap-4 sm:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-2"
                     >
-                      <div className="min-w-0">
+                      <div
+                        className={`min-w-0 ${i === 0 ? "hero-enter hero-enter-copy" : ""} ${isActive && i !== 0 ? "slide-copy-in" : ""}`}
+                        key={isActive ? `copy-${slide.id}-on` : `copy-${slide.id}`}
+                      >
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase">
                             <span
@@ -178,11 +181,15 @@ export default function HeroCarousel() {
                         </div>
                       </div>
 
-                      <HeroImage
-                        src={slide.image}
-                        alt={slide.imageAlt}
-                        eager={slide.eager}
-                      />
+                      <div
+                        className={i === 0 ? "hero-enter-media" : undefined}
+                      >
+                        <HeroImage
+                          src={slide.image}
+                          alt={slide.imageAlt}
+                          eager={slide.eager}
+                        />
+                      </div>
                     </div>
                   </article>
                 );
@@ -202,10 +209,10 @@ export default function HeroCarousel() {
           </div>
         </div>
 
-        {/* Form card — stretches to exactly the stage height */}
+        {/* Form card — stretches to exactly the stage height; entrance never blocks interaction */}
         <div
           id="hero-enquiry"
-          className="min-w-0 self-stretch rounded-xl border border-border bg-surface"
+          className="hero-enter hero-enter-form min-w-0 self-stretch rounded-sm border border-border bg-surface"
         >
           <EnquiryForm
             slide={HERO_SLIDES[active]}

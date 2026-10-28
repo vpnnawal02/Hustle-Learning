@@ -90,6 +90,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -104,11 +105,270 @@ body {
 /* Hero carousel travels on a track (translateX); the global
    reduced-motion rule already neutralises it when requested. */
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---- Scroll-reveal motion language (Patterns A–E) ----
+   A .reveal (fade+rise): headings, paragraphs, small elements.
+   B .reveal-left/.reveal-right: student imagery, two-column visuals.
+   C stagger via `delay` prop on cards.
+   D .reveal-scale: subtle image depth (restrained scale).
+   E section bands below coordinate background + content transitions. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-left {
+  transform: translateX(-28px);
+}
+.reveal-right {
+  transform: translateX(28px);
+}
+.reveal-scale {
+  transform: translateY(10px) scale(0.97);
+}
+.reveal-fade {
+  transform: none;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Hero entrance (staggered, non-blocking) ---- */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-image-in {
+  from {
+    opacity: 0;
+    transform: translateX(26px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+.hero-enter {
+  opacity: 0;
+  animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-enter-copy {
+  animation-delay: 0.08s;
+}
+.hero-enter-media {
+  opacity: 0;
+  animation: hero-image-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.18s;
+}
+.hero-enter-form {
+  animation-delay: 0.28s;
+}
+/* Active slide copy gets a soft re-entry on slide change. */
+@keyframes slide-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.slide-copy-in {
+  animation: slide-copy-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Background journey: four complementary surface treatments ----
+   Light theme stays dominant-white per design.md; dark theme uses a
+   deep-navy progression. Each band carries faint radial lighting so
+   adjacent sections feel connected rather than flat or boxed. */
+.band {
+  position: relative;
+}
+.band-hero {
+  background: var(--background);
+  overflow: clip;
+}
+.band-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(560px 320px at 88% 8%, rgb(252 163 17 / 0.08), transparent 65%),
+    radial-gradient(720px 420px at 8% 100%, rgb(20 33 61 / 0.05), transparent 60%);
+}
+:root[data-theme="dark"] .band-hero::before {
+  background:
+    radial-gradient(640px 360px at 85% 6%, rgb(252 163 17 / 0.1), transparent 62%),
+    radial-gradient(820px 480px at 5% 100%, rgb(66 110 180 / 0.16), transparent 62%);
+}
+.band-who {
+  background: linear-gradient(180deg, var(--background), var(--surface-muted));
+  border-top: 1px solid var(--border);
+  overflow: clip;
+}
+.band-who::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(620px 300px at 12% 0%, rgb(252 163 17 / 0.06), transparent 65%);
+}
+:root[data-theme="dark"] .band-who {
+  background: linear-gradient(180deg, #0b1220, #0e1830);
+}
+:root[data-theme="dark"] .band-who::before {
+  background:
+    radial-gradient(680px 320px at 10% 0%, rgb(252 163 17 / 0.07), transparent 62%),
+    radial-gradient(760px 420px at 95% 100%, rgb(66 110 180 / 0.12), transparent 60%);
+}
+
+/* Courses band: elevated surface separating discovery from intro. */
+.courses-band {
+  background: linear-gradient(180deg, #ffedc7, #ffe0a1);
+  border-top: 1px solid rgb(20 33 61 / 0.08);
+  border-bottom: 1px solid rgb(20 33 61 / 0.08);
+  overflow: clip;
+}
+.courses-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(700px 320px at 50% -60px, rgb(255 255 255 / 0.55), transparent 65%);
+}
+:root[data-theme="dark"] .courses-band {
+  background: linear-gradient(180deg, #16263f, #1d2e4e);
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+}
+:root[data-theme="dark"] .courses-band::before {
+  background:
+    radial-gradient(700px 300px at 50% -60px, rgb(120 165 230 / 0.14), transparent 65%),
+    radial-gradient(600px 300px at 90% 110%, rgb(252 163 17 / 0.06), transparent 60%);
+}
+
+/* Personalised learning: distinct blue-grey / slate surface. */
+.band-tutoring {
+  background: linear-gradient(180deg, var(--surface-muted), #e9edf3);
+  border-bottom: 1px solid var(--border);
+  overflow: clip;
+}
+:root[data-theme="dark"] .band-tutoring {
+  background: linear-gradient(180deg, #101e33, #0d1929);
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+}
+.band-tutoring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(640px 300px at 88% 0%, rgb(252 163 17 / 0.05), transparent 62%);
+}
+:root[data-theme="dark"] .band-tutoring::before {
+  background:
+    radial-gradient(640px 300px at 88% 0%, rgb(252 163 17 / 0.06), transparent 60%),
+    radial-gradient(720px 380px at 8% 100%, rgb(66 110 180 / 0.1), transparent 62%);
+}
+
+/* CTA band: highlighted deep navy conclusion with restrained glow. */
+.cta-band {
+  background:
+    radial-gradient(560px 240px at 82% 20%, rgb(252 163 17 / 0.14), transparent 62%),
+    linear-gradient(180deg, #18294a, #14213d);
+  overflow: clip;
+}
+
+/* ---- Card lift + image depth (desktop hover only, restrained) ---- */
+@media (hover: hover) {
+  .lift {
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+    border-color: rgb(252 163 17 / 0.55);
+    box-shadow: 0 12px 28px -16px rgb(0 0 0 / 0.35);
+  }
+  .lift .zoom-img img {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lift:hover .zoom-img img {
+    transform: scale(1.04);
+  }
+}
+
+/* Light-theme-only legibility overrides on the solid amber band.
+   Dark theme needs none — theme tokens already work on the tint. */
+:root[data-theme="light"] .courses-on-amber .ov-eyebrow {
+  color: rgb(20 33 61 / 0.68);
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-desc {
+  color: rgb(20 33 61 / 0.82);
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-cta {
+  background: #14213d;
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-cta:hover {
+  background: #24365c;
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-cta:active {
+  background: #0e1828;
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-outline {
+  border-color: rgb(20 33 61 / 0.35);
+  color: #14213d;
+}
+
+:root[data-theme="light"] .courses-on-amber .ov-outline:hover {
+  border-color: #14213d;
+  background: #14213d;
+  color: #ffffff;
+}
+
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-enter,
+  .hero-enter-media {
+    opacity: 1;
+    animation: none;
   }
 }
