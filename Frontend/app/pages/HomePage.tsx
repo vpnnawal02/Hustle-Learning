@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import { HeroCarousel } from "./Home/hero";
 import OneOnOneClasses from "./Home/OneOnOneClasses";
 import PopularCourses from "./Home/PopularCourses";
+import Toolkit from "./Home/Toolkit";
 import WhoWeAre from "./Home/WhoWeAre";
 
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
         <WhoWeAre />
         <PopularCourses />
         <OneOnOneClasses />
+        <Toolkit />
         <CtaBand />
       </main>
       <Footer />

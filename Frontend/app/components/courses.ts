@@ -14,8 +14,9 @@ export const COURSES: Course[] = [
     description:
       "Build strong foundations in Maths, Science, and other school subjects.",
     audience: "Middle-school students",
-    image: "/courses/classes-6-8.png",
-    imageAlt: "Middle-school student learning with Hustle Learning",
+    image:
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop",
+    imageAlt: "School supplies laid out for study",
   },
   {
     id: "class-9",
@@ -23,8 +24,9 @@ export const COURSES: Course[] = [
     description:
       "Strengthen concepts and prepare for the Class 9 examinations.",
     audience: "Class 9 students",
-    image: "/courses/class-9.png",
-    imageAlt: "Class 9 student studying with Hustle Learning",
+    image:
+      "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=800&auto=format&fit=crop",
+    imageAlt: "Student focused on writing at a study desk",
   },
   {
     id: "class-10",
@@ -32,8 +34,9 @@ export const COURSES: Course[] = [
     description:
       "Focus on CBSE syllabus coverage, revision, and board examination preparation.",
     audience: "Class 10 students",
-    image: "/courses/class-10.png",
-    imageAlt: "Class 10 student preparing for board exams with Hustle Learning",
+    image:
+      "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=800&auto=format&fit=crop",
+    imageAlt: "Graduation caps thrown in celebration",
   },
   {
     id: "classes-11-12",
@@ -41,7 +44,8 @@ export const COURSES: Course[] = [
     description:
       "Explore subject-specific learning and examination preparation.",
     audience: "Senior-secondary students",
-    image: "/courses/classes-11-12.png",
-    imageAlt: "Senior-secondary student learning with Hustle Learning",
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
+    imageAlt: "Senior students walking together on campus",
   },
 ];

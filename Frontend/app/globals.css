@@ -285,6 +285,52 @@ html {
     radial-gradient(720px 380px at 8% 100%, rgb(66 110 180 / 0.1), transparent 62%);
 }
 
+/* Who-we-are band: flat light warm shade in light, flat navy in dark. */
+.whoweare-band {
+  background: #fdf4e3;
+  overflow: clip;
+}
+:root[data-theme="dark"] .whoweare-band {
+  background: #16263f;
+}
+
+/* Who-we-are slider cards: white surfaces in light (per scheme), deep navy
+   in dark. Buttons stay amber in both. */
+:root[data-theme="dark"] .ww-card {
+  background: #14213d;
+  border-color: rgb(255 255 255 / 0.12);
+}
+.ww-index {
+  color: #14213d;
+}
+:root[data-theme="dark"] .ww-index {
+  color: var(--accent);
+}
+
+/* Hide scrollbars on sliders while keeping swipe, drag, and arrow scrolling. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Elegant card hover: gentle lift with an amber edge. */
+.ww-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+@media (hover: hover) {
+  .ww-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 18px 36px -16px rgb(0 0 0 / 0.25);
+  }
+}
+
 /* CTA band: highlighted deep navy conclusion with restrained glow. */
 .cta-band {
   background:
@@ -370,5 +416,9 @@ html {
   .hero-enter-media {
     opacity: 1;
     animation: none;
+  }
+  .ww-card:hover {
+    transform: none;
+    box-shadow: none;
   }
 }

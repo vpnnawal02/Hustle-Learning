@@ -45,9 +45,9 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Enquire Now",
     ctaHref: "#enquiry-form",
     offerText: "Plans for every budget",
-    image: "/hero/main-slide.png",
-    imageAlt:
-      "Indian student studying on a laptop with Hustle Learning study material",
+    image:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
+    imageAlt: "Students learning together with a laptop",
     eager: true,
     formNote:
       "Tell us your details and our counsellor will help you choose the right mix of notes, classes, tutors, or books.",
@@ -69,9 +69,9 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Get Material",
     ctaHref: "#enquiry-form",
     offerText: "Free sample chapters",
-    image: "/hero/notes-slide.png",
-    imageAlt:
-      "Hustle Learning study notes, textbooks, and revision resources",
+    image:
+      "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop",
+    imageAlt: "Student writing detailed study notes in a notebook",
     eager: false,
     formNote:
       "Share your class details and we will recommend the right study material and revision notes for your syllabus.",
@@ -93,9 +93,9 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Book Free Demo",
     ctaHref: "#enquiry-form",
     offerText: "Courses from ₹999",
-    image: "/hero/online-class-slide.png",
-    imageAlt:
-      "Indian student attending a Hustle Learning online class with a teacher on a laptop",
+    image:
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+    imageAlt: "Students learning with tablets in a guided digital classroom",
     eager: false,
     formNote:
       "Enquire about online batches and we will share batch timings, fees, and a free counselling call on WhatsApp.",
@@ -117,8 +117,9 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Find a Tutor",
     ctaHref: "#enquiry-form",
     offerText: "Free trial session",
-    image: "/hero/personal-tutor-slide.png",
-    imageAlt: "Indian student learning with a personal home tutor",
+    image:
+      "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=1200&auto=format&fit=crop",
+    imageAlt: "Teacher giving personal guidance to students",
     eager: false,
     formNote:
       "Share your class and location needs and we will match a suitable home tutor and confirm availability on WhatsApp.",
@@ -140,8 +141,9 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Order Books",
     ctaHref: "#enquiry-form",
     offerText: "Discounts on sets",
-    image: "/hero/books-slide.png",
-    imageAlt: "Collection of Hustle Learning educational books",
+    image:
+      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1200&auto=format&fit=crop",
+    imageAlt: "Shelves of books in a library",
     eager: false,
     formNote:
       "Tell us your class and we will recommend the right Hustle Learning books and share ordering details.",

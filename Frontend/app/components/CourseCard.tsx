@@ -12,7 +12,7 @@ export default function CourseCard({ course }: { course: Course }) {
           fill
           sizes="(max-width: 1024px) 78vw, 300px"
           loading="lazy"
-          className="object-contain object-bottom p-3"
+          className="object-cover object-center"
         />
       </div>
       <div className="flex flex-1 flex-col p-5">

@@ -7,7 +7,7 @@ export default function CtaBand() {
       <div className="relative mx-auto flex w-full max-w-[1380px] flex-col items-start gap-5 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-6 md:py-14">
         <Reveal variant="up">
           <p className="text-xs font-bold uppercase tracking-[1.2px] text-accent">
-            Free counselling
+            Learn Smart. Hustle Hard.
           </p>
           <h2
             id="cta-band-heading"

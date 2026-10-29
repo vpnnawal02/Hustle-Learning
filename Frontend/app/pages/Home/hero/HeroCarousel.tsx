@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CarouselControls from "./CarouselControls";
 import EnquiryForm from "./EnquiryForm";
-import HeroImage from "./HeroImage";
 import { HERO_SLIDES } from "./hero-slides";
 import type { EnquiryValues } from "./validation";
 
@@ -28,14 +28,8 @@ export default function HeroCarousel() {
     );
   }, []);
 
-  const next = useCallback(
-    () => goTo(active + 1),
-    [active, goTo],
-  );
-  const prev = useCallback(
-    () => goTo(active - 1),
-    [active, goTo],
-  );
+  const next = useCallback(() => goTo(active + 1), [active, goTo]);
+  const prev = useCallback(() => goTo(active - 1), [active, goTo]);
 
   // Autoplay: never while the user is completing the form.
   useEffect(() => {
@@ -60,25 +54,20 @@ export default function HeroCarousel() {
     }
   }
 
-  // The banner works as a CTA: activating it focuses the form.
+  // Banners and tiles act as CTAs: activating them focuses the form.
   function focusForm() {
     document
       .querySelector<HTMLElement>('#hero-enquiry input[name="hero-enquiry-name"]')
       ?.focus();
   }
 
-  function onCtaKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      focusForm();
-    }
-  }
+  const slide = HERO_SLIDES[active];
 
   return (
     <section
       aria-roledescription="carousel"
       aria-label="Hustle Learning offerings"
-      className="band band-hero w-full"
+      className="mx-auto w-full max-w-[1380px] px-4 pt-8 pb-8 md:px-6 md:pt-10"
       onKeyDown={onRegionKeyDown}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -96,109 +85,148 @@ export default function HeroCarousel() {
         else prev();
       }}
     >
-      <div className="relative mx-auto grid w-full max-w-[1380px] gap-6 px-4 pt-6 pb-8 md:px-6 lg:h-[70vh] lg:max-h-[680px] lg:min-h-[540px] lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10">
-        {/* Stage — slides travel on a track, exiting left as the next enters */}
-        <div className="flex min-w-0 flex-col overflow-hidden">
-          <div className="min-h-0 flex-1">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
+        <div className="min-w-0">
+          {/* Centered copy */}
+          <div
+            key={slide.id}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${active + 1} of ${HERO_SLIDES.length}: ${slide.badge} — ${slide.badgeBatch}`}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase">
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-accent"
+                />
+                {slide.badge}
+              </span>
+              <span className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
+                {slide.badgeBatch}
+              </span>
+            </div>
+
+            {active === 0 ? (
+              <h1 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
+                {slide.heading}
+              </h1>
+            ) : (
+              <h2 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
+                {slide.heading}
+              </h2>
+            )}
+
+            <p className="mx-auto mt-3 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
+              {slide.description}
+            </p>
+
+            <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+              {slide.bullets.map((b) => (
+                <li
+                  key={b}
+                  className="flex items-center gap-1.5 text-sm font-medium text-text-secondary"
+                >
+                  <span aria-hidden="true" className="font-bold text-accent">
+                    ✦
+                  </span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={focusForm}
+                className="inline-flex h-12 items-center justify-center rounded bg-accent px-8 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+              >
+                Get a Free Callback
+              </button>
+            </div>
+          </div>
+
+          {/* Bento collage track */}
+          <div className="mt-8 overflow-hidden">
             <div
-              className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)]"
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)]"
               style={{ transform: `translateX(-${active * 100}%)` }}
             >
-              {HERO_SLIDES.map((slide, i) => {
+              {HERO_SLIDES.map((s, i) => {
                 const isActive = i === active;
+                const others = [1, 2, 3, 4].map(
+                  (k) => (i + k) % HERO_SLIDES.length,
+                );
                 return (
-                  <article
-                    key={slide.id}
+                  <div
+                    key={s.id}
                     role="group"
                     aria-roledescription="slide"
-                    aria-label={`${i + 1} of ${HERO_SLIDES.length}: ${slide.badge} — ${slide.badgeBatch}`}
+                    aria-label={`${i + 1} of ${HERO_SLIDES.length}: ${s.badge}`}
                     aria-hidden={!isActive}
                     inert={!isActive}
                     className="w-full shrink-0"
                   >
-                    <div
-                      role="button"
-                      tabIndex={isActive ? 0 : -1}
-                      onClick={focusForm}
-                      onKeyDown={onCtaKeyDown}
-                      aria-label={`${slide.heading} — activate to fill the enquiry form`}
-                      className="grid h-full cursor-pointer content-center items-center gap-4 sm:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-2"
-                    >
-                      <div
-                        className={`min-w-0 ${i === 0 ? "hero-enter hero-enter-copy" : ""} ${isActive && i !== 0 ? "slide-copy-in" : ""}`}
-                        key={isActive ? `copy-${slide.id}-on` : `copy-${slide.id}`}
-                      >
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase">
-                            <span
-                              aria-hidden="true"
-                              className="inline-block h-1.5 w-1.5 rounded-full bg-accent"
-                            />
-                            {slide.badge}
-                          </span>
-                          <span className="inline-flex items-center rounded-md bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
-                            {slide.badgeBatch}
-                          </span>
-                        </div>
-
-                        {i === 0 ? (
-                          <h1 className="mt-3 max-w-[16ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-text-primary uppercase sm:text-5xl lg:text-[54px]">
-                            {slide.heading}
-                          </h1>
-                        ) : (
-                          <h2 className="mt-3 max-w-[16ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-text-primary uppercase sm:text-5xl lg:text-[54px]">
-                            {slide.heading}
-                          </h2>
-                        )}
-
-                        <ul className="mt-4 flex max-w-[54ch] flex-col gap-1.5">
-                          {slide.bullets.map((b) => (
-                            <li
-                              key={b}
-                              className="flex items-start gap-2 text-[15px] leading-snug font-medium text-text-secondary"
-                            >
-                              <span
-                                aria-hidden="true"
-                                className="font-bold text-accent"
-                              >
-                                ✦
-                              </span>
-                              <span>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold tracking-wide text-text-primary uppercase">
-                          Get your free callback
-                          <span aria-hidden="true" className="text-accent">
-                            →
-                          </span>
-                        </span>
-
-                        {/* SEO: every slide's copy is in the DOM */}
-                        <div className="sr-only">
-                          <p>{slide.description}</p>
-                        </div>
-                      </div>
-
-                      <div
-                        className={i === 0 ? "hero-enter-media" : undefined}
-                      >
-                        <HeroImage
-                          src={slide.image}
-                          alt={slide.imageAlt}
-                          eager={slide.eager}
+                    <div className="grid auto-rows-[110px] grid-cols-2 gap-3 sm:auto-rows-[140px] sm:grid-cols-4">
+                      {/* Hero tile */}
+                      <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-surface-muted">
+                        <Image
+                          src={s.image}
+                          alt={s.imageAlt}
+                          fill
+                          sizes="(max-width: 1024px) 90vw, 560px"
+                          priority={s.eager}
+                          loading={s.eager ? undefined : "lazy"}
+                          className="object-cover object-center"
                         />
                       </div>
+                      {/* Brand tile */}
+                      <div className="flex flex-col justify-between rounded-2xl bg-brand-navy p-4 text-white">
+                        <p className="text-[13px] leading-snug font-bold">
+                          Learn Smart.
+                          <br />
+                          Hustle Hard.
+                        </p>
+                        <button
+                          type="button"
+                          tabIndex={isActive ? 0 : -1}
+                          onClick={focusForm}
+                          aria-label="Get a free callback"
+                          className="inline-flex h-9 w-9 items-center justify-center self-end rounded bg-accent text-base font-bold text-on-accent transition-colors hover:bg-accent-hover"
+                        >
+                          <span aria-hidden="true">→</span>
+                        </button>
+                      </div>
+                      {/* Sibling tiles — click to jump */}
+                      {others.slice(0, 3).map((oi) => (
+                        <button
+                          key={HERO_SLIDES[oi].id}
+                          type="button"
+                          tabIndex={isActive ? 0 : -1}
+                          onClick={() => goTo(oi)}
+                          aria-label={`Show: ${HERO_SLIDES[oi].badge}`}
+                          className="relative overflow-hidden rounded-2xl bg-surface-muted transition-transform duration-300 hover:scale-[1.02]"
+                        >
+                          <Image
+                            src={HERO_SLIDES[oi].image}
+                            alt=""
+                            fill
+                            sizes="(max-width: 1024px) 40vw, 220px"
+                            loading="lazy"
+                            className="object-cover object-center transition-transform duration-300 hover:scale-[1.04]"
+                          />
+                        </button>
+                      ))}
                     </div>
-                  </article>
+                  </div>
                 );
               })}
             </div>
           </div>
 
           {/* Dots left, arrows right */}
-          <div className="mt-6">
+          <div className="mt-5">
             <CarouselControls
               active={active}
               total={HERO_SLIDES.length}
@@ -209,19 +237,29 @@ export default function HeroCarousel() {
           </div>
         </div>
 
-        {/* Form card — stretches to exactly the stage height; entrance never blocks interaction */}
+        {/* Form card — stretches to match */}
         <div
           id="hero-enquiry"
-          className="hero-enter hero-enter-form min-w-0 self-stretch rounded-sm border border-border bg-surface"
+          className="min-w-0 self-stretch rounded-xl border border-border bg-surface lg:sticky lg:top-24"
         >
           <EnquiryForm
-            slide={HERO_SLIDES[active]}
+            slide={slide}
             values={values}
             onChange={setValues}
             onBusyChange={setFormBusy}
             formIdPrefix="hero-enquiry"
           />
         </div>
+      </div>
+
+      {/* SEO: every slide's copy is in the DOM */}
+      <div className="sr-only">
+        {HERO_SLIDES.map((s) => (
+          <div key={s.id}>
+            <h2>{s.heading}</h2>
+            <p>{s.description}</p>
+          </div>
+        ))}
       </div>
     </section>
   );

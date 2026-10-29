@@ -20,7 +20,7 @@ export default function TutoringCard({
         <Link
           href={ctaHref}
           aria-label={`Find a tutor for ${option.title}`}
-          className="inline-flex h-11 w-full items-center justify-center rounded border-2 border-accent bg-transparent px-6 text-sm font-bold text-text-primary transition-colors duration-300 hover:bg-accent hover:text-on-accent active:bg-accent-pressed"
+          className="inline-flex h-11 w-full items-center justify-center rounded bg-accent px-6 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
         >
           Find a tutor
         </Link>
