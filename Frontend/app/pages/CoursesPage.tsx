@@ -9,7 +9,7 @@ export default function CoursesPage() {
         <p className="text-xs font-semibold uppercase tracking-[1.2px] text-text-muted">
           Batches by class
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
           All Courses
         </h1>
         <p className="mt-3 max-w-[60ch] text-base leading-[1.6] text-text-secondary sm:text-lg">

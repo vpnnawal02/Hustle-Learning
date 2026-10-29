@@ -11,11 +11,11 @@ export default function CtaBand() {
           </p>
           <h2
             id="cta-band-heading"
-            className="mt-2 max-w-[24ch] text-2xl font-extrabold tracking-tight text-white sm:text-3xl"
+            className="mt-2 max-w-[24ch] text-2xl font-extrabold tracking-tight text-balance text-brand-white sm:text-3xl"
           >
             Not sure where to begin? Talk to us first.
           </h2>
-          <p className="mt-2 max-w-[58ch] text-[15px] leading-[1.6] text-white/75">
+          <p className="mt-2 max-w-[58ch] text-[15px] leading-[1.6] text-brand-white/75">
             Share your class and subjects — our counsellor will call you back
             on WhatsApp with the right plan for notes, classes, tuition, or
             books.

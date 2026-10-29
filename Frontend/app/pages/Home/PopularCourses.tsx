@@ -7,18 +7,18 @@ export default function PopularCourses() {
   return (
     <section
       aria-labelledby="popular-courses-heading"
-      className="band courses-band courses-on-amber"
+      className=""
     >
       <div className="relative mx-auto w-full max-w-[1380px] px-4 pt-16 pb-12 md:px-6 md:pt-24 md:pb-16">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <Reveal variant="left">
             <div>
-              <p className="ov-eyebrow text-xs font-semibold uppercase tracking-[1.2px] text-text-muted">
+              <p className="mt-2 text-3xl font-black tracking-tight text-balance text-text-primary sm:text-5xl">
                 Batches by class
               </p>
               <h2
                 id="popular-courses-heading"
-                className="mt-2 text-3xl font-bold tracking-tight text-text-primary sm:text-4xl"
+                className="ov-eyebrow text-lg font-bold uppercase  text-text-muted my-3"
               >
                 Popular Courses
               </h2>

@@ -90,12 +90,12 @@ export default function EnquiryForm({
   }
 
   const inputCls = (invalid: boolean) =>
-    `h-11 w-full rounded border border-border bg-surface-muted/60 px-3 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:bg-surface focus:outline-none ${
+    `h-11 w-full rounded border border-border bg-surface-muted/60 px-3 text-sm text-text-primary placeholder:text-text-muted/60 transition-colors focus:border-accent focus:bg-surface focus:outline-none focus:ring-2 focus:ring-accent/40 ${
       invalid ? "border-red-500" : ""
     }`;
 
   const errCls =
-    "mt-1 text-[12px] font-medium text-red-600 dark:text-red-400";
+    "mt-1 text-[13px] font-medium text-red-600 dark:text-red-400";
 
   if (done) {
     return (
@@ -145,7 +145,7 @@ export default function EnquiryForm({
         <div>
           <label
             htmlFor={`${uid}-name`}
-            className="text-[13px] font-semibold text-text-primary"
+            className="text-sm font-semibold text-text-primary"
           >
             Student name
           </label>
@@ -172,7 +172,7 @@ export default function EnquiryForm({
         <div>
           <label
             htmlFor={`${uid}-whatsapp`}
-            className="text-[13px] font-semibold text-text-primary"
+            className="text-sm font-semibold text-text-primary"
           >
             WhatsApp number
           </label>
@@ -202,7 +202,7 @@ export default function EnquiryForm({
         <div>
           <label
             htmlFor={`${uid}-email`}
-            className="text-[13px] font-semibold text-text-primary"
+            className="text-sm font-semibold text-text-primary"
           >
             Email address{" "}
             <span className="font-normal text-text-muted">(optional)</span>
@@ -229,7 +229,7 @@ export default function EnquiryForm({
         <div>
           <label
             htmlFor={`${uid}-class`}
-            className="text-[13px] font-semibold text-text-primary"
+            className="text-sm font-semibold text-text-primary"
           >
             Class
           </label>
@@ -275,7 +275,7 @@ export default function EnquiryForm({
           />
           <span
             id={`${uid}-consent-text`}
-            className="text-[12px] leading-snug text-text-secondary"
+            className="text-[13px] leading-snug text-text-secondary"
           >
             I agree to be contacted by Hustle Learning and accept the{" "}
             <Link
@@ -305,7 +305,7 @@ export default function EnquiryForm({
             ref={statusRef}
             tabIndex={-1}
             role="alert"
-            className="rounded border border-border bg-surface px-2.5 py-1.5 text-[12px] text-text-secondary"
+            className="rounded border border-border bg-surface px-2.5 py-1.5 text-[13px] text-text-secondary"
           >
             {status}
           </p>
@@ -318,6 +318,11 @@ export default function EnquiryForm({
         >
           {sending ? "Submitting…" : "Submit"}
         </button>
+        {!consent && !sending && (
+          <p className="text-center text-[13px] text-text-muted">
+            Tick the checkbox above to enable Submit.
+          </p>
+        )}
       </form>
     </div>
   );

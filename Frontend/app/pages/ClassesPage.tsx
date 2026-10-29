@@ -10,7 +10,7 @@ export default function ClassesPage() {
         <p className="text-xs font-semibold uppercase tracking-[1.2px] text-text-muted">
           Personalised Learning
         </p>
-        <h1 className="mt-2 max-w-[22ch] text-3xl leading-[1.1] font-extrabold tracking-tight sm:text-4xl">
+        <h1 className="mt-2 max-w-[22ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
           One Student. One Teacher. Undivided Attention.
         </h1>
         <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">

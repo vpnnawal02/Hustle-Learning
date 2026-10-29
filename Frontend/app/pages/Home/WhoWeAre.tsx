@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import Reveal from "../../components/Reveal";
+import ownerPhoto from "../../assets/images/owner.png";
 
 const CARDS = [
   {
@@ -53,7 +54,7 @@ export default function WhoWeAre() {
         <Reveal>
           <h2
             id="who-we-are-heading"
-            className="text-4xl leading-[1.05] font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-[56px]"
+            className="text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl lg:text-[56px]"
           >
             Who we are
           </h2>
@@ -61,7 +62,7 @@ export default function WhoWeAre() {
             <p className="max-w-[30ch] text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
               Smarter Preparation. Stronger Concepts. Better Practice.
             </p>
-            <p className="max-w-[52ch] text-sm leading-[1.6] text-text-secondary lg:pb-1 lg:text-right">
+            <p className="max-w-[52ch] text-sm leading-[1.6] text-text-secondary lg:pb-1">
               Hustle Learning is a student-focused learning platform designed
               to make exam preparation more structured, effective, and
               accessible — combining study resources, exam-oriented
@@ -73,9 +74,9 @@ export default function WhoWeAre() {
         <div className="mt-8 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8">
           {/* Static owner panel — never scrolls */}
           <Reveal className="mx-auto flex w-full max-w-[300px] flex-col items-center gap-4 text-center lg:mx-0 lg:items-start lg:text-left">
-            <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-xl sm:max-w-[320px] lg:max-w-none">
+            <div             className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-lg sm:max-w-[320px] lg:max-w-none">
               <Image
-                src="/owner.png"
+                src={ownerPhoto}
                 alt="Vipin Nawal, Founder and Educator of Hustle Learning"
                 fill
                 sizes="(max-width: 1024px) 70vw, 280px"
@@ -103,7 +104,7 @@ export default function WhoWeAre() {
                 <article
                   key={card.index}
                   data-card
-                  className="ww-card flex min-h-[380px] w-[82%] shrink-0 snap-start flex-col rounded-2xl border border-border bg-surface p-6 sm:w-[320px]"
+                  className="ww-card flex min-h-[380px] w-[82%] shrink-0 snap-start flex-col rounded-lg border border-border bg-surface p-6 sm:w-[320px]"
                 >
                   <span
                     aria-hidden="true"
@@ -111,7 +112,7 @@ export default function WhoWeAre() {
                   >
                     {card.index}
                   </span>
-                  <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-text-primary">
+                  <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-balance text-text-primary">
                     {card.title}
                   </h3>
                   <p className="mt-2 text-[15px] leading-[1.6] text-text-secondary">

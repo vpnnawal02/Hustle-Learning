@@ -228,7 +228,7 @@ export default function MobileMenu({ open, onNavigate }: Props) {
         <div className="flex flex-col gap-5 py-8">
           <a
             href={CONTACT.telHref}
-            className="flex items-center gap-5 rounded-xl border border-border bg-surface-muted/60 px-6 py-5"
+            className="flex items-center gap-5 rounded-lg border border-border bg-surface-muted/60 px-6 py-5"
           >
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-surface-subtle text-text-primary">
               <PhoneIcon className="h-6 w-6" />

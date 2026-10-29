@@ -25,7 +25,7 @@ export default function Footer() {
           </p>
           <p className="mt-3 max-w-[38ch] text-sm leading-[1.6] text-text-secondary">
             Study material, online classes, home tutors, and books for school
-            students — structured preparation from Class 1 to Class 12.
+            students — structured preparation from Class 6 to Class 12.
           </p>
         </div>
         <nav aria-label="Explore">

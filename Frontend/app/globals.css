@@ -422,3 +422,58 @@ html {
     box-shadow: none;
   }
 }
+
+/* ---- design.md consistency pass: flat bands, token-only color ----
+   Per design.md (borders + surface contrast for separation, no
+   decorative gradients) and standing decisions (flat #ffe6b3 / #1d2e4e
+   courses band, flat whoweare band). These overrides win by order. */
+.band-hero::before,
+.courses-band::before,
+.band-tutoring::before {
+  background: none;
+}
+.courses-band {
+  background: #ffe6b3;
+}
+:root[data-theme="dark"] .courses-band {
+  background: #1d2e4e;
+}
+.band-tutoring {
+  background: var(--surface-muted);
+}
+.cta-band {
+  background: #14213d;
+}
+
+/* Tutoring cards: amber progression in light, navy progression in dark.
+   White icon chips and pill buttons read cleanly on both. */
+.tutor-tone-0 {
+  background: color-mix(in srgb, var(--accent) 38%, white);
+}
+.tutor-tone-1 {
+  background: color-mix(in srgb, var(--accent) 64%, white);
+}
+.tutor-tone-2 {
+  background: var(--accent);
+}
+.tutor-ink {
+  color: #14213d;
+}
+.tutor-rule {
+  background: rgb(20 33 61 / 0.22);
+}
+:root[data-theme="dark"] .tutor-tone-0 {
+  background: color-mix(in srgb, #14213d 68%, white);
+}
+:root[data-theme="dark"] .tutor-tone-1 {
+  background: color-mix(in srgb, #14213d 86%, white);
+}
+:root[data-theme="dark"] .tutor-tone-2 {
+  background: #14213d;
+}
+:root[data-theme="dark"] .tutor-ink {
+  color: #ffffff;
+}
+:root[data-theme="dark"] .tutor-rule {
+  background: rgb(255 255 255 / 0.25);
+}

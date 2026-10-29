@@ -12,6 +12,7 @@ const AUTOPLAY_MS = 8000;
 export default function HeroCarousel() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [autoplayOn, setAutoplayOn] = useState(true);
   const [formBusy, setFormBusy] = useState(false);
   const [values, setValues] = useState<EnquiryValues>({
     name: "",
@@ -20,7 +21,7 @@ export default function HeroCarousel() {
     classLevel: "",
   });
   const touchX = useRef<number | null>(null);
-  const autoplayBlocked = paused || formBusy;
+  const autoplayBlocked = paused || formBusy || !autoplayOn;
 
   const goTo = useCallback((i: number) => {
     setActive(
@@ -96,14 +97,14 @@ export default function HeroCarousel() {
             className="mx-auto max-w-3xl text-center"
           >
             <div className="flex flex-wrap items-center justify-center gap-1.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-brand-white uppercase">
                 <span
                   aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 rounded-full bg-accent"
+                  className="inline-block h-1.5 w-1.5 rounded-md bg-accent"
                 />
                 {slide.badge}
               </span>
-              <span className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
+              <span className="inline-flex items-center rounded-md bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
                 {slide.badgeBatch}
               </span>
             </div>
@@ -155,9 +156,6 @@ export default function HeroCarousel() {
             >
               {HERO_SLIDES.map((s, i) => {
                 const isActive = i === active;
-                const others = [1, 2, 3, 4].map(
-                  (k) => (i + k) % HERO_SLIDES.length,
-                );
                 return (
                   <div
                     key={s.id}
@@ -170,7 +168,7 @@ export default function HeroCarousel() {
                   >
                     <div className="grid auto-rows-[110px] grid-cols-2 gap-3 sm:auto-rows-[140px] sm:grid-cols-4">
                       {/* Hero tile */}
-                      <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-surface-muted">
+                      <div className="relative col-span-2 row-span-2 overflow-hidden rounded-lg bg-surface-muted">
                         <Image
                           src={s.image}
                           alt={s.imageAlt}
@@ -182,7 +180,7 @@ export default function HeroCarousel() {
                         />
                       </div>
                       {/* Brand tile */}
-                      <div className="flex flex-col justify-between rounded-2xl bg-brand-navy p-4 text-white">
+                      <div className="flex flex-col justify-between rounded-lg bg-brand-navy p-4 text-brand-white">
                         <p className="text-[13px] leading-snug font-bold">
                           Learn Smart.
                           <br />
@@ -198,26 +196,63 @@ export default function HeroCarousel() {
                           <span aria-hidden="true">→</span>
                         </button>
                       </div>
-                      {/* Sibling tiles — click to jump */}
-                      {others.slice(0, 3).map((oi) => (
-                        <button
-                          key={HERO_SLIDES[oi].id}
-                          type="button"
-                          tabIndex={isActive ? 0 : -1}
-                          onClick={() => goTo(oi)}
-                          aria-label={`Show: ${HERO_SLIDES[oi].badge}`}
-                          className="relative overflow-hidden rounded-2xl bg-surface-muted transition-transform duration-300 hover:scale-[1.02]"
-                        >
-                          <Image
-                            src={HERO_SLIDES[oi].image}
-                            alt=""
-                            fill
-                            sizes="(max-width: 1024px) 40vw, 220px"
-                            loading="lazy"
-                            className="object-cover object-center transition-transform duration-300 hover:scale-[1.04]"
-                          />
-                        </button>
-                      ))}
+                      {/* Small tiles: per-slide plan — images stay clickable,
+                          text tiles carry highlight copy (no numerals) */}
+                      {s.tiles.map((tile, ti) => {
+                        if (tile.kind === "offer") {
+                          return (
+                            <div
+                              key={ti}
+                              className="flex items-center justify-center rounded-lg bg-accent p-3 text-center"
+                            >
+                              <span className="text-[13px] leading-snug font-bold text-on-accent sm:text-sm">
+                                {s.offerText}
+                              </span>
+                            </div>
+                          );
+                        }
+                        if (tile.kind === "text") {
+                          return (
+                            <div
+                              key={ti}
+                              className="flex items-center justify-center rounded-lg bg-surface-muted p-3 text-center"
+                            >
+                              <span className="text-[13px] leading-snug font-semibold text-text-secondary sm:text-sm">
+                                {tile.text}
+                              </span>
+                            </div>
+                          );
+                        }
+                        const target =
+                          tile.kind === "image" ? tile.ref : tile.target;
+                        const src =
+                          tile.kind === "image"
+                            ? HERO_SLIDES[tile.ref].image
+                            : tile.src;
+                        const alt =
+                          tile.kind === "image"
+                            ? ""
+                            : tile.alt;
+                        return (
+                          <button
+                            key={ti}
+                            type="button"
+                            tabIndex={isActive ? 0 : -1}
+                            onClick={() => goTo(target)}
+                            aria-label={`Show: ${HERO_SLIDES[target].badge}`}
+                            className="relative overflow-hidden rounded-lg bg-surface-muted transition-transform duration-300 hover:scale-[1.02]"
+                          >
+                            <Image
+                              src={src}
+                              alt={alt}
+                              fill
+                              sizes="(max-width: 1024px) 40vw, 220px"
+                              loading="lazy"
+                              className="object-cover object-center transition-transform duration-300 hover:scale-[1.04]"
+                            />
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -233,6 +268,8 @@ export default function HeroCarousel() {
               onSelect={goTo}
               onPrev={prev}
               onNext={next}
+              autoplayOn={autoplayOn}
+              onToggleAutoplay={() => setAutoplayOn((v) => !v)}
             />
           </div>
         </div>
@@ -240,7 +277,7 @@ export default function HeroCarousel() {
         {/* Form card — stretches to match */}
         <div
           id="hero-enquiry"
-          className="min-w-0 self-stretch rounded-xl border border-border bg-surface lg:sticky lg:top-24"
+          className="min-w-0 self-stretch rounded-lg border border-border bg-surface lg:sticky lg:top-24"
         >
           <EnquiryForm
             slide={slide}

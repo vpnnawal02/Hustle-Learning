@@ -56,7 +56,7 @@ export default function ClassesMenu({
           id="classes-panel"
           role="menu"
           aria-label="Classes"
-          className="absolute left-0 top-[calc(100%+14px)] z-50 w-72 overflow-hidden rounded-xl border border-border bg-surface p-2.5"
+          className="absolute left-0 top-[calc(100%+14px)] z-50 w-72 overflow-hidden rounded-lg border border-border bg-surface p-2.5"
           style={{ boxShadow: "0 12px 32px rgba(20,33,61,0.12)" }}
         >
           <ul>

@@ -1,9 +1,15 @@
+import type { StaticImageData } from "next/image";
+import class10 from "../assets/images/courses/10.png";
+import class1112 from "../assets/images/courses/11-12.png";
+import class68 from "../assets/images/courses/6-8.png";
+import class9 from "../assets/images/courses/9.png";
+
 export interface Course {
   id: string;
   title: string;
   description: string;
   audience: string;
-  image: string;
+  image: StaticImageData;
   imageAlt: string;
 }
 
@@ -14,9 +20,9 @@ export const COURSES: Course[] = [
     description:
       "Build strong foundations in Maths, Science, and other school subjects.",
     audience: "Middle-school students",
-    image:
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop",
-    imageAlt: "School supplies laid out for study",
+    image: class68,
+    imageAlt:
+      "Hustle Learning Class 6 to 8 banner with Mathematics, Science and English books",
   },
   {
     id: "class-9",
@@ -24,9 +30,9 @@ export const COURSES: Course[] = [
     description:
       "Strengthen concepts and prepare for the Class 9 examinations.",
     audience: "Class 9 students",
-    image:
-      "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=800&auto=format&fit=crop",
-    imageAlt: "Student focused on writing at a study desk",
+    image: class9,
+    imageAlt:
+      "Hustle Learning Class 9 banner with Mathematics, Science and English books",
   },
   {
     id: "class-10",
@@ -34,9 +40,9 @@ export const COURSES: Course[] = [
     description:
       "Focus on CBSE syllabus coverage, revision, and board examination preparation.",
     audience: "Class 10 students",
-    image:
-      "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=800&auto=format&fit=crop",
-    imageAlt: "Graduation caps thrown in celebration",
+    image: class10,
+    imageAlt:
+      "Hustle Learning Class 10 banner with Mathematics, Science and English books",
   },
   {
     id: "classes-11-12",
@@ -44,8 +50,8 @@ export const COURSES: Course[] = [
     description:
       "Explore subject-specific learning and examination preparation.",
     audience: "Senior-secondary students",
-    image:
-      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
-    imageAlt: "Senior students walking together on campus",
+    image: class1112,
+    imageAlt:
+      "Hustle Learning Class 11 and 12 banner with Physics, Chemistry and Mathematics books",
   },
 ];

@@ -13,12 +13,6 @@ interface Props {
   variant?: RevealVariant;
 }
 
-function shouldShowImmediately(): boolean {
-  if (typeof window === "undefined") return true;
-  if (typeof IntersectionObserver === "undefined") return true;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 /** Scroll-triggered entrance: fades content in the first time it scrolls into view. */
 export default function Reveal({
   children,
@@ -27,11 +21,18 @@ export default function Reveal({
   variant = "up",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState<boolean>(shouldShowImmediately);
+  // Always start hidden so the server HTML and the first client paint match
+  // exactly. Visibility flips only after hydration, inside async callbacks.
+  // (Reduced-motion users are covered by CSS, which forces .reveal visible.)
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || visible) return;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      const raf = requestAnimationFrame(() => setVisible(true));
+      return () => cancelAnimationFrame(raf);
+    }
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -43,7 +44,7 @@ export default function Reveal({
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [visible]);
+  }, []);
 
   const variantClass =
     variant === "none"
