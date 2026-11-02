@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeToggle from "../ThemeToggle";
 import ClassesMenu from "./ClassesMenu";
@@ -33,10 +34,17 @@ export default function Navbar() {
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const isActivePath = useIsActivePath();
+  const pathname = usePathname() ?? "/";
   const isHome = isActivePath("/");
+  const isCourses = isActivePath("/courses");
   const isNews = isActivePath("/news");
-  const isStore = isActivePath("/store");
-  const isStudy = isActivePath("/study-material");
+  // Study section covers the whole resource platform: hub, class pages,
+  // subject/resource/chapter pages, and the JEE/NEET tracks.
+  const isStudy =
+    isActivePath("/resources") ||
+    isActivePath("/jee") ||
+    isActivePath("/neet") ||
+    pathname.startsWith("/class-");
   const isClasses = isActivePath("/classes");
 
   // Outside-click dismissal + Escape for desktop dropdowns
@@ -115,6 +123,15 @@ export default function Navbar() {
               routeActive={isClasses}
             />
             <Link
+              href="/courses"
+              aria-current={isCourses ? "page" : undefined}
+              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isCourses ? "text-text-primary" : "text-text-secondary"
+                }`}
+            >
+              Courses
+              {isCourses && <ActiveBar />}
+            </Link>
+            <Link
               href="/news"
               aria-current={isNews ? "page" : undefined}
               className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isNews ? "text-text-primary" : "text-text-secondary"
@@ -122,15 +139,6 @@ export default function Navbar() {
             >
               News
               {isNews && <ActiveBar />}
-            </Link>
-            <Link
-              href="/store"
-              aria-current={isStore ? "page" : undefined}
-              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isStore ? "text-text-primary" : "text-text-secondary"
-                }`}
-            >
-              Store
-              {isStore && <ActiveBar />}
             </Link>
           </nav>
 
@@ -143,7 +151,7 @@ export default function Navbar() {
             >
               <span
                 aria-hidden="true"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-muted text-text-primary"
+                className="flex h-11 w-11 items-center justify-center rounded bg-surface-muted text-text-primary"
               >
                 <PhoneIcon className="h-5 w-5" />
               </span>

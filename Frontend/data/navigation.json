@@ -1,0 +1,56 @@
+{
+  "school": {
+    "heading": "School Education",
+    "subtitle": "Learning resources for Classes 6–10.",
+    "hubHref": "/resources",
+    "classes": [
+      { "slug": "class-6", "label": "Class 6", "href": "/class-6" },
+      { "slug": "class-7", "label": "Class 7", "href": "/class-7" },
+      { "slug": "class-8", "label": "Class 8", "href": "/class-8" },
+      { "slug": "class-9", "label": "Class 9", "href": "/class-9" },
+      { "slug": "class-10", "label": "Class 10", "href": "/class-10" }
+    ]
+  },
+  "resources": {
+    "heading": "Study Resources",
+    "subtitle": "Everything you need to prepare better.",
+    "hubHref": "/resources",
+    "links": [
+      { "slug": "ncert-solutions", "label": "NCERT Solutions", "href": "/resources/ncert-solutions", "icon": "BookOpenCheck" },
+      { "slug": "notes", "label": "Notes", "href": "/resources/notes", "icon": "NotebookText" },
+      { "slug": "important-questions", "label": "Important Questions", "href": "/resources/important-questions", "icon": "ListChecks" },
+      { "slug": "sample-papers", "label": "Sample Papers", "href": "/resources/sample-papers", "icon": "FileText" },
+      { "slug": "pyqs", "label": "Previous Year Questions", "href": "/resources/pyqs", "icon": "Layers" },
+      { "slug": "worksheets", "label": "Worksheets", "href": "/resources/worksheets", "icon": "ClipboardList" },
+      { "slug": "formulas", "label": "Formula Sheets", "href": "/resources/formulas", "icon": "CalendarCheck" }
+    ]
+  },
+  "exams": {
+    "heading": "Competitive Exams",
+    "subtitle": "Structured tracks for aspirants.",
+    "cards": [
+      {
+        "slug": "jee",
+        "label": "JEE Preparation",
+        "href": "/jee",
+        "description": "Physics, Chemistry and Mathematics with chapter-wise PYQs, notes and mock tests.",
+        "subjects": [
+          { "slug": "physics", "label": "Physics", "href": "/jee/physics" },
+          { "slug": "chemistry", "label": "Chemistry", "href": "/jee/chemistry" },
+          { "slug": "mathematics", "label": "Mathematics", "href": "/jee/mathematics" }
+        ]
+      },
+      {
+        "slug": "neet",
+        "label": "NEET Preparation",
+        "href": "/neet",
+        "description": "Physics, Chemistry and Biology with NCERT-mapped notes and practice material.",
+        "subjects": [
+          { "slug": "physics", "label": "Physics", "href": "/neet/physics" },
+          { "slug": "chemistry", "label": "Chemistry", "href": "/neet/chemistry" },
+          { "slug": "biology", "label": "Biology", "href": "/neet/biology" }
+        ]
+      }
+    ]
+  }
+}

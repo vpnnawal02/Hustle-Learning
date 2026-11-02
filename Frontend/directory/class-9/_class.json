@@ -1,0 +1,232 @@
+{
+  "slug": "class-9",
+  "label": "Class 9",
+  "shortLabel": "9",
+  "tagline": "Foundations for the board years.",
+  "description": "CBSE Class 9 resources — NCERT solutions, notes, important questions, sample papers and worksheets for Science, Mathematics, English and Social Science.",
+  "board": "CBSE · NCERT",
+  "status": "published",
+  "subjects": [
+    {
+      "slug": "science",
+      "name": "Science",
+      "tagline": "Matter, motion, force and living systems.",
+      "description": "Class 9 Science resources covering matter, atoms, cells, motion, gravitation, work and energy, sound and food resources.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "matter-in-our-surroundings",
+          "title": "Matter in Our Surroundings",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "is-matter-around-us-pure",
+          "title": "Is Matter Around Us Pure?",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "atoms-and-molecules",
+          "title": "Atoms and Molecules",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "structure-of-the-atom",
+          "title": "Structure of the Atom",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "fundamental-unit-of-life",
+          "title": "The Fundamental Unit of Life",
+          "number": 5,
+          "status": "draft"
+        },
+        {
+          "slug": "tissues",
+          "title": "Tissues",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "motion",
+          "title": "Motion",
+          "number": 7,
+          "status": "draft"
+        },
+        {
+          "slug": "force-and-laws-of-motion",
+          "title": "Force and Laws of Motion",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "gravitation",
+          "title": "Gravitation",
+          "number": 9,
+          "status": "draft"
+        },
+        {
+          "slug": "work-and-energy",
+          "title": "Work and Energy",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "sound",
+          "title": "Sound",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "improvement-in-food-resources",
+          "title": "Improvement in Food Resources",
+          "number": 12,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "tagline": "Number systems, algebra and geometry.",
+      "description": "Class 9 Mathematics resources — number systems, polynomials, coordinate geometry, triangles, mensuration and statistics.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "number-systems",
+          "title": "Number Systems",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "polynomials",
+          "title": "Polynomials",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "coordinate-geometry",
+          "title": "Coordinate Geometry",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "linear-equations-in-two-variables",
+          "title": "Linear Equations in Two Variables",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "euclids-geometry",
+          "title": "Introduction to Euclid's Geometry",
+          "number": 5,
+          "status": "draft"
+        },
+        {
+          "slug": "lines-and-angles",
+          "title": "Lines and Angles",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "triangles",
+          "title": "Triangles",
+          "number": 7,
+          "status": "draft"
+        },
+        {
+          "slug": "quadrilaterals",
+          "title": "Quadrilaterals",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "circles",
+          "title": "Circles",
+          "number": 9,
+          "status": "draft"
+        },
+        {
+          "slug": "herons-formula",
+          "title": "Heron's Formula",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "surface-areas-and-volumes",
+          "title": "Surface Areas and Volumes",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "statistics",
+          "title": "Statistics",
+          "number": 12,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "english",
+      "name": "English",
+      "tagline": "Beehive, Moments and grammar.",
+      "description": "Class 9 English resources — Beehive prose and poetry, Moments supplementary chapters and writing skills.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "the-fun-they-had",
+          "title": "The Fun They Had",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "the-road-not-taken",
+          "title": "The Road Not Taken",
+          "number": 2,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "social-science",
+      "name": "Social Science",
+      "tagline": "History, Geography, Civics and Economics.",
+      "description": "Class 9 Social Science resources — French Revolution, physical features of India, democracy and people as resource.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "french-revolution",
+          "title": "The French Revolution",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "physical-features-of-india",
+          "title": "Physical Features of India",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "what-is-democracy",
+          "title": "What is Democracy? Why Democracy?",
+          "number": 3,
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "focus": "Class 9 is the foundation year for the boards: abstraction jumps sharply with atoms and molecules, Euclid's geometry, polynomials and the French Revolution. Students who build clean notes, learn derivations properly and practise proof-style answers in Class 9 find Class 10 dramatically easier — this is the year study habits are formed.",
+  "faqs": [
+    {
+      "question": "Why is Class 9 considered tough?",
+      "answer": "The syllabus introduces abstract thinking — atomic structure, geometric proofs, algebra — after the gentler middle-school years. Steady daily practice closes the gap within a term."
+    },
+    {
+      "question": "Should Class 9 students solve sample papers?",
+      "answer": "Chapter-wise questions and worksheets matter more in Class 9. Save full sample papers for the final months, and start previous-paper familiarity early through chapter-wise PYQs."
+    }
+  ]
+}

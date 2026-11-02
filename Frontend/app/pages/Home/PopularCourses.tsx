@@ -13,16 +13,15 @@ export default function PopularCourses() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <Reveal variant="left">
             <div>
-              <p className="mt-2 text-3xl font-black tracking-tight text-balance text-text-primary sm:text-5xl">
-                Batches by class
-              </p>
               <h2
                 id="popular-courses-heading"
-                className="ov-eyebrow text-lg font-bold uppercase  text-text-muted my-3"
+                className="text-3xl font-black tracking-tight text-balance text-text-primary sm:text-5xl"
               >
                 Popular Courses
               </h2>
-
+              <p className="mt-3 text-lg font-bold text-text-secondary">
+                Batches by class
+              </p>
             </div>
           </Reveal>
           <Reveal variant="right" delay={100}>

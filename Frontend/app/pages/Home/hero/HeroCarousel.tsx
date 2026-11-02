@@ -4,16 +4,21 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CarouselControls from "./CarouselControls";
 import EnquiryForm from "./EnquiryForm";
+import EnquiryModal from "./EnquiryModal";
 import { HERO_SLIDES } from "./hero-slides";
 import type { EnquiryValues } from "./validation";
 
 const AUTOPLAY_MS = 8000;
+
+/** Hashes that historically pointed at the inline hero form. */
+const ENQUIRY_HASHES = new Set(["#hero-enquiry", "#enquiry-form"]);
 
 export default function HeroCarousel() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [autoplayOn, setAutoplayOn] = useState(true);
   const [formBusy, setFormBusy] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [values, setValues] = useState<EnquiryValues>({
     name: "",
     whatsapp: "",
@@ -21,7 +26,7 @@ export default function HeroCarousel() {
     classLevel: "",
   });
   const touchX = useRef<number | null>(null);
-  const autoplayBlocked = paused || formBusy || !autoplayOn;
+  const autoplayBlocked = paused || formBusy || !autoplayOn || modalOpen;
 
   const goTo = useCallback((i: number) => {
     setActive(
@@ -32,7 +37,34 @@ export default function HeroCarousel() {
   const next = useCallback(() => goTo(active + 1), [active, goTo]);
   const prev = useCallback(() => goTo(active - 1), [active, goTo]);
 
-  // Autoplay: never while the user is completing the form.
+  const openEnquiry = useCallback(() => setModalOpen(true), []);
+  const closeEnquiry = useCallback(() => {
+    setModalOpen(false);
+    // Clear the legacy anchor so the same link can re-trigger the dialog.
+    if (
+      typeof window !== "undefined" &&
+      ENQUIRY_HASHES.has(window.location.hash)
+    ) {
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
+  }, []);
+
+  // Backwards compatibility: every `/#hero-enquiry` link across the site
+  // (CtaBand, CourseCard, Classes, Subscribe, WhoWeAre) now opens the dialog.
+  useEffect(() => {
+    function checkHash() {
+      if (ENQUIRY_HASHES.has(window.location.hash)) setModalOpen(true);
+    }
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
+
+  // Autoplay: never while the user is engaging with the enquiry dialog.
   useEffect(() => {
     if (autoplayBlocked) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -44,6 +76,7 @@ export default function HeroCarousel() {
 
   // Keyboard navigation on the region (arrows), without hijacking form keys.
   function onRegionKeyDown(e: React.KeyboardEvent) {
+    if (modalOpen) return;
     const tag = (e.target as HTMLElement).tagName;
     if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
     if (e.key === "ArrowRight") {
@@ -55,20 +88,14 @@ export default function HeroCarousel() {
     }
   }
 
-  // Banners and tiles act as CTAs: activating them focuses the form.
-  function focusForm() {
-    document
-      .querySelector<HTMLElement>('#hero-enquiry input[name="hero-enquiry-name"]')
-      ?.focus();
-  }
-
   const slide = HERO_SLIDES[active];
 
   return (
     <section
+      id="hero-enquiry"
       aria-roledescription="carousel"
       aria-label="Hustle Learning offerings"
-      className="mx-auto w-full max-w-[1380px] px-4 pt-8 pb-8 md:px-6 md:pt-10"
+      className="mx-auto w-full max-w-[1380px] scroll-mt-24 border-b border-border px-4 pt-8 pb-8 md:px-6 md:pt-10"
       onKeyDown={onRegionKeyDown}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -78,7 +105,7 @@ export default function HeroCarousel() {
         touchX.current = e.touches[0].clientX;
       }}
       onTouchEnd={(e) => {
-        if (touchX.current === null) return;
+        if (touchX.current === null || modalOpen) return;
         const dx = e.changedTouches[0].clientX - touchX.current;
         touchX.current = null;
         if (Math.abs(dx) < 40) return;
@@ -86,208 +113,230 @@ export default function HeroCarousel() {
         else prev();
       }}
     >
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
-        <div className="min-w-0">
-          {/* Centered copy */}
-          <div
-            key={slide.id}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${active + 1} of ${HERO_SLIDES.length}: ${slide.badge} — ${slide.badgeBatch}`}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <div className="flex flex-wrap items-center justify-center gap-1.5">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-brand-white uppercase">
-                <span
-                  aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 rounded-md bg-accent"
-                />
-                {slide.badge}
-              </span>
-              <span className="inline-flex items-center rounded-md bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
-                {slide.badgeBatch}
-              </span>
-            </div>
-
-            {active === 0 ? (
-              <h1 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
-                {slide.heading}
-              </h1>
-            ) : (
-              <h2 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
-                {slide.heading}
-              </h2>
-            )}
-
-            <p className="mx-auto mt-3 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-              {slide.description}
-            </p>
-
-            <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
-              {slide.bullets.map((b) => (
-                <li
-                  key={b}
-                  className="flex items-center gap-1.5 text-sm font-medium text-text-secondary"
-                >
-                  <span aria-hidden="true" className="font-bold text-accent">
-                    ✦
-                  </span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-5">
-              <button
-                type="button"
-                onClick={focusForm}
-                className="inline-flex h-12 items-center justify-center rounded bg-accent px-8 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-              >
-                Get a Free Callback
-              </button>
-            </div>
+      <div className="mx-auto w-full max-w-5xl">
+        {/* Centered copy */}
+        <div
+          key={slide.id}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${active + 1} of ${HERO_SLIDES.length}: ${slide.badge} — ${slide.badgeBatch}`}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1 text-[11px] font-bold tracking-wide text-brand-white uppercase">
+              <span
+                aria-hidden="true"
+                className="inline-block h-1.5 w-1.5 rounded-md bg-accent"
+              />
+              {slide.badge}
+            </span>
+            <span className="inline-flex items-center rounded-md bg-accent px-3 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
+              {slide.badgeBatch}
+            </span>
           </div>
 
-          {/* Bento collage track */}
-          <div className="mt-8 overflow-hidden">
-            <div
-              className="flex transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)]"
-              style={{ transform: `translateX(-${active * 100}%)` }}
+          {active === 0 ? (
+            <h1 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
+              {slide.heading}
+            </h1>
+          ) : (
+            <h2 className="mx-auto mt-3 max-w-[20ch] text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl">
+              {slide.heading}
+            </h2>
+          )}
+
+          <p className="mx-auto mt-3 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
+            {slide.description}
+          </p>
+
+          <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+            {slide.bullets.map((b) => (
+              <li
+                key={b}
+                className="flex items-center gap-1.5 text-sm font-medium text-text-secondary"
+              >
+                <span aria-hidden="true" className="font-bold text-accent">
+                  ✦
+                </span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-5">
+            <button
+              type="button"
+              onClick={openEnquiry}
+              aria-haspopup="dialog"
+              className="inline-flex h-12 items-center justify-center rounded bg-accent px-8 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
             >
-              {HERO_SLIDES.map((s, i) => {
-                const isActive = i === active;
-                return (
-                  <div
-                    key={s.id}
-                    role="group"
-                    aria-roledescription="slide"
-                    aria-label={`${i + 1} of ${HERO_SLIDES.length}: ${s.badge}`}
-                    aria-hidden={!isActive}
-                    inert={!isActive}
-                    className="w-full shrink-0"
-                  >
-                    <div className="grid auto-rows-[110px] grid-cols-2 gap-3 sm:auto-rows-[140px] sm:grid-cols-4">
-                      {/* Hero tile */}
-                      <div className="relative col-span-2 row-span-2 overflow-hidden rounded-lg bg-surface-muted">
-                        <Image
-                          src={s.image}
-                          alt={s.imageAlt}
-                          fill
-                          sizes="(max-width: 1024px) 90vw, 560px"
-                          priority={s.eager}
-                          loading={s.eager ? undefined : "lazy"}
-                          className="object-cover object-center"
-                        />
-                      </div>
-                      {/* Brand tile */}
-                      <div className="flex flex-col justify-between rounded-lg bg-brand-navy p-4 text-brand-white">
-                        <p className="text-[13px] leading-snug font-bold">
-                          Learn Smart.
-                          <br />
-                          Hustle Hard.
-                        </p>
-                        <button
-                          type="button"
-                          tabIndex={isActive ? 0 : -1}
-                          onClick={focusForm}
-                          aria-label="Get a free callback"
-                          className="inline-flex h-9 w-9 items-center justify-center self-end rounded bg-accent text-base font-bold text-on-accent transition-colors hover:bg-accent-hover"
-                        >
-                          <span aria-hidden="true">→</span>
-                        </button>
-                      </div>
-                      {/* Small tiles: per-slide plan — images stay clickable,
-                          text tiles carry highlight copy (no numerals) */}
-                      {s.tiles.map((tile, ti) => {
-                        if (tile.kind === "offer") {
-                          return (
-                            <div
-                              key={ti}
-                              className="flex items-center justify-center rounded-lg bg-accent p-3 text-center"
-                            >
-                              <span className="text-[13px] leading-snug font-bold text-on-accent sm:text-sm">
-                                {s.offerText}
-                              </span>
-                            </div>
-                          );
-                        }
-                        if (tile.kind === "text") {
-                          return (
-                            <div
-                              key={ti}
-                              className="flex items-center justify-center rounded-lg bg-surface-muted p-3 text-center"
-                            >
-                              <span className="text-[13px] leading-snug font-semibold text-text-secondary sm:text-sm">
-                                {tile.text}
-                              </span>
-                            </div>
-                          );
-                        }
-                        const target =
-                          tile.kind === "image" ? tile.ref : tile.target;
-                        const src =
-                          tile.kind === "image"
-                            ? HERO_SLIDES[tile.ref].image
-                            : tile.src;
-                        const alt =
-                          tile.kind === "image"
-                            ? ""
-                            : tile.alt;
+              Get a Free Callback
+            </button>
+          </div>
+        </div>
+
+        {/* Bento collage track */}
+        <div className="mt-8 overflow-hidden">
+          <div
+            className="flex transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)]"
+            style={{ transform: `translateX(-${active * 100}%)` }}
+          >
+            {HERO_SLIDES.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <div
+                  key={s.id}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} of ${HERO_SLIDES.length}: ${s.badge}`}
+                  aria-hidden={!isActive}
+                  inert={!isActive}
+                  className="w-full shrink-0"
+                >
+                  <div className="grid auto-rows-[110px] grid-cols-2 gap-3 sm:auto-rows-[140px] sm:grid-cols-4">
+                    {/* Hero tile — acts as a CTA that opens the enquiry dialog */}
+                    <button
+                      type="button"
+                      tabIndex={isActive ? 0 : -1}
+                      onClick={openEnquiry}
+                      aria-haspopup="dialog"
+                      aria-label={`${s.badge}: get a free callback`}
+                      className="group relative col-span-2 row-span-2 cursor-pointer overflow-hidden rounded-lg bg-surface-muted transition-transform duration-300 hover:scale-[1.01]"
+                    >
+                      <Image
+                        src={s.image}
+                        alt={s.imageAlt}
+                        fill
+                        sizes="(max-width: 1024px) 90vw, 560px"
+                        priority={s.eager}
+                        loading={s.eager ? undefined : "lazy"}
+                        className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.04]"
+                      />
+                      <span className="absolute right-3 bottom-3 inline-flex h-9 items-center gap-1.5 rounded bg-accent px-3 text-[13px] font-bold text-on-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                        Enquire now <span aria-hidden="true">→</span>
+                      </span>
+                    </button>
+                    {/* Brand tile */}
+                    <div className="flex flex-col justify-between rounded-lg bg-brand-navy p-4 text-brand-white">
+                      <p className="text-[13px] leading-snug font-bold">
+                        Learn Smart.
+                        <br />
+                        Hustle Hard.
+                      </p>
+                      <button
+                        type="button"
+                        tabIndex={isActive ? 0 : -1}
+                        onClick={openEnquiry}
+                        aria-haspopup="dialog"
+                        aria-label="Get a free callback"
+                        className="inline-flex h-9 w-9 items-center justify-center self-end rounded bg-accent text-base font-bold text-on-accent transition-colors hover:bg-accent-hover"
+                      >
+                        <span aria-hidden="true">→</span>
+                      </button>
+                    </div>
+                    {/* Small tiles: per-slide plan — every image opens the
+                        enquiry dialog; text tiles carry highlight copy */}
+                    {s.tiles.map((tile, ti) => {
+                      if (tile.kind === "offer") {
                         return (
                           <button
                             key={ti}
                             type="button"
                             tabIndex={isActive ? 0 : -1}
-                            onClick={() => goTo(target)}
-                            aria-label={`Show: ${HERO_SLIDES[target].badge}`}
-                            className="relative overflow-hidden rounded-lg bg-surface-muted transition-transform duration-300 hover:scale-[1.02]"
+                            onClick={openEnquiry}
+                            aria-haspopup="dialog"
+                            aria-label={`${s.offerText}: get a free callback`}
+                            className="flex cursor-pointer items-center justify-center rounded-lg bg-accent p-3 text-center transition-transform duration-300 hover:scale-[1.02]"
                           >
-                            <Image
-                              src={src}
-                              alt={alt}
-                              fill
-                              sizes="(max-width: 1024px) 40vw, 220px"
-                              loading="lazy"
-                              className="object-cover object-center transition-transform duration-300 hover:scale-[1.04]"
-                            />
+                            <span className="text-[13px] leading-snug font-bold text-on-accent sm:text-sm">
+                              {s.offerText}
+                            </span>
                           </button>
                         );
-                      })}
-                    </div>
+                      }
+                      if (tile.kind === "text") {
+                        return (
+                          <div
+                            key={ti}
+                            className="flex items-center justify-center rounded-lg bg-surface-muted p-3 text-center"
+                          >
+                            <span className="text-[13px] leading-snug font-semibold text-text-secondary sm:text-sm">
+                              {tile.text}
+                            </span>
+                          </div>
+                        );
+                      }
+                      const target =
+                        tile.kind === "image" ? tile.ref : tile.target;
+                      const src =
+                        tile.kind === "image"
+                          ? HERO_SLIDES[tile.ref].image
+                          : tile.src;
+                      const alt =
+                        tile.kind === "image"
+                          ? HERO_SLIDES[tile.ref].imageAlt
+                          : tile.alt;
+                      return (
+                        <button
+                          key={ti}
+                          type="button"
+                          tabIndex={isActive ? 0 : -1}
+                          onClick={openEnquiry}
+                          aria-haspopup="dialog"
+                          aria-label={`${HERO_SLIDES[target].badge}: get a free callback`}
+                          className="group relative cursor-pointer overflow-hidden rounded-lg bg-surface-muted transition-transform duration-300 hover:scale-[1.02]"
+                        >
+                          <Image
+                            src={src}
+                            alt={alt}
+                            fill
+                            sizes="(max-width: 1024px) 40vw, 220px"
+                            loading="lazy"
+                            className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.04]"
+                          />
+                        </button>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Dots left, arrows right */}
-          <div className="mt-5">
-            <CarouselControls
-              active={active}
-              total={HERO_SLIDES.length}
-              onSelect={goTo}
-              onPrev={prev}
-              onNext={next}
-              autoplayOn={autoplayOn}
-              onToggleAutoplay={() => setAutoplayOn((v) => !v)}
-            />
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Form card — stretches to match */}
-        <div
-          id="hero-enquiry"
-          className="min-w-0 self-stretch rounded-lg border border-border bg-surface lg:sticky lg:top-24"
-        >
+        {/* Dots left, arrows right */}
+        <div className="mt-5">
+          <CarouselControls
+            active={active}
+            total={HERO_SLIDES.length}
+            onSelect={goTo}
+            onPrev={prev}
+            onNext={next}
+            autoplayOn={autoplayOn}
+            onToggleAutoplay={() => setAutoplayOn((v) => !v)}
+          />
+        </div>
+      </div>
+
+      {/* Enquiry dialog */}
+      <EnquiryModal
+        open={modalOpen}
+        onClose={closeEnquiry}
+        labelledBy="hero-enquiry-form-title"
+      >
+        <div className="p-5 pt-12 sm:p-6 sm:pt-12">
+          <p className="mb-4 text-[13px] leading-relaxed text-text-secondary">
+            {slide.formNote}
+          </p>
           <EnquiryForm
             slide={slide}
             values={values}
             onChange={setValues}
             onBusyChange={setFormBusy}
-            formIdPrefix="hero-enquiry"
+            formIdPrefix="hero-enquiry-form"
           />
         </div>
-      </div>
+      </EnquiryModal>
 
       {/* SEO: every slide's copy is in the DOM */}
       <div className="sr-only">

@@ -34,7 +34,7 @@ export default function OneOnOneClasses() {
               >
                 <span
                   aria-hidden="true"
-                  className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-accent"
+                  className="mr-1.5 inline-block h-1.5 w-1.5 rounded bg-accent"
                 />
                 {mode}
               </span>

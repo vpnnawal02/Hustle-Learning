@@ -99,9 +99,9 @@ export default function EnquiryForm({
 
   if (done) {
     return (
-      <div className="flex h-full flex-col justify-center p-4" role="status">
+      <div className="flex flex-col py-2" role="status">
         <div
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-base font-bold text-on-accent"
+          className="flex h-10 w-10 items-center justify-center rounded bg-accent text-base font-bold text-on-accent"
           aria-hidden="true"
         >
           ✓
@@ -129,13 +129,16 @@ export default function EnquiryForm({
   }
 
   return (
-    <div className="flex h-full flex-col justify-center p-5 lg:p-6">
-      <p className="text-[11px] font-bold tracking-[1.2px] text-text-muted uppercase">
+    <div className="flex flex-col">
+      <h2
+        id={`${formIdPrefix}-title`}
+        className="text-xl font-extrabold tracking-tight text-text-primary"
+      >
         Free counselling
-      </p>
-      <h2 className="mt-1 text-xl font-extrabold tracking-tight text-text-primary">
-        Request a callback
       </h2>
+      <p className="mt-1 text-[15px] font-semibold text-text-secondary">
+        Request a callback
+      </p>
       <form
         id={formIdPrefix}
         onSubmit={handleSubmit}

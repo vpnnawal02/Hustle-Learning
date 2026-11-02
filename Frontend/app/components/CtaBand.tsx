@@ -6,15 +6,15 @@ export default function CtaBand() {
     <section aria-labelledby="cta-band-heading" className="band cta-band">
       <div className="relative mx-auto flex w-full max-w-[1380px] flex-col items-start gap-5 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-6 md:py-14">
         <Reveal variant="up">
-          <p className="text-xs font-bold uppercase tracking-[1.2px] text-accent">
-            Learn Smart. Hustle Hard.
-          </p>
           <h2
             id="cta-band-heading"
-            className="mt-2 max-w-[24ch] text-2xl font-extrabold tracking-tight text-balance text-brand-white sm:text-3xl"
+            className="max-w-[24ch] text-2xl font-extrabold tracking-tight text-balance text-brand-white sm:text-3xl"
           >
-            Not sure where to begin? Talk to us first.
+            Learn Smart. Hustle Hard.
           </h2>
+          <p className="mt-2 max-w-[24ch] text-xl leading-snug font-bold text-brand-white/85">
+            Not sure where to begin? Talk to us first.
+          </p>
           <p className="mt-2 max-w-[58ch] text-[15px] leading-[1.6] text-brand-white/75">
             Share your class and subjects — our counsellor will call you back
             on WhatsApp with the right plan for notes, classes, tuition, or

@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  // No dev overlay badge over content (production never shows it anyway).
+  devIndicators: false,
   turbopack: {
     rules: {
       "*.css": {

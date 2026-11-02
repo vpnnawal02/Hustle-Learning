@@ -1,0 +1,160 @@
+{
+  "slug": "class-7",
+  "label": "Class 7",
+  "shortLabel": "7",
+  "tagline": "Clear explanations of everyday concepts.",
+  "description": "CBSE Class 7 resources — NCERT solutions, notes, important questions and worksheets for Science, Mathematics, English and Social Science.",
+  "board": "CBSE · NCERT",
+  "status": "published",
+  "subjects": [
+    {
+      "slug": "science",
+      "name": "Science",
+      "tagline": "Nutrition, heat, motion and forests.",
+      "description": "Class 7 Science resources covering nutrition in plants and animals, heat, acids and bases, motion, forests and wastewater.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "nutrition-in-plants",
+          "title": "Nutrition in Plants",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "nutrition-in-animals",
+          "title": "Nutrition in Animals",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "heat",
+          "title": "Heat",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "acids-bases-and-salts",
+          "title": "Acids, Bases and Salts",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "physical-and-chemical-changes",
+          "title": "Physical and Chemical Changes",
+          "number": 5,
+          "status": "draft"
+        },
+        {
+          "slug": "motion-and-time",
+          "title": "Motion and Time",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "forests-our-lifeline",
+          "title": "Forests: Our Lifeline",
+          "number": 7,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "tagline": "Integers, fractions, algebra and geometry.",
+      "description": "Class 7 Mathematics resources — integers, fractions and decimals, simple equations, lines and angles, triangles and mensuration.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "integers",
+          "title": "Integers",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "fractions-and-decimals",
+          "title": "Fractions and Decimals",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "simple-equations",
+          "title": "Simple Equations",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "lines-and-angles",
+          "title": "Lines and Angles",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "triangle-and-its-properties",
+          "title": "The Triangle and Its Properties",
+          "number": 5,
+          "status": "draft"
+        },
+        {
+          "slug": "rational-numbers",
+          "title": "Rational Numbers",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "perimeter-and-area",
+          "title": "Perimeter and Area",
+          "number": 7,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "english",
+      "name": "English",
+      "tagline": "Honeycomb, An Alien Hand and grammar.",
+      "description": "Class 7 English resources — Honeycomb prose and poetry with grammar and writing practice.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "three-questions",
+          "title": "Three Questions",
+          "number": 1,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "social-science",
+      "name": "Social Science",
+      "tagline": "Medieval history, environment and Civics.",
+      "description": "Class 7 Social Science resources — medieval Indian history, environment, and state government.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "tracing-changes-through-a-thousand-years",
+          "title": "Tracing Changes Through a Thousand Years",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "environment-inside-our-world",
+          "title": "Environment Inside Our World",
+          "number": 2,
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "focus": "Class 7 expands every subject outward: integers grow into rational numbers and simple equations, Science moves from observation to explanation with heat, acids and motion, and Social Science opens a thousand years of history. Students benefit most from reading ahead, asking why at every step, and keeping short self-made notes from this year on.",
+  "faqs": [
+    {
+      "question": "How is Class 7 different from Class 6?",
+      "answer": "Explanations replace descriptions — Science chapters ask for mechanisms (how heat flows, why acids behave so) and Mathematics introduces formal equation solving. Reading the chapter before class helps enormously."
+    },
+    {
+      "question": "Which Class 7 chapters matter later?",
+      "answer": "Integers and rational numbers, simple equations, and lines and angles are direct prerequisites for Class 8 algebra and geometry."
+    }
+  ]
+}

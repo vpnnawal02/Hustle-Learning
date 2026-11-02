@@ -1,0 +1,256 @@
+{
+  "slug": "class-10",
+  "label": "Class 10",
+  "shortLabel": "10",
+  "tagline": "Board exam preparation for CBSE Class 10.",
+  "description": "Structured CBSE Class 10 resources — NCERT solutions, chapter-wise notes, important questions, sample papers, previous year questions, worksheets and formula sheets for every subject.",
+  "board": "CBSE · NCERT",
+  "status": "published",
+  "subjects": [
+    {
+      "slug": "science",
+      "name": "Science",
+      "tagline": "Physics, Chemistry and Biology mapped to NCERT.",
+      "description": "Class 10 Science covers chemical reactions, life processes, light, electricity and more. Find NCERT solutions, notes, important questions and revision material for every chapter.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "chemical-reactions-and-equations",
+          "title": "Chemical Reactions and Equations",
+          "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "acids-bases-and-salts",
+          "title": "Acids, Bases and Salts",
+          "number": 2,
+          "status": "published"
+        },
+        {
+          "slug": "metals-and-non-metals",
+          "title": "Metals and Non-metals",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "carbon-and-its-compounds",
+          "title": "Carbon and Its Compounds",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "life-processes",
+          "title": "Life Processes",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "control-and-coordination",
+          "title": "Control and Coordination",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "how-do-organisms-reproduce",
+          "title": "How Do Organisms Reproduce?",
+          "number": 7,
+          "status": "draft"
+        },
+        {
+          "slug": "heredity",
+          "title": "Heredity",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "light-reflection-and-refraction",
+          "title": "Light: Reflection and Refraction",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "human-eye-and-colourful-world",
+          "title": "The Human Eye and the Colourful World",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "electricity",
+          "title": "Electricity",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "magnetic-effects-of-electric-current",
+          "title": "Magnetic Effects of Electric Current",
+          "number": 12,
+          "status": "draft"
+        },
+        {
+          "slug": "our-environment",
+          "title": "Our Environment",
+          "number": 13,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "tagline": "Algebra, geometry, trigonometry and statistics.",
+      "description": "Class 10 Mathematics resources — from Real Numbers to Probability — with notes, important questions, formulas and solved examples for every chapter.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "real-numbers",
+          "title": "Real Numbers",
+          "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "polynomials",
+          "title": "Polynomials",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "pair-of-linear-equations",
+          "title": "Pair of Linear Equations in Two Variables",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "quadratic-equations",
+          "title": "Quadratic Equations",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "arithmetic-progressions",
+          "title": "Arithmetic Progressions",
+          "number": 5,
+          "status": "draft"
+        },
+        {
+          "slug": "triangles",
+          "title": "Triangles",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "coordinate-geometry",
+          "title": "Coordinate Geometry",
+          "number": 7,
+          "status": "draft"
+        },
+        {
+          "slug": "introduction-to-trigonometry",
+          "title": "Introduction to Trigonometry",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "applications-of-trigonometry",
+          "title": "Some Applications of Trigonometry",
+          "number": 9,
+          "status": "draft"
+        },
+        {
+          "slug": "circles",
+          "title": "Circles",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "areas-related-to-circles",
+          "title": "Areas Related to Circles",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "surface-areas-and-volumes",
+          "title": "Surface Areas and Volumes",
+          "number": 12,
+          "status": "draft"
+        },
+        {
+          "slug": "statistics",
+          "title": "Statistics",
+          "number": 13,
+          "status": "draft"
+        },
+        {
+          "slug": "probability",
+          "title": "Probability",
+          "number": 14,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "english",
+      "name": "English",
+      "tagline": "First Flight, Footprints Without Feet and grammar.",
+      "description": "Class 10 English resources — prose, poetry, supplementary reader chapters, writing skills and grammar practice.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "a-letter-to-god",
+          "title": "A Letter to God",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "nelson-mandela-long-walk-to-freedom",
+          "title": "Nelson Mandela: Long Walk to Freedom",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "two-stories-about-flying",
+          "title": "Two Stories About Flying",
+          "number": 3,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "social-science",
+      "name": "Social Science",
+      "tagline": "History, Geography, Civics and Economics.",
+      "description": "Class 10 Social Science resources — History, Geography, Political Science and Economics chapters with notes and important questions.",
+      "status": "draft",
+      "chapters": [
+        {
+          "slug": "rise-of-nationalism-in-europe",
+          "title": "The Rise of Nationalism in Europe",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "resources-and-development",
+          "title": "Resources and Development",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "power-sharing",
+          "title": "Power Sharing",
+          "number": 3,
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "focus": "Class 10 is the first full board-examination year: the entire syllabus is tested in timed papers, so preparation must shift from chapter completion to answer writing, revision cycles and speed. High-weightage chapters like Chemical Reactions, Life Processes, Light, Electricity, Real Numbers and Trigonometry deserve first-pass mastery, followed by sample papers and previous year questions under exam conditions.",
+  "faqs": [
+    {
+      "question": "How should I plan Class 10 preparation across the year?",
+      "answer": "Finish the syllabus once with notes and NCERT exercises, then run two revision cycles — important questions chapter-wise first, then timed sample papers and previous year papers subject-wise."
+    },
+    {
+      "question": "Which Class 10 subjects need the most practice?",
+      "answer": "Science and Mathematics reward written practice the most: diagrams, derivations, numericals and proofs. Languages reward consistent writing practice and grammar drills."
+    }
+  ]
+}

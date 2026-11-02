@@ -6,9 +6,9 @@ import ThemeToggle from "../ThemeToggle";
 import {
   CLASSES_LINKS,
   CONTACT,
+  MEGA_MENU,
   PRIMARY_LINKS,
   SIGNUP_HREF,
-  STUDY_MATERIAL,
 } from "./navbar-data";
 import { useIsActivePath } from "./useActivePath";
 import { ChevronDown, PhoneIcon } from "./icons";
@@ -55,12 +55,41 @@ function Section({
   );
 }
 
+function MenuLink({
+  href,
+  onNavigate,
+  children,
+  accent = false,
+}: {
+  href: string;
+  onNavigate: () => void;
+  children: React.ReactNode;
+  accent?: boolean;
+}) {
+  const isActivePath = useIsActivePath();
+  const active = isActivePath(href);
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={active ? "page" : undefined}
+      className={`block rounded px-3.5 py-3.5 text-[15px] font-medium transition-colors hover:bg-surface active:bg-surface ${
+        active
+          ? "text-text-primary underline decoration-accent decoration-2 underline-offset-4"
+          : accent
+            ? "font-semibold text-accent"
+            : "text-text-secondary"
+      }`}
+    >
+      {children}
+    </Link>
+  );
+}
+
 export default function MobileMenu({ open, onNavigate }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(
-    STUDY_MATERIAL[0].id,
-  );
   const isActivePath = useIsActivePath();
+  const { school, resources, exams } = MEGA_MENU;
 
   if (!open) return null;
 
@@ -95,80 +124,76 @@ export default function MobileMenu({ open, onNavigate }: Props) {
           </span>
         </Link>
 
-        {/* Study Material nested accordion */}
+        {/* Study Material accordion: school, resources, exams */}
         <Section
           id="mobile-study"
           title="Study Material"
           expanded={expanded === "study"}
           onToggle={() => toggle("study")}
         >
-          <div className="flex flex-col gap-2.5">
-            {STUDY_MATERIAL.map((cat) => {
-              const catOpen = expandedCategory === cat.id;
-              return (
-                <div
-                  key={cat.id}
-                  className="overflow-hidden rounded-lg bg-surface-muted/60"
-                >
-                  <button
-                    type="button"
-                    aria-expanded={catOpen}
-                    aria-controls={`mobile-cat-${cat.id}`}
-                    onClick={() =>
-                      setExpandedCategory((prev) =>
-                        prev === cat.id ? null : cat.id,
-                      )
-                    }
-                    className="flex min-h-[56px] w-full items-center justify-between gap-4 px-5 py-3.5 text-[15px] font-semibold text-text-primary"
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="px-1 text-sm font-bold text-text-primary">
+                {school.heading} · Classes 6–10
+              </p>
+              <ul className="mt-1.5">
+                {school.classes.map((c) => (
+                  <li key={c.slug}>
+                    <MenuLink href={c.href} onNavigate={onNavigate}>
+                      {c.label}
+                    </MenuLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="px-1 text-sm font-bold text-text-primary">
+                {resources.heading}
+              </p>
+              <ul className="mt-1.5">
+                {resources.links.map((link) => (
+                  <li key={link.slug}>
+                    <MenuLink href={link.href} onNavigate={onNavigate}>
+                      {link.label}
+                    </MenuLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="px-1 text-sm font-bold text-text-primary">
+                {exams.heading}
+              </p>
+              <ul className="mt-1.5 flex flex-col gap-2.5">
+                {exams.cards.map((exam) => (
+                  <li
+                    key={exam.slug}
+                    className="rounded-lg bg-surface-muted/60 px-3.5 py-3"
                   >
-                    {cat.label}
-                    <ChevronDown
-                      className={`h-4 w-4 shrink-0 text-text-muted transition-transform ${catOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {catOpen && (
-                    <ul
-                      id={`mobile-cat-${cat.id}`}
-                      className="flex flex-col gap-1.5 px-3.5 pb-3.5"
+                    <MenuLink
+                      href={exam.href}
+                      onNavigate={onNavigate}
+                      accent
                     >
-                      <li>
-                        <Link
-                          href={cat.href}
-                          onClick={onNavigate}
-                          aria-current={
-                            isActivePath(cat.href) ? "page" : undefined
-                          }
-                          className={`block rounded px-3.5 py-3.5 text-[15px] font-semibold transition-colors hover:bg-surface active:bg-surface ${isActivePath(cat.href)
-                            ? "text-text-primary underline decoration-accent decoration-2 underline-offset-4"
-                            : "text-accent"
-                            }`}
-                        >
-                          View all {cat.label}
-                        </Link>
-                      </li>
-                      {cat.children.map((item) => {
-                        const itemActive = isActivePath(item.href);
-                        return (
-                          <li key={item.href}>
-                            <Link
-                              href={item.href}
-                              onClick={onNavigate}
-                              aria-current={itemActive ? "page" : undefined}
-                              className={`block rounded px-3.5 py-3.5 text-[15px] font-medium transition-colors hover:bg-surface hover:text-text-primary active:bg-surface ${itemActive
-                                ? "text-text-primary underline decoration-accent decoration-2 underline-offset-4"
-                                : "text-text-secondary"
-                                }`}
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        );
-                      })}
+                      {exam.label}
+                    </MenuLink>
+                    <ul className="flex flex-wrap gap-1.5 px-3.5 pt-1 pb-1.5">
+                      {exam.subjects.map((s) => (
+                        <li key={s.slug}>
+                          <Link
+                            href={s.href}
+                            onClick={onNavigate}
+                            className="inline-flex h-10 items-center rounded border border-border bg-surface px-4 text-sm font-medium text-text-secondary"
+                          >
+                            {s.label}
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
-                  )}
-                </div>
-              );
-            })}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </Section>
 
@@ -230,7 +255,7 @@ export default function MobileMenu({ open, onNavigate }: Props) {
             href={CONTACT.telHref}
             className="flex items-center gap-5 rounded-lg border border-border bg-surface-muted/60 px-6 py-5"
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-surface-subtle text-text-primary">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded bg-surface-subtle text-text-primary">
               <PhoneIcon className="h-6 w-6" />
             </span>
             <span>

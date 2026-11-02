@@ -18,7 +18,7 @@ export default function TutoringCard({
       className={`tutor-ink flex h-full min-w-0 flex-col rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7 ${TONES[tone % 3]}`}
     >
       <div className="flex items-center gap-3">
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-white text-brand-navy">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded bg-brand-white text-brand-navy">
           <Icon size={20} strokeWidth={2} aria-hidden="true" />
         </span>
         <h3 className="text-lg font-bold">{option.title}</h3>

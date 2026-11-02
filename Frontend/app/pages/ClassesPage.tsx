@@ -7,12 +7,12 @@ export default function ClassesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
       <main className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <p className="text-xs font-semibold uppercase tracking-[1.2px] text-text-muted">
+        <h1 className="max-w-[22ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
           Personalised Learning
-        </p>
-        <h1 className="mt-2 max-w-[22ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
-          One Student. One Teacher. Undivided Attention.
         </h1>
+        <p className="mt-3 max-w-[30ch] text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
+          One Student. One Teacher. Undivided Attention.
+        </p>
         <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
           Get personalised academic support with one-on-one classes tailored
           to your learning needs. Choose online or offline classes, clear your

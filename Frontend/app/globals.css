@@ -16,6 +16,22 @@
   --accent-pressed: #cc7f00;
   --on-accent: #14213d;
   --focus-ring: #14213d;
+  /* Discovery page tokens (scoped use; see StudyDiscovery section) */
+  --navy-900: #0f1b33;
+  --navy-700: #243556;
+  --navy-500: #5b6b87;
+  --accent-500: #f59e0b;
+  --accent-700: #b45309;
+  --canvas: #f6f7f9;
+  --rule: #e3e6ec;
+  --border-strong: #c9ced8;
+  --tint-maths: #2f5da8;
+  --tint-science: #2e7d5b;
+  --tint-sst: #b4533c;
+  --tint-english: #6b4fa3;
+  --on-navy-900: #ffffff;
+  --badge-amber-bg: #fef3c7;
+  --badge-grey-bg: #eef0f4;
 }
 
 :root[data-theme="dark"] {
@@ -33,6 +49,22 @@
   --accent-pressed: #e99100;
   --on-accent: #14213d;
   --focus-ring: #fca311;
+  /* Discovery tokens, dark mappings */
+  --navy-900: #eef2f9;
+  --navy-700: #c9d3e4;
+  --navy-500: #9aa7bd;
+  --accent-500: #f59e0b;
+  --accent-700: #f5b04c;
+  --canvas: #0b1220;
+  --rule: #2b3950;
+  --border-strong: #3d4f6b;
+  --tint-maths: #7aa2e6;
+  --tint-science: #5cb894;
+  --tint-sst: #d08a75;
+  --tint-english: #a68fd6;
+  --on-navy-900: #0f1b33;
+  --badge-amber-bg: rgb(245 158 11 / 0.16);
+  --badge-grey-bg: rgb(255 255 255 / 0.08);
 }
 
 @theme inline {
@@ -53,6 +85,21 @@
   --color-brand-amber: #fca311;
   --color-brand-navy: #14213d;
   --color-brand-black: #000000;
+  --color-navy-900: var(--navy-900);
+  --color-navy-700: var(--navy-700);
+  --color-navy-500: var(--navy-500);
+  --color-accent-500: var(--accent-500);
+  --color-accent-700: var(--accent-700);
+  --color-canvas: var(--canvas);
+  --color-rule: var(--rule);
+  --color-border-strong: var(--border-strong);
+  --color-tint-maths: var(--tint-maths);
+  --color-tint-science: var(--tint-science);
+  --color-tint-sst: var(--tint-sst);
+  --color-tint-english: var(--tint-english);
+  --color-on-navy-900: var(--on-navy-900);
+  --color-badge-amber: var(--badge-amber-bg);
+  --color-badge-grey: var(--badge-grey-bg);
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
@@ -66,9 +113,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Guard against page-level horizontal scroll (entrance transforms,
+   full-bleed bands, snap sliders). `clip` — not `hidden` — so the
+   sticky navbar keeps working. */
+html,
+body {
+  overflow-x: clip;
+}
+
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+/* Discovery section uses the exact navy-900 focus colour. */
+.scope-discovery :focus-visible {
+  outline-color: var(--navy-900);
 }
 
 /* Theme-aware brand mark: dark artwork on light theme, light artwork on dark */

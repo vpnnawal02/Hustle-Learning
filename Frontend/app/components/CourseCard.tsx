@@ -16,7 +16,7 @@ export default function CourseCard({ course }: { course: Course }) {
         />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <p className="ov-eyebrow text-xs font-semibold uppercase tracking-[1.2px] text-text-muted">
+        <p className="ov-eyebrow inline-flex self-start rounded bg-surface-muted px-3 py-1 text-xs font-semibold text-text-secondary">
           {course.audience}
         </p>
         <h3 className="mt-1.5 text-lg font-semibold text-text-primary">

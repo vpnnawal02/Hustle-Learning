@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
+import JsonLd from "./components/seo/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,9 +19,36 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hustle Learning — Learn Smart. Hustle Hard.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
-    "Hustle Learning is an EdTech platform designed to make learning accessible, interactive, and effective.",
+    "Hustle Learning is an EdTech platform designed to make learning accessible, interactive, and effective — NCERT solutions, notes, important questions and test prep for Classes 6–10, JEE and NEET.",
+  keywords: [
+    "NCERT solutions",
+    "CBSE notes",
+    "class 10 science",
+    "JEE preparation",
+    "NEET preparation",
+    "Hustle Learning",
+  ],
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description:
+      "NCERT solutions, notes, important questions, sample papers and test prep for Classes 6–10, JEE and NEET.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description:
+      "NCERT solutions, notes, important questions and test prep for Classes 6–10, JEE and NEET.",
+  },
 };
 
 function ThemeInitScript() {
@@ -44,6 +74,8 @@ export default function RootLayout({
         <ThemeInitScript />
       </head>
       <body className="min-h-full flex flex-col bg-background text-text-primary">
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
         <Navbar />
         {children}
       </body>

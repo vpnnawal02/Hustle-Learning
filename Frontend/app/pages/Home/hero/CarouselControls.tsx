@@ -47,7 +47,7 @@ export default function CarouselControls({
             >
               <span
                 aria-hidden="true"
-                className={`h-2 rounded-full transition-all ${
+                className={`h-2 rounded transition-all ${
                   selected
                     ? "w-7 bg-accent"
                     : "w-2 bg-text-muted/40 hover:bg-text-muted"

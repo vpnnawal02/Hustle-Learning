@@ -25,7 +25,7 @@ export function ActiveBar({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-accent ${className}`}
+      className={`pointer-events-none absolute inset-x-3 bottom-1 h-0.5 rounded bg-accent ${className}`}
     />
   );
 }
