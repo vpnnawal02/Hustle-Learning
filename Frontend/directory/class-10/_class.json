@@ -219,24 +219,138 @@
       "name": "Social Science",
       "tagline": "History, Geography, Civics and Economics.",
       "description": "Class 10 Social Science resources — History, Geography, Political Science and Economics chapters with notes and important questions.",
-      "status": "draft",
+      "status": "published",
       "chapters": [
         {
           "slug": "rise-of-nationalism-in-europe",
           "title": "The Rise of Nationalism in Europe",
           "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "nationalism-in-india",
+          "title": "Nationalism in India",
+          "number": 2,
+          "status": "published"
+        },
+        {
+          "slug": "the-making-of-a-global-world",
+          "title": "The Making of a Global World",
+          "number": 3,
+          "status": "published"
+        },
+        {
+          "slug": "the-age-of-industrialisation",
+          "title": "The Age of Industrialisation",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "print-culture-and-the-modern-world",
+          "title": "Print Culture and the Modern World",
+          "number": 5,
           "status": "draft"
         },
         {
           "slug": "resources-and-development",
           "title": "Resources and Development",
-          "number": 2,
+          "number": 6,
+          "status": "published"
+        },
+        {
+          "slug": "forest-and-wildlife-resources",
+          "title": "Forest and Wildlife Resources",
+          "number": 7,
+          "status": "published"
+        },
+        {
+          "slug": "water-resources",
+          "title": "Water Resources",
+          "number": 8,
+          "status": "published"
+        },
+        {
+          "slug": "agriculture",
+          "title": "Agriculture",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "minerals-and-energy-resources",
+          "title": "Minerals and Energy Resources",
+          "number": 10,
+          "status": "published"
+        },
+        {
+          "slug": "manufacturing-industries",
+          "title": "Manufacturing Industries",
+          "number": 11,
+          "status": "published"
+        },
+        {
+          "slug": "lifelines-of-national-economy",
+          "title": "Lifelines of National Economy",
+          "number": 12,
           "status": "draft"
         },
         {
           "slug": "power-sharing",
-          "title": "Power Sharing",
-          "number": 3,
+          "title": "Power-sharing",
+          "number": 13,
+          "status": "published"
+        },
+        {
+          "slug": "federalism",
+          "title": "Federalism",
+          "number": 14,
+          "status": "published"
+        },
+        {
+          "slug": "gender-religion-and-caste",
+          "title": "Gender, Religion and Caste",
+          "number": 15,
+          "status": "published"
+        },
+        {
+          "slug": "political-parties",
+          "title": "Political Parties",
+          "number": 16,
+          "status": "published"
+        },
+        {
+          "slug": "outcomes-of-democracy",
+          "title": "Outcomes of Democracy",
+          "number": 17,
+          "status": "published"
+        },
+        {
+          "slug": "development",
+          "title": "Development",
+          "number": 18,
+          "status": "published"
+        },
+        {
+          "slug": "sectors-of-the-indian-economy",
+          "title": "Sectors of the Indian Economy",
+          "number": 19,
+          "status": "published"
+        },
+        {
+          "slug": "money-and-credit",
+          "title": "Money and Credit",
+          "number": 20,
+          "status": "published"
+        },
+        {
+          "slug": "globalisation-and-the-indian-economy",
+          "title": "Globalisation and the Indian Economy",
+          "number": 21,
+          "status": "published"
+        },
+        {
+          "slug": "consumer-rights",
+          "title": "Consumer Rights",
+          "number": 22,
           "status": "draft"
         }
       ]

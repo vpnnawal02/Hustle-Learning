@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import ContentRenderer, {
-  TableOfContents,
-} from "@/app/components/resources/ContentRenderer";
+import ContentRenderer from "@/app/components/resources/ContentRenderer";
+import TableOfContents from "@/app/components/resources/TableOfContents";
 import Faq from "@/app/components/resources/Faq";
 import { LinkList } from "@/app/components/resources/LinkLists";
 import { ComingSoon, PrevNextNav } from "@/app/components/resources/Navigation";

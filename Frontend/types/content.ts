@@ -78,11 +78,16 @@ export interface ResourceCategory {
 /** Long-form content is stored as structured blocks (MDX-compatible).
  *  Each block maps 1:1 to a future MDX component; `contentFile` in
  *  ChapterResourceItem points at the MDX file once authored. */
+export interface ListItem {
+  text: string;
+  children: ListItem[];
+}
+
 export type ContentBlock =
   | { type: "intro"; text: string }
   | { type: "heading"; level: 2 | 3; text: string }
   | { type: "paragraph"; text: string }
-  | { type: "list"; ordered: boolean; items: string[] }
+  | { type: "list"; ordered: boolean; items: ListItem[] }
   | { type: "table"; head: string[]; rows: string[][] }
   | { type: "formula"; label: string; expression: string }
   | { type: "callout"; tone: "tip" | "note" | "warning"; text: string }

@@ -1,5 +1,8 @@
 # Content Guide — Adding Classes, Subjects, Chapters & Resources
 
+> Adding chapter notes? Start with the step-by-step runbook:
+> [`ADDING_NOTES.md`](./ADDING_NOTES.md). This guide covers the rest.
+
 No React changes are needed for routine content work. The full
 conventions live in `directory-structure.md` — this guide is the short
 version. Follow the steps, then run `npm run validate-content`.

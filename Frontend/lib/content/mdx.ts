@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import type { ContentBlock } from "@/types/content";
+import type { ContentBlock, ListItem } from "@/types/content";
 
 /**
  * Minimal MDX-subset parser for chapter files under `directory/`.
@@ -70,14 +70,20 @@ export function parseMdx(raw: string): ParsedMdx {
   // Q&A under an FAQ heading belongs to page FAQs, not the article body.
   let inFaqSection = false;
 
-  const isSpecial = (l: string) =>
-    l.startsWith("## ") ||
-    l.startsWith("### ") ||
-    l.startsWith("```") ||
-    l.startsWith("|") ||
-    l.startsWith("> [!") ||
-    l.startsWith("Q: ") ||
-    /^(\d+[.)]|[-*])\s/.test(l);
+  const isSpecial = (l: string) => {
+    const t = l.trimStart();
+    return (
+      t.startsWith("## ") ||
+      t.startsWith("### ") ||
+      t.startsWith("```") ||
+      t.startsWith("|") ||
+      t.startsWith("> [!") ||
+      t.startsWith("Q: ") ||
+      /^(\d+[.)]|[-*])\s/.test(t)
+    );
+  };
+  const listMarker = (l: string) =>
+    l.match(/^(\s*)(\d+[.)]|[-*])\s+(.*)$/);
 
   while (i < lines.length) {
     const line = lines[i];
@@ -207,15 +213,48 @@ export function parseMdx(raw: string): ParsedMdx {
       continue;
     }
 
-    // Lists.
-    if (/^(\d+[.)]|[-*])\s/.test(line)) {
-      const ordered = /^\d+[.)]\s/.test(line);
-      const items: string[] = [];
-      while (i < lines.length && /^(\d+[.)]|[-*])\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^(\d+[.)]|[-*])\s+/, "").trim());
+    // Lists. Nesting via indentation (2 spaces per level).
+    if (listMarker(line)) {
+      const raw: { indent: number; ordered: boolean; text: string }[] = [];
+      while (i < lines.length) {
+        if (lines[i].trim() === "") {
+          // A blank line ends the list unless another item follows.
+          let j = i + 1;
+          while (j < lines.length && lines[j].trim() === "") j += 1;
+          if (j < lines.length && listMarker(lines[j])) {
+            i = j;
+            continue;
+          }
+          break;
+        }
+        const m = listMarker(lines[i]);
+        if (!m) break;
+        raw.push({
+          indent: m[1].length,
+          ordered: /^\d/.test(m[2]),
+          text: m[3].trim(),
+        });
         i += 1;
       }
-      blocks.push({ type: "list", ordered, items });
+      const root: ListItem[] = [];
+      const stack: { indent: number; node: ListItem }[] = [];
+      for (const r of raw) {
+        const node: ListItem = { text: r.text, children: [] };
+        while (
+          stack.length > 0 &&
+          r.indent <= stack[stack.length - 1].indent
+        ) {
+          stack.pop();
+        }
+        if (stack.length === 0) root.push(node);
+        else stack[stack.length - 1].node.children.push(node);
+        stack.push({ indent: r.indent, node });
+      }
+      blocks.push({
+        type: "list",
+        ordered: raw.length > 0 && raw[0].ordered,
+        items: root,
+      });
       continue;
     }
 

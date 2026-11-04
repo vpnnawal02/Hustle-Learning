@@ -189,7 +189,7 @@ export default async function StudyDiscovery() {
                           style={{
                             borderLeft: `3px solid ${GROUP_BARS[group.bar]}`,
                           }}
-                          className="group block rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-navy-900 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
+                          className="group block rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
                         >
                           <span className="block text-base font-semibold text-navy-900 group-hover:underline group-hover:underline-offset-4">
                             {cat.title}
@@ -239,7 +239,7 @@ export default async function StudyDiscovery() {
                         borderLeft: `3px solid ${tint}`,
                         background: `color-mix(in srgb, ${tint} 6%, transparent)`,
                       }}
-                      className="group block h-full rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-navy-900 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
+                      className="group block h-full rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
                     >
                       <span className="block text-lg font-semibold tracking-tight text-navy-900 group-hover:underline">
                         {p.item.title}

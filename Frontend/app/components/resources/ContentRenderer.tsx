@@ -1,11 +1,43 @@
-import type { ContentBlock } from "@/types/content";
+import type { ContentBlock, ListItem } from "@/types/content";
+import { tocEntries } from "@/lib/content/toc";
+import RichText from "./RichText";
+
+/** Recursive list nodes (sub-points indent under their parent point). */
+function listNodes(items: ListItem[]) {
+  return items.map((item, j) => (
+    <li key={j}>
+      <RichText text={item.text} />
+      {item.children.length > 0 && (
+        <ul className="mt-2 flex list-disc flex-col gap-2 pl-5">
+          {listNodes(item.children)}
+        </ul>
+      )}
+    </li>
+  ));
+}
 
 /**
  * Renders structured content blocks with consistent typography.
  * Each block maps 1:1 to a future MDX component (see docs/ARCHITECTURE.md).
  * Mathematical expressions render as code-styled text until KaTeX lands.
  */
+/** Block index → anchor id for h2 headings (same ids the TOC links to). */
+function headingIds(blocks: ContentBlock[]): Map<number, string> {
+  const entries = tocEntries(blocks);
+  const ids = new Map<number, string>();
+  let order = 0;
+  blocks.forEach((b, bi) => {
+    if (b.type === "heading" && b.level === 2) {
+      const entry = entries[order];
+      order += 1;
+      if (entry) ids.set(bi, entry.id);
+    }
+  });
+  return ids;
+}
+
 export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
+  const ids = headingIds(blocks);
   return (
     <div className="flex flex-col gap-5">
       {blocks.map((block, i) => {
@@ -16,32 +48,38 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 key={i}
                 className="max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg"
               >
-                {block.text}
+                <RichText text={block.text} />
               </p>
             );
-          case "heading":
-            return block.level === 2 ? (
+          case "heading": {
+            if (block.level !== 2) {
+              return (
+                <h3
+                  key={i}
+                  className="scroll-mt-24 text-xl font-bold tracking-tight text-text-primary"
+                >
+                  {block.text}
+                </h3>
+              );
+            }
+            const id = ids.get(i);
+            return (
               <h2
                 key={i}
-                className="text-2xl font-extrabold tracking-tight text-balance text-text-primary"
+                id={id}
+                className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-balance text-text-primary"
               >
                 {block.text}
               </h2>
-            ) : (
-              <h3
-                key={i}
-                className="text-xl font-bold tracking-tight text-text-primary"
-              >
-                {block.text}
-              </h3>
             );
+          }
           case "paragraph":
             return (
               <p
                 key={i}
                 className="max-w-[68ch] text-base leading-[1.6] text-text-secondary"
               >
-                {block.text}
+                <RichText text={block.text} />
               </p>
             );
           case "list":
@@ -50,15 +88,11 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 key={i}
                 className="flex max-w-[68ch] list-decimal flex-col gap-2 pl-6 text-base leading-[1.6] text-text-secondary"
               >
-                {block.items.map((item, j) => (
-                  <li key={j}>{item}</li>
-                ))}
+                {listNodes(block.items)}
               </ol>
             ) : (
               <ul className="flex max-w-[68ch] list-disc flex-col gap-2 pl-6 text-base leading-[1.6] text-text-secondary" key={i}>
-                {block.items.map((item, j) => (
-                  <li key={j}>{item}</li>
-                ))}
+                {listNodes(block.items)}
               </ul>
             );
           case "table":
@@ -76,7 +110,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                           scope="col"
                           className="border-b border-border px-4 py-3 font-bold text-text-primary"
                         >
-                          {h}
+                          <RichText text={h} />
                         </th>
                       ))}
                     </tr>
@@ -86,7 +120,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                       <tr key={r} className="border-b border-border last:border-0">
                         {row.map((cell, c) => (
                           <td key={c} className="px-4 py-3 text-text-secondary">
-                            {cell}
+                            <RichText text={cell} />
                           </td>
                         ))}
                       </tr>
@@ -128,7 +162,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                       ? "Note:"
                       : "Note:"}
                 </strong>
-                {block.text}
+                <RichText text={block.text} />
               </aside>
             );
           case "qa":
@@ -138,13 +172,13 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 className="rounded-lg border border-border bg-surface p-5"
               >
                 <p className="font-bold text-text-primary">
-                  Q. {block.question}
+                  Q. <RichText text={block.question} />
                 </p>
                 <p className="mt-2 text-[15px] leading-[1.6] text-text-secondary">
                   <strong className="font-semibold text-text-primary">
                     A.{" "}
                   </strong>
-                  {block.answer}
+                  <RichText text={block.answer} />
                 </p>
                 {block.demo && (
                   <p className="mt-2 text-[13px] text-text-muted">
@@ -171,7 +205,9 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                       <span aria-hidden="true" className="font-bold text-accent">
                         ✦
                       </span>
-                      <span>{point}</span>
+                      <span>
+                        <RichText text={point} />
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -182,33 +218,5 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
         }
       })}
     </div>
-  );
-}
-
-/** Table of contents derived from heading blocks (h2 only). */
-export function TableOfContents({ blocks }: { blocks: ContentBlock[] }) {
-  const headings = blocks.filter(
-    (b): b is Extract<ContentBlock, { type: "heading" }> =>
-      b.type === "heading" && b.level === 2,
-  );
-  if (headings.length < 2) return null;
-  return (
-    <nav
-      aria-label="On this page"
-      className="rounded-lg border border-border bg-surface-muted/60 p-5"
-    >
-      <p className="text-[13px] font-semibold text-text-secondary">
-        On this page
-      </p>
-      <ol className="mt-2 flex flex-col gap-1.5">
-        {headings.map((h, i) => (
-          <li key={i}>
-            <span className="text-sm font-medium text-text-secondary">
-              {i + 1}. {h.text}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </nav>
   );
 }

@@ -22,7 +22,7 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
             <Link
               href={urls.classPage(cls.slug)}
               aria-label={`Open ${cls.label}: ${cls.tagline}`}
-              className="group relative flex h-full flex-col rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-navy-900 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
+              className="group relative flex h-full flex-col rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
             >
               <span
                 aria-hidden="true"

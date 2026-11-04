@@ -547,6 +547,10 @@ body, done. Never touch `app/` for content.
 **Why is my page “coming soon”?**
 `status` is still `draft`, or the chapter slug isn't registered in the
 class `_class.json` — run the validator, it tells you exactly.
+If everything checks out but `next dev` still shows the old state,
+**restart the dev server** (`Ctrl+C` → `npm run dev`): a running dev
+process caches loaded content, so file edits only take effect after a
+restart. Production builds always read fresh files.
 
 **Can I rename a folder?**
 Class/subject folders: yes (update the `_class.json` registry).
