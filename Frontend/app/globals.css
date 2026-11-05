@@ -32,6 +32,14 @@
   --on-navy-900: #ffffff;
   --badge-amber-bg: #fef3c7;
   --badge-grey-bg: #eef0f4;
+  /* Per-resource icon hues (class-page resource tiles) */
+  --res-ncert: #7c3aed;
+  --res-notes: #2563eb;
+  --res-impq: #0f766e;
+  --res-sample: #e11d48;
+  --res-pyq: #4f46e5;
+  --res-worksheet: #ea580c;
+  --res-formula: #16a34a;
 }
 
 :root[data-theme="dark"] {
@@ -65,6 +73,14 @@
   --on-navy-900: #0f1b33;
   --badge-amber-bg: rgb(245 158 11 / 0.16);
   --badge-grey-bg: rgb(255 255 255 / 0.08);
+  /* Per-resource icon hues, dark mappings */
+  --res-ncert: #a78bfa;
+  --res-notes: #93c5fd;
+  --res-impq: #5eead4;
+  --res-sample: #fda4af;
+  --res-pyq: #a5b4fc;
+  --res-worksheet: #fdba74;
+  --res-formula: #86efac;
 }
 
 @theme inline {
@@ -100,6 +116,13 @@
   --color-on-navy-900: var(--on-navy-900);
   --color-badge-amber: var(--badge-amber-bg);
   --color-badge-grey: var(--badge-grey-bg);
+  --color-res-ncert: var(--res-ncert);
+  --color-res-notes: var(--res-notes);
+  --color-res-impq: var(--res-impq);
+  --color-res-sample: var(--res-sample);
+  --color-res-pyq: var(--res-pyq);
+  --color-res-worksheet: var(--res-worksheet);
+  --color-res-formula: var(--res-formula);
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
@@ -536,4 +559,23 @@ html {
 }
 :root[data-theme="dark"] .tutor-rule {
   background: rgb(255 255 255 / 0.25);
+}
+
+/* Resource-tile icon chips: very light per-category tint on white cards.
+   The hue comes from `--res-color` set inline per tile; hover deepens
+   the tint via the parent `.group`. Theme-safe in both modes. */
+.res-tint {
+  background-color: color-mix(in srgb, var(--res-color) 12%, transparent);
+  transition: background-color 200ms ease;
+}
+.group:hover .res-tint {
+  background-color: color-mix(in srgb, var(--res-color) 22%, transparent);
+}
+
+/* Resource-hub hero: very subtle lavender wash, flat per design.md. */
+.hero-wash {
+  background-color: #f5f1ff;
+}
+:root[data-theme="dark"] .hero-wash {
+  background-color: #171231;
 }

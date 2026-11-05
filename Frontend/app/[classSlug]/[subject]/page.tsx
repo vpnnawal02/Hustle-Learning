@@ -4,6 +4,9 @@ import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import { ChapterList } from "@/app/components/resources/ChapterList";
 import Faq from "@/app/components/resources/Faq";
 import { LinkList } from "@/app/components/resources/LinkLists";
+import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
+import DiscoveryOptions from "@/app/components/discovery/DiscoveryOptions";
+import { ComingSoon } from "@/app/components/resources/Navigation";
 import {
   CLASS_SLUGS,
   getClass,
@@ -11,19 +14,25 @@ import {
   getResourceFile,
   getSubject,
 } from "@/lib/data/school";
-import { publishedItems } from "@/lib/data/helpers";
+import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
+import { getSubjectsForClassMaterial } from "@/lib/discovery";
 import { urls } from "@/lib/urls";
 import { buildMetadata, canonical } from "@/lib/seo";
-import { subjectCrumbs } from "@/lib/breadcrumbs";
+import { classMaterialCrumbs, subjectCrumbs } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
   const out: { classSlug: string; subject: string }[] = [];
+  const categories = await getResourceCategories();
   for (const classSlug of CLASS_SLUGS) {
     const cls = await getClass(classSlug);
     if (!cls) continue;
     for (const subject of cls.subjects) {
       if (subject.status === "archived") continue;
       out.push({ classSlug, subject: subject.slug });
+    }
+    // Workflow B (class-first): /:class/:material selects a subject next.
+    for (const cat of categories) {
+      out.push({ classSlug, subject: cat.slug });
     }
   }
   return out;
@@ -35,6 +44,18 @@ export async function generateMetadata({
   params: Promise<{ classSlug: string; subject: string }>;
 }): Promise<Metadata> {
   const { classSlug, subject: subjectSlug } = await params;
+  // Workflow B branch: the "subject" segment names a material.
+  if (!(await getSubject(classSlug, subjectSlug)) && isSchoolResourceSlug(subjectSlug)) {
+    const resolved = await getSubjectsForClassMaterial(classSlug, subjectSlug);
+    if (!resolved) return {};
+    const { cls, cat, subjects } = resolved;
+    return buildMetadata({
+      title: `${cls.label} ${cat.title} — Choose a Subject | Hustle Learning`,
+      description: `Browse ${cls.label} ${cat.title.toLowerCase()} by subject: ${subjects.map((s) => s.subject.name).join(", ") || "new subjects publishing soon"}.`,
+      canonical: canonical(urls.classMaterial(classSlug, subjectSlug)),
+      noindex: subjects.length === 0,
+    });
+  }
   const found = await getSubject(classSlug, subjectSlug);
   if (!found) return {};
   const { cls, subject } = found;
@@ -54,7 +75,44 @@ export default async function SubjectPage({
   params: Promise<{ classSlug: string; subject: string }>;
 }) {
   const { classSlug, subject: subjectSlug } = await params;
+  // Workflow B (class-first): /:class/:material → choose a subject.
+  // A real subject always wins; material slugs never collide with one.
   const found = await getSubject(classSlug, subjectSlug);
+  if (!found && isSchoolResourceSlug(subjectSlug)) {
+    const resolved = await getSubjectsForClassMaterial(classSlug, subjectSlug);
+    if (!resolved) notFound();
+    const { cls, cat, subjects } = resolved;
+    return (
+      <DiscoveryShell
+        crumbs={classMaterialCrumbs(cls.label, cls.slug, cat.title)}
+        context={`${cls.label} · ${cat.title}`}
+        title={`${cls.label} ${cat.shortTitle} — Choose a Subject`}
+        description={`Only ${cls.label} subjects with published ${cat.shortTitle.toLowerCase()} are listed — every option below leads to real chapters.`}
+      >
+        {subjects.length > 0 ? (
+          <DiscoveryOptions
+            label={`${cls.label} subjects with ${cat.shortTitle}`}
+            options={subjects.map(({ subject, count }) => ({
+              href: urls.classMaterialSubject(cls.slug, cat.slug, subject.slug),
+              title: subject.name,
+              meta: subject.tagline,
+              badge: `${count} chapter${count === 1 ? "" : "s"}`,
+              ariaLabel: `${subject.name}: ${count} ${cat.shortTitle} chapters available`,
+            }))}
+          />
+        ) : (
+          <div className="mt-8">
+            <ComingSoon
+              title={`No ${cat.shortTitle} for ${cls.label} yet`}
+              description={`Our academic team has not published ${cat.title.toLowerCase()} for ${cls.label} yet. Published subjects will appear here automatically.`}
+              backHref={urls.classPage(cls.slug)}
+              backLabel={`Back to ${cls.label}`}
+            />
+          </div>
+        )}
+      </DiscoveryShell>
+    );
+  }
   if (!found || found.subject.status !== "published") notFound();
   const { cls, subject } = found;
 

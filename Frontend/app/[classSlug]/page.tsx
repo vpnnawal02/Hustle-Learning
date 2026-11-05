@@ -2,8 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import Faq from "@/app/components/resources/Faq";
-import { LinkList } from "@/app/components/resources/LinkLists";
-import { SubjectLinkGroups } from "@/app/components/resources/Selectors";
+import CtaBand from "@/app/components/CtaBand";
+import Footer from "@/app/components/Footer";
+import ClassSearchBar from "@/app/components/classes/ClassSearchBar";
+import ClassPills from "@/app/components/classes/ClassPills";
+import ResourceTiles from "@/app/components/classes/ResourceTiles";
+import SubjectCards, {
+  type SubjectCardData,
+} from "@/app/components/classes/SubjectCards";
+import StudyPlan from "@/app/components/classes/StudyPlan";
+import ClassSidebar from "@/app/components/classes/ClassSidebar";
+import MobileBar from "@/app/components/classes/MobileBar";
 import {
   CLASS_SLUGS,
   getClass,
@@ -53,89 +62,137 @@ export default async function ClassPage({
   const allClasses = await getClasses();
   const subjects = cls.subjects.filter((s) => s.status !== "archived");
 
-  const counts = new Map<string, number>();
+  // Per-subject, per-resource published counts — computed once so no
+  // subject × resource combination is ever rendered twice.
+  const cards: SubjectCardData[] = [];
+  const classTotals = new Map<string, number>();
   for (const subject of subjects) {
-    let n = 0;
+    let total = 0;
+    const resources = [];
     for (const cat of categories) {
       const file = await getResourceFile(cls.slug, subject.slug, cat.slug);
-      n += publishedItems(file).length;
+      const n = publishedItems(file).length;
+      total += n;
+      classTotals.set(cat.slug, (classTotals.get(cat.slug) ?? 0) + n);
+      resources.push({
+        slug: cat.slug,
+        shortTitle: cat.shortTitle,
+        icon: cat.icon,
+        count: n,
+      });
     }
-    counts.set(subject.slug, n);
+    cards.push({
+      slug: subject.slug,
+      name: subject.name,
+      tagline: subject.tagline,
+      chapterCount: subject.chapters.length,
+      totalPublished: total,
+      live: subject.status === "published",
+      resources,
+    });
   }
 
+  const readySubjects = [...cards]
+    .filter((c) => c.totalPublished > 0)
+    .sort((a, b) => b.totalPublished - a.totalPublished)
+    .map((c) => ({
+      slug: c.slug,
+      name: c.name,
+      totalPublished: c.totalPublished,
+    }));
+
+  const isBoardYear = cls.slug === "class-10";
+
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
-      <Breadcrumbs items={classCrumbs(cls.label)} />
-      <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
-        {cls.board} · {cls.tagline}
-      </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
-        {cls.label} Study Material
-      </h1>
-      <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-        {cls.description}
-      </p>
-      {cls.focus && (
-        <p className="mt-3 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
-          {cls.focus}
-        </p>
-      )}
+    <>
+      <div className="mx-auto w-full max-w-[1200px] flex-1 px-4 pt-10 pb-24 md:px-6 md:pt-14 lg:pb-14">
+        <Breadcrumbs items={classCrumbs(cls.label)} />
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
-        {cls.label} Subjects & Resources
-      </h2>
-      <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
-        Open a subject for its chapters, or jump straight to a resource type
-        — every combination has its own dedicated page.
-      </p>
-      <div className="mt-4 max-w-[860px]">
-        <SubjectLinkGroups
-          classSlug={cls.slug}
-          subjects={subjects.map((s) => ({
-            slug: s.slug,
-            name: s.name,
-            tagline: `${s.tagline} · ${s.chapters.length} chapters · ${
-              counts.get(s.slug) ?? 0
-            } resources published`,
-          }))}
-          resources={categories.map((c) => ({
+        <h1 className="mt-6 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+          {cls.label} Study Material
+        </h1>
+
+        <ClassSearchBar classLabel={cls.label} />
+
+        <ClassPills
+          classes={allClasses.map((c) => ({
             slug: c.slug,
-            shortTitle: c.title,
+            label: c.label,
+            shortLabel: c.shortLabel,
           }))}
+          currentSlug={cls.slug}
         />
+
+        <div className="mt-12">
+          <section aria-labelledby="resources-heading">
+            <h2
+              id="resources-heading"
+              className="text-2xl font-extrabold tracking-tight text-text-primary"
+            >
+              Explore Learning Resources
+            </h2>
+            <p className="mt-2 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
+              Everything you need to study smarter, practise better, and
+              prepare for your exams.
+            </p>
+            <ResourceTiles
+              classSlug={cls.slug}
+              classLabel={cls.label}
+              tiles={categories.map((cat) => ({
+                slug: cat.slug,
+                title: cat.title,
+                icon: cat.icon,
+                classCount: classTotals.get(cat.slug) ?? 0,
+              }))}
+            />
+          </section>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="min-w-0">
+            <section aria-labelledby="subjects-heading">
+              <h2
+                id="subjects-heading"
+                className="text-2xl font-extrabold tracking-tight text-text-primary"
+              >
+                Choose your subject
+              </h2>
+              <p className="mt-2 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
+                Each card lists what is actually published. Anything still
+                in preparation is marked coming soon — never a dead link.
+              </p>
+              <div id="subjects" className="scroll-mt-24">
+                <SubjectCards classSlug={cls.slug} subjects={cards} />
+              </div>
+            </section>
+
+            <div className="mt-12">
+              <StudyPlan classLabel={cls.label} />
+            </div>
+
+            <Faq
+              faqs={cls.faqs ?? []}
+              heading={`${cls.label}: FAQs`}
+              openFirst
+            />
+          </div>
+
+          <aside aria-label={`${cls.label} study sidebar`} className="min-w-0">
+            <ClassSidebar
+              classSlug={cls.slug}
+              classLabel={cls.label}
+              isBoardYear={isBoardYear}
+              readySubjects={readySubjects}
+            />
+          </aside>
+        </div>
       </div>
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        All Resource Types
-      </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
-          items={categories.map((cat) => ({
-            title: `${cat.title} · ${cls.label}`,
-            href: urls.resourceHub(cat.slug),
-            meta: cat.description,
-          }))}
-        />
+      <CtaBand />
+      <div className="pb-16 lg:pb-0">
+        <Footer />
       </div>
-
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        Other Classes
-      </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
-          items={allClasses
-            .filter((c) => c.slug !== cls.slug)
-            .map((c) => ({
-              title: `${c.label} Study Material`,
-              href: urls.classPage(c.slug),
-              meta: c.tagline,
-            }))}
-        />
-      </div>
-
-      <div className="max-w-[860px]">
-        <Faq faqs={cls.faqs ?? []} heading={`${cls.label}: FAQs`} />
-      </div>
-    </div>
+      <MobileBar classSlug={cls.slug} />
+    </>
   );
 }

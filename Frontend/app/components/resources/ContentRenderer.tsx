@@ -99,7 +99,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             return (
               <div
                 key={i}
-                className="overflow-x-auto rounded-lg border border-border"
+                className="overflow-x-auto rounded-md border border-border"
               >
                 <table className="w-full min-w-[480px] border-collapse text-left text-sm">
                   <thead>
@@ -133,7 +133,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             return (
               <figure
                 key={i}
-                className="rounded-lg border border-border bg-surface-muted/60 px-5 py-4"
+                className="rounded-md border border-border bg-surface-muted/60 px-5 py-4"
               >
                 <figcaption className="text-[13px] font-semibold text-text-secondary">
                   {block.label}
@@ -147,7 +147,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             return (
               <aside
                 key={i}
-                className={`rounded-lg border px-5 py-4 text-[15px] leading-[1.6] ${
+                className={`rounded-md border px-5 py-4 text-[15px] leading-[1.6] ${
                   block.tone === "tip"
                     ? "border-accent/60 bg-accent/10 text-text-primary"
                     : block.tone === "warning"
@@ -169,7 +169,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             return (
               <div
                 key={i}
-                className="rounded-lg border border-border bg-surface p-5"
+                className="rounded-md border border-border bg-surface p-5"
               >
                 <p className="font-bold text-text-primary">
                   Q. <RichText text={block.question} />
@@ -191,7 +191,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             return (
               <div
                 key={i}
-                className="rounded-lg bg-brand-navy p-5 text-brand-white sm:p-6"
+                className="rounded-md bg-brand-navy p-5 text-brand-white sm:p-6"
               >
                 <p className="text-sm font-bold text-accent">
                   Key takeaways

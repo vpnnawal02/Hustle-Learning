@@ -34,7 +34,7 @@ export function LinkList({ items }: { items: LinkRow[] }) {
               )}
             </span>
             {item.badge && (
-              <span className="shrink-0 rounded bg-surface-muted px-3 py-1 text-[13px] font-semibold text-text-muted">
+              <span className="shrink-0 rounded-sm bg-surface-muted px-3 py-1 text-[13px] font-semibold text-text-muted">
                 {item.badge}
               </span>
             )}

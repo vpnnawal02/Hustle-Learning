@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import Faq from "@/app/components/resources/Faq";
-import { LinkList } from "@/app/components/resources/LinkLists";
+import HubHero from "@/app/components/resources/HubHero";
+import ResourceExplorer, {
+  type ExplorerClass,
+} from "@/app/components/resources/ResourceExplorer";
+import HowToSteps from "@/app/components/resources/HowToSteps";
+import OtherResources from "@/app/components/resources/OtherResources";
+import CtaBand from "@/app/components/CtaBand";
+import Footer from "@/app/components/Footer";
+import { resourceTint } from "@/app/components/resources/resource-tints";
 import {
   getClasses,
   getResourceCategories,
@@ -58,119 +65,135 @@ export default async function ResourceHubPage({
 
   const classes = await getClasses();
   const categories = await getResourceCategories();
-  const sections: {
-    classLabel: string;
-    classSlug: string;
-    links: { title: string; href: string; meta: string }[];
-  }[] = [];
-  let totalPublished = 0;
 
+  // Single pass: builds the explorer payload and the published total.
+  const explorer: ExplorerClass[] = [];
+  let totalPublished = 0;
   for (const cls of classes) {
-    const links: { title: string; href: string; meta: string }[] = [];
+    const subjects: ExplorerClass["subjects"] = [];
+    let classTotal = 0;
     for (const subject of cls.subjects) {
-      if (subject.status === "archived") continue;
+      if (subject.status !== "published") continue;
       const file = await getResourceFile(cls.slug, subject.slug, resource);
       const items = publishedItems(file);
+      if (items.length === 0) continue;
       totalPublished += items.length;
-      for (const item of items) {
-        const chapter = subject.chapters.find(
-          (c) => c.slug === item.chapterSlug,
-        );
-        links.push({
-          title: `${subject.name} — ${chapter?.title ?? item.chapterSlug}`,
-          href: urls.chapterPage(cls.slug, subject.slug, resource, item.chapterSlug),
-          meta: `Updated ${item.updatedAt}`,
-        });
-      }
-      if (items.length === 0) {
-        links.push({
-          title: `${subject.name} — overview`,
-          href: urls.resourcePage(cls.slug, subject.slug, resource),
-          meta: "Coming soon",
-        });
-      }
+      classTotal += items.length;
+      subjects.push({
+        slug: subject.slug,
+        name: subject.name,
+        tagline: subject.tagline,
+        count: items.length,
+        href: urls.resourcePage(cls.slug, subject.slug, resource),
+        chapters: items.map((item) => {
+          const meta = subject.chapters.find(
+            (c) => c.slug === item.chapterSlug,
+          );
+          return {
+            number: meta?.number ?? 0,
+            slug: item.chapterSlug,
+            title: meta?.title ?? item.title,
+            href: urls.chapterPage(
+              cls.slug,
+              subject.slug,
+              resource,
+              item.chapterSlug,
+            ),
+          };
+        }),
+      });
     }
-    sections.push({ classLabel: cls.label, classSlug: cls.slug, links });
+    explorer.push({
+      slug: cls.slug,
+      label: cls.label,
+      totalChapters: classTotal,
+      subjects,
+    });
   }
 
+  const defaultClass =
+    explorer.find((c) => c.totalChapters > 0) ?? explorer[0];
+  const availability =
+    totalPublished > 0
+      ? `${totalPublished} chapter${totalPublished === 1 ? "" : "s"} published and ready to read`
+      : "New chapters are being published soon";
+
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Study Material", href: "/resources" },
-          { label: cat.title },
-        ]}
-      />
-      <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
-        Study Resources
-      </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
-        {cat.title} for Classes 6–10
-      </h1>
-      {(cat.intro ?? []).map((para, i) => (
-        <p
-          key={i}
-          className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg"
+    <>
+      <div className="mx-auto w-full max-w-[960px] flex-1 px-4 py-10 md:px-6 md:py-14">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Study Material", href: "/resources" },
+            { label: cat.title },
+          ]}
+        />
+
+        <div className="mt-6">
+          <HubHero
+            title={`${cat.title} for Classes 6–10`}
+            description={cat.description}
+            availability={availability}
+            ctaHref="#resource-explorer"
+            ctaLabel={`Browse ${cat.shortTitle}`}
+          />
+        </div>
+
+        <section
+          aria-labelledby="explorer-heading"
+          id="resource-explorer"
+          className="mt-12 scroll-mt-24"
         >
-          {para}
-        </p>
-      ))}
+          <h2
+            id="explorer-heading"
+            className="text-2xl font-extrabold tracking-tight text-text-primary"
+          >
+            Browse {cat.shortTitle.toLowerCase()} by class
+          </h2>
+          <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
+            Pick your class, then your subject — or search chapters
+            directly. Every option leads to published chapters only.
+          </p>
+          <ResourceExplorer
+            classes={explorer}
+            defaultSlug={defaultClass.slug}
+            shortTitle={cat.shortTitle}
+          />
+        </section>
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
-        Browse {cat.shortTitle.toLowerCase()} by class
-      </h2>
-      <div className="mt-4 grid max-w-[1100px] gap-x-10 gap-y-8 md:grid-cols-2">
-        {sections.map((section) => (
-          <section key={section.classSlug} aria-label={section.classLabel}>
-            <div className="flex items-baseline justify-between gap-4">
-              <h3 className="text-lg font-extrabold tracking-tight text-text-primary">
-                <Link
-                  href={urls.classPage(section.classSlug)}
-                  className="hover:underline hover:decoration-accent hover:decoration-2 hover:underline-offset-4"
-                >
-                  {section.classLabel}
-                </Link>
-              </h3>
-            </div>
-            <div className="mt-1">
-              <LinkList items={section.links} />
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        How to use {cat.shortTitle.toLowerCase()}
-      </h2>
-      <ul className="mt-3 flex max-w-[68ch] list-disc flex-col gap-2 pl-6 text-[15px] leading-[1.6] text-text-secondary">
-        {(cat.howTo ?? []).map((tip, i) => (
-          <li key={i}>{tip}</li>
-        ))}
-      </ul>
-
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        Explore other resources
-      </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
+        <OtherResources
           items={categories
             .filter((c) => c.slug !== resource)
-            .map((c) => ({
-              title: c.title,
-              href: urls.resourceHub(c.slug),
-              meta: c.description,
-            }))}
+            .map((c) => {
+              const t = resourceTint(c.slug);
+              return {
+                slug: c.slug,
+                title: c.title,
+                blurb: c.blurb,
+                icon: c.icon,
+                tintText: t.text,
+                tintVar: t.colorVar,
+              };
+            })}
         />
+
+        <HowToSteps
+          title={`How to make the most of ${cat.shortTitle.toLowerCase()}`}
+          intro="Three habits that turn these pages into marks."
+          steps={cat.howTo ?? []}
+        />
+
+        <div className="mt-12">
+          <Faq
+            faqs={cat.faqs ?? []}
+            structured={totalPublished > 0}
+            heading={`${cat.title}: FAQs`}
+          />
+        </div>
       </div>
 
-      <div className="max-w-[860px]">
-        <Faq
-          faqs={cat.faqs ?? []}
-          structured={totalPublished > 0}
-          heading={`${cat.title}: FAQs`}
-        />
-      </div>
-    </div>
+      <CtaBand />
+      <Footer />
+    </>
   );
 }

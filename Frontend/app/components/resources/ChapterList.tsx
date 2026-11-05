@@ -53,7 +53,7 @@ export function ChapterList({
                 Open
               </span>
             ) : (
-              <span className="shrink-0 rounded bg-surface-muted px-3 py-1 text-[13px] font-semibold text-text-muted">
+              <span className="shrink-0 rounded-sm bg-surface-muted px-3 py-1 text-[13px] font-semibold text-text-muted">
                 Coming soon
               </span>
             )}

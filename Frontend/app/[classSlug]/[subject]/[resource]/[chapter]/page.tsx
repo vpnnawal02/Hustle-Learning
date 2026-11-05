@@ -20,7 +20,7 @@ import {
 import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
 import { urls } from "@/lib/urls";
 import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
-import { chapterCrumbs } from "@/lib/breadcrumbs";
+import { chapterCrumbs, classMaterialSubjectCrumbs } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
   const out: {
@@ -45,6 +45,13 @@ export async function generateStaticParams() {
             resource: cat.slug,
             chapter: item.chapterSlug,
           });
+          // Workflow B (class-first) alias: /:class/:material/:subject/:chapter.
+          out.push({
+            classSlug,
+            subject: cat.slug,
+            resource: subject.slug,
+            chapter: item.chapterSlug,
+          });
         }
       }
     }
@@ -65,14 +72,21 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { classSlug, subject: subjectSlug, resource, chapter } = await params;
+  // Workflow B alias: /:class/:material/:subject/:chapter resolves the
+  // same chapter as /:class/:subject/:material/:chapter (canonical).
+  const subjectFound = await getSubject(classSlug, subjectSlug);
+  const materialMode =
+    !subjectFound && isSchoolResourceSlug(subjectSlug);
+  const effSubjectSlug = materialMode ? resource : subjectSlug;
+  const effResourceSlug = materialMode ? subjectSlug : resource;
   const [found, cat, entry] = await Promise.all([
-    getSubject(classSlug, subjectSlug),
-    getResourceCategory(resource),
-    getChapterItem(classSlug, subjectSlug, resource, chapter),
+    getSubject(classSlug, effSubjectSlug),
+    getResourceCategory(effResourceSlug),
+    getChapterItem(classSlug, effSubjectSlug, effResourceSlug, chapter),
   ]);
   if (!found || !cat || !entry) return {};
   const { item } = entry;
-  const path = urls.chapterPage(classSlug, subjectSlug, resource, chapter);
+  const path = urls.chapterPage(classSlug, effSubjectSlug, effResourceSlug, chapter);
   return buildMetadata({
     title: `${item.title} | Hustle Learning`,
     description: item.description,
@@ -88,11 +102,17 @@ export default async function ChapterPage({
   params: Promise<Params>;
 }) {
   const { classSlug, subject: subjectSlug, resource, chapter } = await params;
-  if (!isSchoolResourceSlug(resource)) notFound();
+  // Workflow B alias — see generateMetadata above.
+  const subjectFound = await getSubject(classSlug, subjectSlug);
+  const materialMode =
+    !subjectFound && isSchoolResourceSlug(subjectSlug);
+  const effSubjectSlug = materialMode ? resource : subjectSlug;
+  const effResourceSlug = materialMode ? subjectSlug : resource;
+  if (!isSchoolResourceSlug(effResourceSlug)) notFound();
   const [found, cat, entry] = await Promise.all([
-    getSubject(classSlug, subjectSlug),
-    getResourceCategory(resource),
-    getChapterItem(classSlug, subjectSlug, resource, chapter),
+    getSubject(classSlug, effSubjectSlug),
+    getResourceCategory(effResourceSlug),
+    getChapterItem(classSlug, effSubjectSlug, effResourceSlug, chapter),
   ]);
   if (!found || !cat || !entry) notFound();
   const { cls, subject } = found;
@@ -100,28 +120,38 @@ export default async function ChapterPage({
 
   const chapterMeta = subject.chapters.find((c) => c.slug === chapter);
   const chapterTitle = chapterMeta?.title ?? item.title;
-  const path = urls.chapterPage(classSlug, subjectSlug, resource, chapter);
+  const path = urls.chapterPage(classSlug, effSubjectSlug, effResourceSlug, chapter);
+  const crumbs = materialMode
+    ? [
+        ...classMaterialSubjectCrumbs(
+          cls.label,
+          cls.slug,
+          cat.title,
+          cat.slug,
+          subject.name,
+        ),
+        { label: chapterTitle },
+      ]
+    : chapterCrumbs(
+        cls.label,
+        cls.slug,
+        subject.name,
+        subject.slug,
+        cat.title,
+        cat.slug,
+        chapterTitle,
+      );
 
   // Draft items render a friendly coming-soon state (noindex via metadata).
   if (item.status !== "published" || item.blocks.length === 0) {
     return (
       <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <Breadcrumbs
-          items={chapterCrumbs(
-            cls.label,
-            cls.slug,
-            subject.name,
-            subject.slug,
-            cat.title,
-            cat.slug,
-            chapterTitle,
-          )}
-        />
+        <Breadcrumbs items={crumbs} />
         <div className="mt-8">
           <ComingSoon
             title={`${chapterTitle} — ${cat.title} coming soon`}
             description={`Our academic team is verifying this material. Published ${cat.shortTitle.toLowerCase()} for ${cls.label} ${subject.name} will appear here automatically.`}
-            backHref={urls.resourcePage(classSlug, subjectSlug, resource)}
+            backHref={urls.resourcePage(classSlug, effSubjectSlug, effResourceSlug)}
             backLabel={`Back to ${cat.title}`}
           />
         </div>
@@ -130,14 +160,14 @@ export default async function ChapterPage({
   }
 
   // Prev / next across all published items of this resource file.
-  const file = await getResourceFile(classSlug, subjectSlug, resource);
+  const file = await getResourceFile(classSlug, effSubjectSlug, effResourceSlug);
   const published = publishedItems(file);
   const idx = published.findIndex((i) => i.chapterSlug === chapter);
   const navFor = (i: (typeof published)[number]) => {
     const meta = subject.chapters.find((c) => c.slug === i.chapterSlug);
     return {
       title: meta?.title ?? i.title,
-      href: urls.chapterPage(classSlug, subjectSlug, resource, i.chapterSlug),
+      href: urls.chapterPage(classSlug, effSubjectSlug, effResourceSlug, i.chapterSlug),
     };
   };
   const prev = idx > 0 ? navFor(published[idx - 1]) : undefined;
@@ -154,18 +184,18 @@ export default async function ChapterPage({
   const categories = await getResourceCategories();
   const tabs: { label: string; href: string; active: boolean }[] = [];
   for (const c of categories) {
-    if (c.slug === resource) {
+    if (c.slug === effResourceSlug) {
       tabs.push({ label: c.shortTitle, href: path, active: true });
       continue;
     }
-    const other = await getResourceFile(classSlug, subjectSlug, c.slug);
+    const other = await getResourceFile(classSlug, effSubjectSlug, c.slug);
     const has = publishedItems(other).some(
       (i) => i.chapterSlug === chapter,
     );
     if (has) {
       tabs.push({
         label: c.shortTitle,
-        href: urls.chapterPage(classSlug, subjectSlug, c.slug, chapter),
+        href: urls.chapterPage(classSlug, effSubjectSlug, c.slug, chapter),
         active: false,
       });
     }
@@ -181,17 +211,7 @@ export default async function ChapterPage({
           updatedAt: item.updatedAt,
         })}
       />
-      <Breadcrumbs
-        items={chapterCrumbs(
-          cls.label,
-          cls.slug,
-          subject.name,
-          subject.slug,
-          cat.title,
-          cat.slug,
-          chapterTitle,
-        )}
-      />
+      <Breadcrumbs items={crumbs} />
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article className="min-w-0">

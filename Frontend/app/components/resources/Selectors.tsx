@@ -41,7 +41,7 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
                   </span>
                 </span>
                 {num === "10" && (
-                  <span className="rounded bg-badge-amber px-2 py-1 text-xs font-semibold text-accent-700">
+                  <span className="rounded-sm bg-badge-amber px-2 py-1 text-xs font-semibold text-accent-700">
                     Board year
                   </span>
                 )}

@@ -66,6 +66,30 @@ export default async function ResourcesHubPage() {
       </div>
 
       <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+        Three ways to explore
+      </h2>
+      <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
+        Start wherever feels natural — by material, by class, or by
+        subject. All three paths lead to the same chapter-wise resources.
+      </p>
+      <div className="mt-4 max-w-[860px]">
+        <LinkList
+          items={[
+            {
+              title: "Browse by material",
+              href: urls.materialsHub(),
+              meta: "Notes, solutions, questions, papers and more — then class, then subject.",
+            },
+            {
+              title: "Browse by subject",
+              href: urls.subjectsHub(),
+              meta: "Science, Mathematics, English, Social Science — then class, then material.",
+            },
+          ]}
+        />
+      </div>
+
+      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
         Competitive Exams
       </h2>
       <div className="mt-4 max-w-[860px]">

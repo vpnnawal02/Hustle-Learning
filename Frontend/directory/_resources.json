@@ -67,10 +67,10 @@
     "slug": "important-questions",
     "title": "Important Questions",
     "shortTitle": "Important Qs",
-    "description": "Curated exam-oriented questions with structured answers to practise what matters most.",
+    "description": "Chapter-wise Important Questions with answers for CBSE Classes 6–10 — practise the questions that matter most for school exams and Class 10 boards.",
     "icon": "ListChecks",
     "intro": [
-      "Board papers repeat ideas far more than they repeat questions. Our important-questions sets collect the question frames that return year after year — reason-assertion pairs in Science, proof patterns in Mathematics, case-based setups — each with a structured answer outline showing how a full-marks response is built: definition first, then explanation, then example or diagram.",
+      "Important-questions sets collect exam-oriented question frames for every chapter — reason-assertion pairs in Science, proof patterns in Mathematics, case-based setups in Social Science — each with a structured answer outline showing how a full-marks response is built: definition first, then explanation, then example or diagram.",
       "Treat these as prediction-informed practice, not leaked papers. Every set is organised by chapter so it slots into normal study: finish the chapter, attempt its important questions closed-book, then fix gaps before moving on."
     ],
     "howTo": [
@@ -83,6 +83,22 @@
       {
         "question": "Are these real board questions?",
         "answer": "No. These are original practice questions modelled on board patterns. Real previous-paper questions live separately under Previous Year Questions, and the two should be used together."
+      },
+      {
+        "question": "How are important questions selected?",
+        "answer": "Our academic team maps each chapter to the CBSE syllabus and previous board-paper patterns, then picks the question frames that test core concepts — definitions, derivations, diagrams and case-based setups. They are informed practice, not leaked papers, and no one can guarantee a particular question will appear."
+      },
+      {
+        "question": "Do the questions come with answers and solutions?",
+        "answer": "Yes. Every question carries a structured answer outline — definition first, then explanation, then example or diagram — showing how a full-marks response is built. Expand each outline into a complete answer in your own words; the writing itself is the practice."
+      },
+      {
+        "question": "How should I prepare using important questions?",
+        "answer": "Finish the chapter once with notes, attempt its important questions closed-book and timed, expand the outlines into full answers, and tag your mistakes for a second attempt after three days. Then test yourself with sample papers and previous year questions."
+      },
+      {
+        "question": "Are important questions available for all classes?",
+        "answer": "Sets are published progressively after academic verification, starting with Class 10. Anything marked coming soon is still being prepared and is never presented as complete."
       },
       {
         "question": "How many questions per chapter are enough?",

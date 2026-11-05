@@ -6,6 +6,13 @@ import {
   getResourceCategories,
   getResourceFile,
 } from "@/lib/data/school";
+import {
+  getClassesForMaterial,
+  getClassesForSubject,
+  getMaterialsForClassSubject,
+  getSubjectsForClassMaterial,
+  getSubjectUniverse,
+} from "@/lib/discovery";
 import { publishedItems } from "@/lib/data/helpers";
 import { SITE_URL } from "@/lib/site";
 import { urls } from "@/lib/urls";
@@ -84,6 +91,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       item.updatedAt,
       0.8,
     );
+  }
+
+  // Discovery selection pages — only steps that list real options.
+  // Final-listing variants are excluded: they canonicalise to resourcePage().
+  push(urls.materialsHub(), undefined, 0.7);
+  push(urls.subjectsHub(), undefined, 0.7);
+  for (const cat of categories) {
+    const classesForMaterial = await getClassesForMaterial(cat.slug);
+    if (classesForMaterial && classesForMaterial.length > 0) {
+      push(urls.materialHub(cat.slug), undefined, 0.6);
+      for (const cls of classes) {
+        const sel = await getSubjectsForClassMaterial(cls.slug, cat.slug);
+        if (sel && sel.subjects.length > 0) {
+          push(urls.materialClass(cat.slug, cls.slug), undefined, 0.6);
+          push(urls.classMaterial(cls.slug, cat.slug), undefined, 0.6);
+        }
+      }
+    }
+  }
+  for (const s of await getSubjectUniverse()) {
+    const classesForSubject = await getClassesForSubject(s.slug);
+    if (classesForSubject && classesForSubject.classes.length > 0) {
+      push(urls.subjectHub(s.slug), undefined, 0.6);
+      for (const { cls } of classesForSubject.classes) {
+        const pair = await getMaterialsForClassSubject(cls.slug, s.slug);
+        if (pair && pair.materials.length > 0) {
+          push(urls.subjectClass(s.slug, cls.slug), undefined, 0.6);
+        }
+      }
+    }
   }
 
   // JEE / NEET tracks.

@@ -7,6 +7,8 @@ import {
 } from "@/app/components/resources/ChapterList";
 import Faq from "@/app/components/resources/Faq";
 import { LinkList } from "@/app/components/resources/LinkLists";
+import ResourceListing from "@/app/components/discovery/ResourceListing";
+import { ComingSoon } from "@/app/components/resources/Navigation";
 import {
   CLASS_SLUGS,
   getClass,
@@ -16,9 +18,16 @@ import {
   getSubject,
 } from "@/lib/data/school";
 import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
+import {
+  canonicalResourceDescription,
+  canonicalResourceTitle,
+  chapterTitlesOf,
+  getMaterialsForClassSubject,
+  resolveTriple,
+} from "@/lib/discovery";
 import { urls } from "@/lib/urls";
 import { buildMetadata, canonical } from "@/lib/seo";
-import { resourceCrumbs } from "@/lib/breadcrumbs";
+import { classMaterialSubjectCrumbs, resourceCrumbs } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
   const out: { classSlug: string; subject: string; resource: string }[] = [];
@@ -32,6 +41,13 @@ export async function generateStaticParams() {
         out.push({ classSlug, subject: subject.slug, resource: cat.slug });
       }
     }
+    // Workflow B (class-first) finals: /:class/:material/:subject.
+    for (const cat of categories) {
+      for (const subject of cls.subjects) {
+        if (subject.status === "archived") continue;
+        out.push({ classSlug, subject: cat.slug, resource: subject.slug });
+      }
+    }
   }
   return out;
 }
@@ -42,26 +58,52 @@ export async function generateMetadata({
   params: Promise<{ classSlug: string; subject: string; resource: string }>;
 }): Promise<Metadata> {
   const { classSlug, subject: subjectSlug, resource } = await params;
+  // Workflow B branch: /:class/:material/:subject serves the same
+  // content as /:class/:subject/:material (canonical).
+  if (!(await getSubject(classSlug, subjectSlug)) && isSchoolResourceSlug(subjectSlug)) {
+    const triple = await resolveTriple(classSlug, resource, subjectSlug);
+    if (!triple) return {};
+    return buildMetadata({
+      title: canonicalResourceTitle(
+        triple.cls.label,
+        triple.subject.name,
+        triple.cat.title,
+      ),
+      description: canonicalResourceDescription({
+        classLabel: triple.cls.label,
+        subjectName: triple.subject.name,
+        material: triple.cat,
+        itemCount: triple.items.length,
+        sampleTitles: chapterTitlesOf(triple),
+      }),
+      canonical: canonical(
+        urls.resourcePage(classSlug, resource, subjectSlug),
+      ),
+      noindex: triple.items.length === 0,
+    });
+  }
   const found = await getSubject(classSlug, subjectSlug);
   const cat = await getResourceCategory(resource);
   if (!found || !cat) return {};
   const { cls, subject } = found;
   const file = await getResourceFile(classSlug, subjectSlug, resource);
   const items = publishedItems(file);
-  const sample = items
+  const sampleTitles = items
     .slice(0, 3)
     .map(
       (i) =>
         subject.chapters.find((c) => c.slug === i.chapterSlug)?.title ??
         i.chapterSlug,
-    )
-    .join("; ");
+    );
   return buildMetadata({
-    title: `${cls.label} ${subject.name} ${cat.title} — Chapter-wise | Hustle Learning`,
-    description:
-      items.length > 0
-        ? `Chapter-wise ${cat.title.toLowerCase()} for ${cls.label} ${subject.name}, including ${sample}. ${items.length} chapter${items.length === 1 ? "" : "s"} published.`
-        : `${cat.title} for ${cls.label} ${subject.name} — currently in preparation. Browse available ${subject.name} resources.`,
+    title: canonicalResourceTitle(cls.label, subject.name, cat.title),
+    description: canonicalResourceDescription({
+      classLabel: cls.label,
+      subjectName: subject.name,
+      material: cat,
+      itemCount: items.length,
+      sampleTitles,
+    }),
     canonical: canonical(urls.resourcePage(classSlug, subjectSlug, resource)),
     noindex: items.length === 0,
   });
@@ -73,6 +115,73 @@ export default async function ResourcePage({
   params: Promise<{ classSlug: string; subject: string; resource: string }>;
 }) {
   const { classSlug, subject: subjectSlug, resource } = await params;
+  // Workflow B (class-first) final: /:class/:material/:subject.
+  // A real subject always wins; material slugs never collide with one.
+  if (!(await getSubject(classSlug, subjectSlug)) && isSchoolResourceSlug(subjectSlug)) {
+    const triple = await resolveTriple(classSlug, resource, subjectSlug);
+    if (!triple) notFound();
+    const { cls, subject, cat, items } = triple;
+    if (items.length === 0) {
+      return (
+        <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+          <div className="mt-8">
+            <ComingSoon
+              title={`${cat.title} for ${cls.label} ${subject.name} are on their way`}
+              description={`Our academic team has not published these chapters yet. Published ${cat.shortTitle.toLowerCase()} will appear here automatically.`}
+              backHref={urls.classMaterial(classSlug, subjectSlug)}
+              backLabel={`Back to ${cls.label} subjects`}
+            />
+          </div>
+        </div>
+      );
+    }
+    const chapters = items.map((item) => {
+      const meta = subject.chapters.find((c) => c.slug === item.chapterSlug);
+      return {
+        number: meta?.number ?? 0,
+        slug: item.chapterSlug,
+        title: meta?.title ?? item.title,
+        description: item.description,
+        updatedAt: item.updatedAt,
+        href: urls.chapterPage(cls.slug, subject.slug, cat.slug, item.chapterSlug),
+      };
+    });
+    const siblings = (await getMaterialsForClassSubject(cls.slug, subject.slug))
+      ?.materials.filter((m) => m.cat.slug !== cat.slug)
+      .map((m) => ({
+        title: `${subject.name} ${m.cat.title}`,
+        href: urls.resourcePage(cls.slug, subject.slug, m.cat.slug),
+        meta: `${m.count} chapter${m.count === 1 ? "" : "s"} published`,
+      })) ?? [];
+    return (
+      <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+        <ResourceListing
+          crumbs={classMaterialSubjectCrumbs(
+            cls.label,
+            cls.slug,
+            cat.title,
+            cat.slug,
+            subject.name,
+          )}
+          context={`${cls.label} · ${cat.title} · ${subject.name}`}
+          title={`${cls.label} ${subject.name} ${cat.title}`}
+          description={canonicalResourceDescription({
+            classLabel: cls.label,
+            subjectName: subject.name,
+            material: cat,
+            itemCount: items.length,
+            sampleTitles: chapterTitlesOf(triple),
+          })}
+          chapters={chapters}
+          actionLabel={`Open ${cat.shortTitle}`}
+          siblings={siblings}
+          siblingsHeading={`More ${subject.name} resources`}
+          backHref={urls.classMaterial(classSlug, subjectSlug)}
+          backLabel={`${cls.label} ${cat.shortTitle} subjects`}
+        />
+      </div>
+    );
+  }
   if (!isSchoolResourceSlug(resource)) notFound();
   const found = await getSubject(classSlug, subjectSlug);
   const cat = await getResourceCategory(resource);
