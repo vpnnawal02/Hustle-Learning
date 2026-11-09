@@ -74,10 +74,47 @@ export function chapterCrumbs(
   ];
 }
 
+export function worksheetCrumbs(
+  classLabel: string,
+  classSlug: string,
+  subjectName: string,
+  subjectSlug: string,
+  resourceTitle: string,
+  resourceSlug: string,
+  chapterTitle: string,
+  chapterSlug: string,
+  worksheetTitle: string,
+) {
+  const trail = chapterCrumbs(
+    classLabel,
+    classSlug,
+    subjectName,
+    subjectSlug,
+    resourceTitle,
+    resourceSlug,
+    chapterTitle,
+  );
+  return [
+    ...trail.map((c, i) =>
+      i === trail.length - 1
+        ? {
+            ...c,
+            href: urls.chapterPage(
+              classSlug,
+              subjectSlug,
+              resourceSlug,
+              chapterSlug,
+            ),
+          }
+        : c,
+    ),
+    { label: worksheetTitle },
+  ];
+}
+
 export function examCrumbs(examName: string) {
   return [...homeCrumb(), { label: examName }];
 }
-
 export function examSubjectCrumbs(
   examName: string,
   examSlug: string,

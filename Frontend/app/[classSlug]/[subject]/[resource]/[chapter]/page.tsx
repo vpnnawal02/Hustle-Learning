@@ -19,7 +19,10 @@ import {
 } from "@/lib/data/school";
 import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
 import { urls } from "@/lib/urls";
-import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
+import {
+  splitWorksheets,
+  worksheetDisplayNumber,
+} from "@/lib/content/worksheets";import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
 import { chapterCrumbs, classMaterialSubjectCrumbs } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
@@ -121,6 +124,10 @@ export default async function ChapterPage({
   const chapterMeta = subject.chapters.find((c) => c.slug === chapter);
   const chapterTitle = chapterMeta?.title ?? item.title;
   const path = urls.chapterPage(classSlug, effSubjectSlug, effResourceSlug, chapter);
+  // Chapters with `## Worksheet N` sections become a clean hub of square
+  // worksheet cards — no questions or extra panels, just the picker.
+  const worksheets = splitWorksheets(item.blocks);
+  const isWorksheetHub = worksheets.length > 0;
   const crumbs = materialMode
     ? [
         ...classMaterialSubjectCrumbs(
@@ -213,7 +220,13 @@ export default async function ChapterPage({
       />
       <Breadcrumbs items={crumbs} />
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div
+        className={
+          isWorksheetHub
+            ? "mt-6"
+            : "mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]"
+        }
+      >
         <article className="min-w-0">
           <p className="text-sm leading-[1.6] text-text-secondary">
             {cls.label} · {subject.name} · {cat.title}
@@ -222,9 +235,15 @@ export default async function ChapterPage({
           <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
             {item.title}
           </h1>
-          <p className="mt-3 text-sm text-text-muted">
-            Last updated {item.updatedAt}
-          </p>
+          {isWorksheetHub ? (
+            <p className="mt-3 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
+              {item.description}
+            </p>
+          ) : (
+            <p className="mt-3 text-sm text-text-muted">
+              Last updated {item.updatedAt}
+            </p>
+          )}
 
           {tabs.length > 1 && (
             <nav aria-label="Resource tabs" className="mt-5">
@@ -252,17 +271,61 @@ export default async function ChapterPage({
             </nav>
           )}
 
-          <div className="mt-6 lg:hidden">
-            <TableOfContents blocks={item.blocks} />
-          </div>
+          {!isWorksheetHub && (
+            <div className="mt-6 lg:hidden">
+              <TableOfContents blocks={item.blocks} />
+            </div>
+          )}
 
-          <div className="mt-6">
-            <ContentRenderer blocks={item.blocks} />
-          </div>
+          {isWorksheetHub ? (
+            <div
+              className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3"
+              role="list"
+              aria-label="Worksheets"
+            >
+              {worksheets.map((ws) => (
+                <Link
+                  key={ws.slug}
+                  role="listitem"
+                  href={urls.worksheetPage(
+                    classSlug,
+                    effSubjectSlug,
+                    effResourceSlug,
+                    chapter,
+                    ws.slug,
+                  )}
+                  className="group flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-border bg-surface p-4 text-center transition-all duration-200 hover:-translate-y-1 hover:border-accent/60 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="text-4xl font-extrabold tracking-tight text-text-primary transition-colors duration-200 group-hover:text-accent sm:text-5xl"
+                  >
+                    {worksheetDisplayNumber(ws.slug)}
+                  </span>
+                  <span className="mt-1 font-bold text-text-primary">
+                    {ws.title}
+                  </span>
+                  <span className="text-sm text-text-secondary">
+                    {ws.questionCount} question
+                    {ws.questionCount === 1 ? "" : "s"}
+                    {ws.totalMarks > 0 &&
+                      ` · ${ws.totalMarks} mark${ws.totalMarks === 1 ? "" : "s"}`}
+                  </span>
+                  <span className="mt-2 inline-flex h-8 items-center rounded-sm bg-brand-navy px-3 text-sm font-semibold text-white transition-colors duration-200 group-hover:bg-accent group-hover:text-on-accent">
+                    Start →
+                  </span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-6">
+              <ContentRenderer blocks={item.blocks} />
+            </div>
+          )}
 
-          <PrevNextNav prev={prev} next={next} />
+          {!isWorksheetHub && <PrevNextNav prev={prev} next={next} />}
 
-          {relatedChapters.length > 0 && (
+          {!isWorksheetHub && relatedChapters.length > 0 && (
             <>
               <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
                 More {subject.name} {cat.shortTitle.toLowerCase()}
@@ -278,29 +341,33 @@ export default async function ChapterPage({
             </>
           )}
 
-          <Faq faqs={item.faqs ?? []} structured={(item.faqs ?? []).length > 0} />
+          {!isWorksheetHub && (
+            <Faq faqs={item.faqs ?? []} structured={(item.faqs ?? []).length > 0} />
+          )}
         </article>
 
-        <aside className="hidden lg:block">
-          <div className="sticky top-24 flex flex-col gap-4">
-            <TableOfContents blocks={item.blocks} />
-            <div className="rounded-lg border border-border bg-surface p-5">
-              <p className="text-sm font-bold text-text-primary">
-                Need personal help?
-              </p>
-              <p className="mt-1 text-sm leading-[1.55] text-text-secondary">
-                Our counsellor will call you back on WhatsApp with the right
-                plan.
-              </p>
-              <Link
-                href="/#hero-enquiry"
-                className="mt-3 inline-flex h-11 w-full items-center justify-center rounded bg-accent px-5 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-              >
-                Get a free callback
-              </Link>
+        {!isWorksheetHub && (
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 flex flex-col gap-4">
+              <TableOfContents blocks={item.blocks} />
+              <div className="rounded-lg border border-border bg-surface p-5">
+                <p className="text-sm font-bold text-text-primary">
+                  Need personal help?
+                </p>
+                <p className="mt-1 text-sm leading-[1.55] text-text-secondary">
+                  Our counsellor will call you back on WhatsApp with the right
+                  plan.
+                </p>
+                <Link
+                  href="/#hero-enquiry"
+                  className="mt-3 inline-flex h-11 w-full items-center justify-center rounded bg-accent px-5 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+                >
+                  Get a free callback
+                </Link>
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
       </div>
     </div>
   );

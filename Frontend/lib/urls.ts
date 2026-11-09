@@ -14,6 +14,13 @@ export const urls = {
     resource: string,
     chapter: string,
   ) => `/${classSlug}/${subject}/${resource}/${chapter}`,
+  worksheetPage: (
+    classSlug: string,
+    subject: string,
+    resource: string,
+    chapter: string,
+    worksheet: string,
+  ) => `/${classSlug}/${subject}/${resource}/${chapter}/${worksheet}`,
   examPage: (exam: string) => `/${exam}`,
   examSubjectPage: (exam: string, subject: string) => `/${exam}/${subject}`,
   examResourcePage: (exam: string, subject: string, resource: string) =>

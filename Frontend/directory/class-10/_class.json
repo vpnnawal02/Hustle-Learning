@@ -111,25 +111,25 @@
           "slug": "polynomials",
           "title": "Polynomials",
           "number": 2,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "pair-of-linear-equations",
           "title": "Pair of Linear Equations in Two Variables",
           "number": 3,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "quadratic-equations",
           "title": "Quadratic Equations",
           "number": 4,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "arithmetic-progressions",
           "title": "Arithmetic Progressions",
           "number": 5,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "triangles",
@@ -141,7 +141,7 @@
           "slug": "coordinate-geometry",
           "title": "Coordinate Geometry",
           "number": 7,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "introduction-to-trigonometry",
@@ -249,7 +249,7 @@
           "slug": "print-culture-and-the-modern-world",
           "title": "Print Culture and the Modern World",
           "number": 5,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "resources-and-development",

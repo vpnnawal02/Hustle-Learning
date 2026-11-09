@@ -1,5 +1,6 @@
 import type { ContentBlock, ListItem } from "@/types/content";
 import { tocEntries } from "@/lib/content/toc";
+import { isWorksheetHeading, splitMarks } from "@/lib/content/worksheets";
 import RichText from "./RichText";
 
 /** Recursive list nodes (sub-points indent under their parent point). */
@@ -38,6 +39,30 @@ function headingIds(blocks: ContentBlock[]): Map<number, string> {
 
 export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
   const ids = headingIds(blocks);
+  // Block indices of Q&A items and h2 sections in article order.
+  const qaOrder = blocks.flatMap((b, bi) => (b.type === "qa" ? [bi] : []));
+  const h2Order = blocks.flatMap((b, bi) =>
+    b.type === "heading" && b.level === 2 ? [bi] : [],
+  );
+  // Question number restarts after every h2 (each worksheet runs Q1…).
+  const qaNumberAt = (i: number): number => {
+    const prevH2 = h2Order.filter((h) => h < i).pop() ?? -1;
+    return qaOrder.filter((bi) => bi > prevH2 && bi <= i).length;
+  };
+  // Questions + total marks in the section an h2 heading opens.
+  const sectionStats = (bi: number): { count: number; marks: number } => {
+    const nextH2 = h2Order.find((h) => h > bi) ?? blocks.length;
+    let count = 0;
+    let marks = 0;
+    for (let k = bi + 1; k < nextH2; k += 1) {
+      const b = blocks[k];
+      if (b.type === "qa") {
+        count += 1;
+        marks += splitMarks(b.question).marks ?? 0;
+      }
+    }
+    return { count, marks };
+  };
   return (
     <div className="flex flex-col gap-5">
       {blocks.map((block, i) => {
@@ -63,14 +88,38 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
               );
             }
             const id = ids.get(i);
+            if (!isWorksheetHeading(block.text)) {
+              return (
+                <h2
+                  key={i}
+                  id={id}
+                  className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-balance text-text-primary"
+                >
+                  {block.text}
+                </h2>
+              );
+            }
+            const stats = sectionStats(i);
             return (
-              <h2
+              <div
                 key={i}
-                id={id}
-                className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-balance text-text-primary"
+                className="overflow-hidden rounded-md border border-border"
               >
-                {block.text}
-              </h2>
+                <div className="border-b border-border bg-surface-muted/60 px-5 py-4">
+                  <h2
+                    id={id}
+                    className="scroll-mt-24 text-xl font-extrabold tracking-tight text-balance text-text-primary"
+                  >
+                    {block.text}
+                  </h2>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    {stats.count} question{stats.count === 1 ? "" : "s"}
+                    {stats.marks > 0 &&
+                      ` · ${stats.marks} mark${stats.marks === 1 ? "" : "s"}`}
+                    {" · tap a question to reveal its answer"}
+                  </p>
+                </div>
+              </div>
             );
           }
           case "paragraph":
@@ -165,28 +214,67 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 <RichText text={block.text} />
               </aside>
             );
-          case "qa":
+          case "qa": {
+            // Independent <details> accordion per question: only the question
+            // is visible until tapped; the answer expands with a smooth
+            // height + fade animation. Native <details> needs no client JS,
+            // so the answer stays in the HTML (SEO-friendly).
+            // Numbering restarts per section; a trailing "(N marks)"
+            // becomes a pill badge instead of question text.
+            const num = qaNumberAt(i);
+            const { text: questionText, marks } = splitMarks(block.question);
             return (
-              <div
+              <details
                 key={i}
-                className="rounded-md border border-border bg-surface p-5"
+                className="group rounded-md border border-border bg-surface px-5 py-4 transition-colors duration-300 ease-in-out open:border-accent/60 open:bg-surface-muted open:shadow-sm motion-reduce:transition-none"
               >
-                <p className="font-bold text-text-primary">
-                  Q. <RichText text={block.question} />
-                </p>
-                <p className="mt-2 text-[15px] leading-[1.6] text-text-secondary">
-                  <strong className="font-semibold text-text-primary">
-                    A.{" "}
-                  </strong>
-                  <RichText text={block.answer} />
-                </p>
-                {block.demo && (
-                  <p className="mt-2 text-[13px] text-text-muted">
-                    Demonstration example — illustrates the answer format.
-                  </p>
-                )}
-              </div>
+                <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <span className="flex min-h-[28px] items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-brand-navy text-sm font-bold text-brand-white transition-colors duration-300 group-open:bg-accent group-open:text-on-accent motion-reduce:transition-none"
+                    >
+                      {num}
+                    </span>
+                    <span className="flex-1 font-semibold text-text-primary">
+                      <RichText text={questionText} />
+                    </span>
+                    {marks !== null && (
+                      <span className="shrink-0 rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-text-secondary">
+                        {marks} mark{marks === 1 ? "" : "s"}
+                      </span>
+                    )}
+                    <span
+                      aria-hidden="true"
+                      className="shrink-0 text-xl leading-none font-light text-accent transition-transform duration-300 ease-in-out group-open:rotate-45 motion-reduce:transition-none"
+                    >
+                      +
+                    </span>
+                  </span>
+                  <span className="mt-1 block pl-10 text-[13px] text-text-muted group-open:hidden">
+                    Tap to reveal answer
+                  </span>
+                </summary>
+                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
+                  <div className="overflow-hidden opacity-0 transition-opacity delay-75 duration-300 group-open:opacity-100 motion-reduce:transition-none">
+                    <div className="mt-3 ml-10 border-l-2 border-accent pl-4">
+                      <p className="text-[15px] leading-[1.6] text-text-secondary">
+                        <strong className="font-semibold text-text-primary">
+                          A.{" "}
+                        </strong>
+                        <RichText text={block.answer} />
+                      </p>
+                      {block.demo && (
+                        <p className="mt-2 text-[13px] text-text-muted">
+                          Demonstration example — illustrates the answer format.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </details>
             );
+          }
           case "keyPoints":
             return (
               <div

@@ -14,6 +14,7 @@ import {
   getSubjectUniverse,
 } from "@/lib/discovery";
 import { publishedItems } from "@/lib/data/helpers";
+import { splitWorksheets } from "@/lib/content/worksheets";
 import { SITE_URL } from "@/lib/site";
 import { urls } from "@/lib/urls";
 
@@ -83,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Published chapter pages.
+  // Published chapter pages (+ worksheet sub-pages where sections exist).
   for (const { classSlug, subjectSlug, resourceSlug, item } of await getAllPublishedSchoolItems()) {
     if (item.blocks.length === 0) continue;
     push(
@@ -91,6 +92,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       item.updatedAt,
       0.8,
     );
+    for (const ws of splitWorksheets(item.blocks)) {
+      push(
+        urls.worksheetPage(
+          classSlug,
+          subjectSlug,
+          resourceSlug,
+          item.chapterSlug,
+          ws.slug,
+        ),
+        item.updatedAt,
+        0.7,
+      );
+    }
   }
 
   // Discovery selection pages — only steps that list real options.

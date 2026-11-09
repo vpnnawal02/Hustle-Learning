@@ -132,6 +132,16 @@ Everything below maps 1:1 to page components:
 | Syntax | Renders as |
 |---|---|
 | `## Heading` / `### Heading` | Section headings (h2/h3, auto TOC) |
+| `## Worksheet N` | Worksheet section: renders as a header card with auto question + marks counts; Q&A numbering restarts at Q1 below it |
+
+Each `## Worksheet N` section gets its **own page** at
+`/<class>/<subject>/<resource>/<chapter>/worksheet-N` (see
+`lib/content/worksheets.ts`); the chapter page becomes a hub of worksheet
+cards. Slugs derive from the heading number (`Worksheet 2` →
+`worksheet-2`), so never reuse a worksheet number within a file.
+On worksheet pages, questions auto-group into Section A/B/C bands by
+marks (1-mark, 2–3-mark, 4+-mark) with `(n × m = total)` headers — keep
+questions ordered by ascending marks so bands read naturally.
 | Blank-line-separated text | Paragraph |
 | `- item` | Bullet list |
 | `1. item` | Numbered list |
@@ -140,6 +150,7 @@ Everything below maps 1:1 to page components:
 | ` ```formula:Label ` fence | Formula card (JetBrains Mono) |
 | ` ```keys ` fence with `- ` lines | “Key takeaways” panel |
 | `Q: question` (+ optional `{demo}`) newline `A: answer` | Question–answer block; `{demo}` marks demonstration content |
+| `Q: question (N marks)` | Worksheet question: the trailing marks suffix renders as a pill badge and feeds the section's total-marks count |
 | `Q:` / `A:` under `## Frequently asked questions` | Page FAQs (structured data + FAQ section, not article body) |
 
 Worked example (`directory/class-10/notes/science/chemical-reactions-and-equations.mdx`):
