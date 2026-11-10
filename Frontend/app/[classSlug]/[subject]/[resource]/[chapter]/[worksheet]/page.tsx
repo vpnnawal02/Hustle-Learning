@@ -198,7 +198,11 @@ export default async function WorksheetPage({
     .map((s) => ({ title: s.title, href: wsPath(s.slug) }));
   // Question blocks only — the section heading becomes the page header.
   const questionBlocks = ws.blocks.slice(1);
-  const suggestedTime = Math.max(15, Math.ceil(ws.totalMarks * 2));
+  // Exam-paced when marks exist (~2 min/mark), otherwise ~3 min/question.
+  const suggestedTime =
+    ws.totalMarks > 0
+      ? Math.max(15, Math.ceil(ws.totalMarks * 2))
+      : Math.max(15, ws.questionCount * 3);
 
   return (
     <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">

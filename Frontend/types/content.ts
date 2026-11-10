@@ -91,7 +91,8 @@ export type ContentBlock =
   | { type: "table"; head: string[]; rows: string[][] }
   | { type: "formula"; label: string; expression: string }
   | { type: "callout"; tone: "tip" | "note" | "warning"; text: string }
-  | { type: "qa"; question: string; answer: string; demo?: boolean }
+  | { type: "qa"; question: string; answer: string; demo?: boolean; options?: string[] }
+  | { type: "stanza"; label: string; lines: string[] }
   | { type: "keyPoints"; points: string[] };
 
 export interface ChapterResourceItem {

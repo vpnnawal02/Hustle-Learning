@@ -148,6 +148,7 @@ questions ordered by ascending marks so bands read naturally.
 | `\| a \| b \|` + separator row | Table (header + rows) |
 | `> [!TIP] text` / `[!NOTE]` / `[!WARNING]` | Tip / note / warning callout |
 | ` ```formula:Label ` fence | Formula card (JetBrains Mono) |
+| ` ```stanza ` fence with verse lines | Poem stanza card (centred italic verse) |
 | ` ```keys ` fence with `- ` lines | “Key takeaways” panel |
 | `Q: question` (+ optional `{demo}`) newline `A: answer` | Question–answer block; `{demo}` marks demonstration content |
 | `Q: question (N marks)` | Worksheet question: the trailing marks suffix renders as a pill badge and feeds the section's total-marks count |

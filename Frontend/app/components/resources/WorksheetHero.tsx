@@ -28,16 +28,19 @@ export default function WorksheetHero({
       icon: FileText,
       value: String(questionCount),
       label: `Question${questionCount === 1 ? "" : "s"}`,
+      show: true,
     },
     {
       icon: Trophy,
       value: String(totalMarks),
       label: `Mark${totalMarks === 1 ? "" : "s"}`,
+      show: totalMarks > 0,
     },
     {
       icon: Clock3,
       value: String(minutes),
       label: "Minutes",
+      show: true,
     },
   ];
   return (
@@ -65,7 +68,9 @@ export default function WorksheetHero({
           {kicker}
         </p>
         <dl className="mt-5 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
-          {stats.map((s) => (
+          {stats
+            .filter((s) => s.show)
+            .map((s) => (
             <div key={s.label} className="flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent/15 text-accent">
                 <s.icon size={18} strokeWidth={2.25} aria-hidden="true" />

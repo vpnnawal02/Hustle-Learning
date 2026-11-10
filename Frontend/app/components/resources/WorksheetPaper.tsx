@@ -45,6 +45,15 @@ export default function WorksheetPaper({
                     </span>
                     <span className="flex-1 text-[15px] leading-[1.65] font-medium text-text-primary">
                       <RichText text={q.question} />
+                      {q.options && q.options.length > 0 && (
+                        <ul className="mt-2 grid gap-x-8 gap-y-1 font-normal text-text-secondary sm:grid-cols-2">
+                          {q.options.map((opt, oi) => (
+                            <li key={oi}>
+                              <RichText text={opt} />
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </span>
                     {q.marks !== null && (
                       <span className="mt-0.5 shrink-0 rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-text-secondary">

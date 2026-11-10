@@ -153,7 +153,7 @@
           "slug": "applications-of-trigonometry",
           "title": "Some Applications of Trigonometry",
           "number": 9,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "circles",
@@ -183,7 +183,7 @@
           "slug": "probability",
           "title": "Probability",
           "number": 14,
-          "status": "draft"
+          "status": "published"
         }
       ]
     },
@@ -192,7 +192,7 @@
       "name": "English",
       "tagline": "First Flight, Footprints Without Feet and grammar.",
       "description": "Class 10 English resources — prose, poetry, supplementary reader chapters, writing skills and grammar practice.",
-      "status": "draft",
+      "status": "published",
       "chapters": [
         {
           "slug": "a-letter-to-god",
@@ -211,6 +211,66 @@
           "title": "Two Stories About Flying",
           "number": 3,
           "status": "draft"
+        },
+        {
+          "slug": "dust-of-snow",
+          "title": "Dust of Snow",
+          "number": 4,
+          "status": "published"
+        },
+        {
+          "slug": "fire-and-ice",
+          "title": "Fire and Ice",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "tiger-in-the-zoo",
+          "title": "A Tiger in the Zoo",
+          "number": 6,
+          "status": "published"
+        },
+        {
+          "slug": "how-to-tell-wild-animals",
+          "title": "How to Tell Wild Animals",
+          "number": 7,
+          "status": "published"
+        },
+        {
+          "slug": "the-ball-poem",
+          "title": "The Ball Poem",
+          "number": 8,
+          "status": "published"
+        },
+        {
+          "slug": "amanda",
+          "title": "Amanda!",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "fog",
+          "title": "Fog",
+          "number": 10,
+          "status": "published"
+        },
+        {
+          "slug": "the-tale-of-custard-the-dragon",
+          "title": "The Tale of Custard the Dragon",
+          "number": 11,
+          "status": "published"
+        },
+        {
+          "slug": "for-anne-gregory",
+          "title": "For Anne Gregory",
+          "number": 12,
+          "status": "published"
+        },
+        {
+          "slug": "the-trees",
+          "title": "The Trees",
+          "number": 13,
+          "status": "published"
         }
       ]
     },

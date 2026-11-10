@@ -69,6 +69,7 @@ export interface BandQuestion {
   answer: string;
   marks: number | null;
   demo?: boolean;
+  options?: string[];
 }
 
 export interface BandGroup {
@@ -80,49 +81,88 @@ export interface BandGroup {
   items: BandQuestion[];
 }
 
+function suffixFor(items: BandQuestion[]): string {
+  const total = items.reduce((s, q) => s + (q.marks ?? 0), 0);
+  const uniform =
+    items.length > 0 &&
+    items.every((q) => q.marks !== null && q.marks === items[0].marks);
+  if (uniform && items[0].marks !== null)
+    return `(${items.length} × ${items[0].marks} = ${total} Marks)`;
+  if (total > 0) return `(${items.length} questions · ${total} Marks)`;
+  return `(${items.length} questions)`;
+}
+
+function toBandQuestion(b: Extract<ContentBlock, { type: "qa" }>): BandQuestion {
+  return {
+    question: splitMarks(b.question).text,
+    answer: b.answer,
+    marks: splitMarks(b.question).marks,
+    ...(b.demo ? { demo: true as const } : {}),
+    ...(b.options && b.options.length > 0 ? { options: b.options } : {}),
+  };
+}
+
 /**
- * Group a worksheet section's questions into exam-paper bands by marks
- * (1-mark → A, 2–3 → B, 4+ → C), preserving question order. Convention:
- * keep worksheet questions ordered by ascending marks.
+ * Group a worksheet section's questions for the exam paper. Explicit
+ * `### Section …` headings win (banner shows the heading text with a
+ * computed marks suffix); otherwise questions auto-group into A/B/C
+ * marks bands. Convention: keep worksheet questions ordered by
+ * ascending marks.
  */
 export function groupWorksheetQuestions(
   blocks: ContentBlock[],
 ): BandGroup[] {
   const groups: BandGroup[] = [];
-  for (const b of blocks) {
-    if (b.type !== "qa") continue;
-    const marks = splitMarks(b.question).marks;
-    const band = bandOf(marks);
-    let group = groups.find((g) => g.band === band);
-    if (!group) {
-      group = {
-        band,
-        letter: String.fromCharCode(65 + groups.length),
-        title: BAND_TITLES[band],
-        suffix: "",
-        items: [],
-      };
-      groups.push(group);
+  const letter = () => String.fromCharCode(65 + groups.length);
+  const pushAuto = (items: BandQuestion[]) => {
+    const byBand = new Map<MarksBand, BandQuestion[]>();
+    for (const q of items) {
+      const band = bandOf(q.marks);
+      if (!byBand.has(band)) byBand.set(band, []);
+      byBand.get(band)?.push(q);
     }
-    group.items.push({
-      question: splitMarks(b.question).text,
-      answer: b.answer,
-      marks,
-      ...(b.demo ? { demo: true } : {}),
+    for (const [band, list] of byBand) {
+      groups.push({
+        band,
+        letter: letter(),
+        title: BAND_TITLES[band],
+        suffix: suffixFor(list),
+        items: list,
+      });
+    }
+  };
+  let pending: BandQuestion[] = [];
+  let explicitTitle: string | null = null;
+  const flushExplicit = () => {
+    if (explicitTitle === null) return;
+    const items = pending;
+    pending = [];
+    const firstMarks = items.length > 0 ? items[0].marks : null;
+    groups.push({
+      band: items.length > 0 ? bandOf(firstMarks) : "mixed",
+      letter: letter(),
+      title: explicitTitle,
+      suffix: suffixFor(items),
+      items,
     });
+    explicitTitle = null;
+  };
+  for (const b of blocks) {
+    if (b.type === "heading" && b.level === 3) {
+      flushExplicit();
+      // Auto-band any questions that preceded the first explicit section.
+      if (groups.length === 0 && pending.length > 0) {
+        const stray = pending;
+        pending = [];
+        pushAuto(stray);
+      }
+      explicitTitle = b.text.trim();
+    } else if (b.type === "qa") {
+      pending.push(toBandQuestion(b));
+    }
   }
-  for (const g of groups) {
-    const total = g.items.reduce((s, q) => s + (q.marks ?? 0), 0);
-    const uniform =
-      g.items.length > 0 &&
-      g.items.every((q) => q.marks !== null && q.marks === g.items[0].marks);
-    g.suffix =
-      uniform && g.items[0].marks !== null
-        ? `(${g.items.length} × ${g.items[0].marks} = ${total} Marks)`
-        : total > 0
-          ? `(${g.items.length} questions · ${total} Marks)`
-          : `(${g.items.length} questions)`;
-  }
+  if (explicitTitle !== null) flushExplicit();
+  else pushAuto(pending);
   return groups;
 }
 

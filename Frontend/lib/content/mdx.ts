@@ -94,7 +94,7 @@ export function parseMdx(raw: string): ParsedMdx {
       continue;
     }
 
-    // Fenced blocks: ```formula:Label and ```keys.
+    // Fenced blocks: ```formula:Label, ```keys, and ```stanza.
     if (line.startsWith("```")) {
       const info = line.slice(3).trim();
       const inner: string[] = [];
@@ -104,7 +104,14 @@ export function parseMdx(raw: string): ParsedMdx {
         i += 1;
       }
       i += 1; // closing fence
-      if (info.toLowerCase().startsWith("formula")) {
+      if (info.toLowerCase().startsWith("stanza")) {
+        const label = info.slice("stanza".length).replace(/^[:\s]+/, "").trim();
+        blocks.push({
+          type: "stanza",
+          label,
+          lines: inner.map((l) => l.trim()).filter(Boolean),
+        });
+      } else if (info.toLowerCase().startsWith("formula")) {
         const label = info.slice("formula".length).replace(/^[:\s]+/, "").trim() || "Formula";
         blocks.push({
           type: "formula",
@@ -174,7 +181,8 @@ export function parseMdx(raw: string): ParsedMdx {
       }
     }
 
-    // Q&A: Q: ... [{demo}] followed by A: ... (continuation lines joined).
+    // Q&A: Q: ... [{demo}] followed by optional (a)/(b)/... option lines,
+    // then A: ... (continuation lines joined).
     if (line.startsWith("Q: ")) {
       let question = line.slice(3).trim();
       let demo = false;
@@ -183,7 +191,14 @@ export function parseMdx(raw: string): ParsedMdx {
         question = question.slice(0, -"{demo}".length).trim();
       }
       i += 1;
-      // Blank lines may separate Q: from A: — skip them.
+      // Blank lines may separate Q: from options/A: — skip them.
+      while (i < lines.length && lines[i].trim() === "") i += 1;
+      // MCQ options: consecutive "(a) text" lines before the answer.
+      const options: string[] = [];
+      while (i < lines.length && /^\([a-zA-Z]\)\s+\S/.test(lines[i].trim())) {
+        options.push(lines[i].trim());
+        i += 1;
+      }
       while (i < lines.length && lines[i].trim() === "") i += 1;
       const answerLines: string[] = [];
       if (i < lines.length && lines[i].startsWith("A: ")) {
@@ -205,6 +220,8 @@ export function parseMdx(raw: string): ParsedMdx {
         answer: answerLines.join(" "),
       };
       if (demo) (qa as { demo?: boolean }).demo = true;
+      if (options.length > 0)
+        (qa as { options?: string[] }).options = options;
       if (inFaqSection) {
         faqs.push({ question, answer: answerLines.join(" ") });
       } else {

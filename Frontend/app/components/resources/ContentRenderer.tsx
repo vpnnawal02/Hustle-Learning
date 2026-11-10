@@ -238,6 +238,15 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                     </span>
                     <span className="flex-1 font-semibold text-text-primary">
                       <RichText text={questionText} />
+                      {block.options && block.options.length > 0 && (
+                        <span className="mt-2 grid gap-1 font-normal text-text-secondary sm:grid-cols-2">
+                          {block.options.map((opt, oi) => (
+                            <span key={oi}>
+                              <RichText text={opt} />
+                            </span>
+                          ))}
+                        </span>
+                      )}
                     </span>
                     {marks !== null && (
                       <span className="shrink-0 rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-text-secondary">
@@ -275,8 +284,27 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
               </details>
             );
           }
-          case "keyPoints":
+          case "stanza":
             return (
+              <figure
+                key={i}
+                className="rounded-md border border-border bg-surface px-5 py-6 sm:px-8"
+              >
+                {block.label && (
+                  <figcaption className="mb-3 text-center text-[13px] font-semibold tracking-wide text-text-muted uppercase">
+                    {block.label}
+                  </figcaption>
+                )}
+                <blockquote className="mx-auto max-w-[60ch] text-center text-[17px] leading-[1.9] text-text-primary">
+                  {block.lines.map((ln, j) => (
+                    <span key={j} className="block italic">
+                      <RichText text={ln} />
+                    </span>
+                  ))}
+                </blockquote>
+              </figure>
+            );
+          case "keyPoints":            return (
               <div
                 key={i}
                 className="rounded-md bg-brand-navy p-5 text-brand-white sm:p-6"
