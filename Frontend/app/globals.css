@@ -223,6 +223,70 @@ html {
   transform: none;
 }
 
+/* ---- Who-we-are accents: underline draw, gentle float, sparkle ---- */
+.draw-underline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.reveal-visible .draw-underline {
+  animation: underline-draw 0.9s ease-out 0.4s forwards;
+}
+@keyframes underline-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(6deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(6deg);
+  }
+}
+@keyframes float-card {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+.animate-float-y {
+  animation: float-y 7s ease-in-out infinite;
+}
+.animate-float-card {
+  animation: float-card 6s ease-in-out infinite;
+}
+.animate-twinkle {
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
 /* ---- Hero entrance (staggered, non-blocking) ---- */
 @keyframes hero-rise {
   from {

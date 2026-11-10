@@ -1,12 +1,79 @@
 import type { ContentBlock } from "@/types/content";
-import { groupWorksheetQuestions } from "@/lib/content/worksheets";
+import {
+  groupWorksheetQuestions,
+  type BandQuestion,
+} from "@/lib/content/worksheets";
 import RichText from "./RichText";
 
 /**
- * The exam paper itself: banded sections (A/B/C by marks) with hairline
- * question rows. Tapping a row reveals its answer — the rest stays a
- * clean, printable-looking paper.
+ * The exam paper itself: questions in source order with hairline rows.
+ * Questions that carry an answer expand on tap; answer-less questions
+ * render as static text. Explicit `### Section …` headings render
+ * banners; nothing invented is added.
  */
+function QuestionRow({
+  q,
+  num,
+}: {
+  q: BandQuestion;
+  num: number;
+}) {
+  const stem = (
+    <>
+      <span
+        aria-hidden="true"
+        className="w-7 shrink-0 pt-px text-base font-bold text-text-primary"
+      >
+        {num}.
+      </span>
+      <span className="flex-1 text-[15px] leading-[1.65] font-medium text-text-primary">
+        <RichText text={q.question} />
+        {q.options && q.options.length > 0 && (
+          <ul className="mt-2 grid gap-x-8 gap-y-1 font-normal text-text-secondary sm:grid-cols-2">
+            {q.options.map((opt, oi) => (
+              <li key={oi}>
+                <RichText text={opt} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </span>
+    </>
+  );
+  if (q.answer.trim().length === 0) {
+    return (
+      <div className="flex items-start gap-3 border-b border-border py-4 last:border-0">
+        {stem}
+      </div>
+    );
+  }
+  return (
+    <details key={num} className="group border-b border-border last:border-0">
+      <summary className="flex cursor-pointer list-none items-start gap-3 py-4 [&::-webkit-details-marker]:hidden">
+        {stem}
+        <span
+          aria-hidden="true"
+          className="mt-0.5 shrink-0 text-lg leading-none font-light text-text-muted transition-transform duration-300 ease-in-out group-open:rotate-45 group-open:text-accent motion-reduce:transition-none"
+        >
+          +
+        </span>
+      </summary>
+      <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
+        <div className="overflow-hidden opacity-0 transition-opacity delay-75 duration-300 group-open:opacity-100 motion-reduce:transition-none">
+          <div className="mt-1 mb-4 ml-10 border-l-2 border-accent pl-4">
+            <p className="text-[15px] leading-[1.65] text-text-secondary">
+              <strong className="font-semibold text-text-primary">
+                Answer:{" "}
+              </strong>
+              <RichText text={q.answer} />
+            </p>
+          </div>
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export default function WorksheetPaper({
   blocks,
 }: {
@@ -21,74 +88,24 @@ export default function WorksheetPaper({
           .slice(0, gi)
           .reduce((s, x) => s + x.items.length, 0);
         return (
-          <section key={g.letter} aria-label={`Section ${g.letter}`} className="px-5 py-6 sm:px-8">
-          <h2 className="rounded-md border border-accent/40 bg-accent/15 px-5 py-3 text-base font-bold text-text-primary sm:text-lg">
-            Section {g.letter} – {g.title}{" "}
-            <span className="font-semibold whitespace-nowrap text-text-secondary">
-              {g.suffix}
-            </span>
-          </h2>
-          <div className="mt-2">
-            {g.items.map((q, qi) => {
-              const num = start + qi + 1;
-              return (
-                <details
-                  key={num}
-                  className="group border-b border-border last:border-0"
-                >
-                  <summary className="flex cursor-pointer list-none items-start gap-3 py-4 [&::-webkit-details-marker]:hidden">
-                    <span
-                      aria-hidden="true"
-                      className="w-7 shrink-0 pt-px text-base font-bold text-text-primary"
-                    >
-                      {num}.
-                    </span>
-                    <span className="flex-1 text-[15px] leading-[1.65] font-medium text-text-primary">
-                      <RichText text={q.question} />
-                      {q.options && q.options.length > 0 && (
-                        <ul className="mt-2 grid gap-x-8 gap-y-1 font-normal text-text-secondary sm:grid-cols-2">
-                          {q.options.map((opt, oi) => (
-                            <li key={oi}>
-                              <RichText text={opt} />
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </span>
-                    {q.marks !== null && (
-                      <span className="mt-0.5 shrink-0 rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-text-secondary">
-                        {q.marks} mark{q.marks === 1 ? "" : "s"}
-                      </span>
-                    )}
-                    <span
-                      aria-hidden="true"
-                      className="mt-0.5 shrink-0 text-lg leading-none font-light text-text-muted transition-transform duration-300 ease-in-out group-open:rotate-45 group-open:text-accent motion-reduce:transition-none"
-                    >
-                      +
-                    </span>
-                  </summary>
-                  <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
-                    <div className="overflow-hidden opacity-0 transition-opacity delay-75 duration-300 group-open:opacity-100 motion-reduce:transition-none">
-                      <div className="mt-1 mb-4 ml-10 border-l-2 border-accent pl-4">
-                        <p className="text-[15px] leading-[1.65] text-text-secondary">
-                          <strong className="font-semibold text-text-primary">
-                            Answer:{" "}
-                          </strong>
-                          <RichText text={q.answer} />
-                        </p>
-                        {q.demo && (
-                          <p className="mt-2 text-[13px] text-text-muted">
-                            Demonstration example — illustrates the answer
-                            format.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </details>
-              );
-            })}
-          </div>
+          <section
+            key={`${g.letter}-${gi}`}
+            aria-label={g.explicit ? `Section ${g.letter}` : "Questions"}
+            className="px-5 py-6 sm:px-8"
+          >
+            {g.explicit && (
+              <h2 className="rounded-md border border-accent/40 bg-accent/15 px-5 py-3 text-base font-bold text-text-primary sm:text-lg">
+                Section {g.letter} – {g.title}{" "}
+                <span className="font-semibold whitespace-nowrap text-text-secondary">
+                  {g.suffix}
+                </span>
+              </h2>
+            )}
+            <div className="mt-2">
+              {g.items.map((q, qi) => (
+                <QuestionRow key={start + qi + 1} q={q} num={start + qi + 1} />
+              ))}
+            </div>
           </section>
         );
       })}

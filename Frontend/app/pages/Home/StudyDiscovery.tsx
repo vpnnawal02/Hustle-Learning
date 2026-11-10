@@ -12,25 +12,25 @@ const GROUPS: {
   bar: string;
   slugs: SchoolResourceSlug[];
 }[] = [
-  {
-    title: "Learn",
-    text: "Understand the chapter first.",
-    bar: "navy-900",
-    slugs: ["notes", "ncert-solutions"],
-  },
-  {
-    title: "Practice",
-    text: "Drill questions until they feel easy.",
-    bar: "accent-500",
-    slugs: ["important-questions", "worksheets", "pyqs"],
-  },
-  {
-    title: "Revise",
-    text: "Simulate exams, then compress to formulas.",
-    bar: "tint-science",
-    slugs: ["sample-papers", "formulas"],
-  },
-];
+    {
+      title: "Learn",
+      text: "Understand the chapter first.",
+      bar: "navy-900",
+      slugs: ["notes", "ncert-solutions"],
+    },
+    {
+      title: "Practice",
+      text: "Drill questions until they feel easy.",
+      bar: "accent-500",
+      slugs: ["important-questions", "worksheets", "pyqs"],
+    },
+    {
+      title: "Revise",
+      text: "Simulate exams, then compress to formulas.",
+      bar: "tint-science",
+      slugs: ["sample-papers", "formulas"],
+    },
+  ];
 
 const SUBJECT_TINTS: Record<string, string> = {
   mathematics: "var(--tint-maths)",
@@ -125,142 +125,12 @@ export default async function StudyDiscovery() {
           Notes, solutions and practice papers for CBSE Classes 6 to 10.
         </p>
         <DiscoverySearch index={index} />
-        <p className="mt-3 text-[13px] font-medium text-navy-500">
-          NCERT-aligned. CBSE pattern. Updated for the 2026-27 session.
-          {/* TODO: confirm 2026-27 session currency with the academic team */}
-        </p>
 
         <div className="mt-8">
           <ClassSelector classes={classes} />
         </div>
 
-        <section aria-labelledby="discovery-resources-heading" className="mt-12">
-          <h3
-            id="discovery-resources-heading"
-            className="text-2xl font-semibold tracking-tight text-navy-900"
-          >
-            Study resources
-          </h3>
-          <p className="mt-1.5 text-[15px] leading-[1.55] text-navy-700">
-            Pick a type of material, then choose your class.
-          </p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {GROUPS.map((group) => (
-              <section key={group.title} aria-label={`${group.title} resources`}>
-                <div className="flex items-center gap-3">
-                  <h4 className="text-xs font-medium tracking-[0.04em] text-navy-500 uppercase">
-                    {group.title}
-                  </h4>
-                  <span aria-hidden="true" className="h-px flex-1 bg-rule" />
-                </div>
-                <p className="mt-2 text-sm leading-[1.55] text-navy-700">
-                  {group.text}
-                </p>
-                <ul className="mt-4 flex flex-col gap-3">
-                  {group.slugs.map((slug) => {
-                    const cat = bySlug.get(slug);
-                    if (!cat) return null;
-                    const live = (publishedByResource.get(slug) ?? 0) > 0;
-                    if (!live) {
-                      return (
-                        <li
-                          key={slug}
-                          style={{
-                            borderLeft: `3px solid ${GROUP_BARS[group.bar]}`,
-                          }}
-                          className="rounded-md border border-rule bg-surface p-5"
-                        >
-                          <span className="block text-base font-semibold text-navy-900">
-                            {cat.title}
-                          </span>
-                          <span className="mt-0.5 block truncate text-sm leading-[1.55] text-navy-700">
-                            {cat.blurb}
-                          </span>
-                          <span className="mt-2 inline-block rounded bg-badge-grey px-2 py-1 text-xs font-medium text-navy-500">
-                            Coming soon
-                          </span>
-                        </li>
-                      );
-                    }
-                    return (
-                      <li key={slug}>
-                        <Link
-                          href={urls.resourceHub(cat.slug)}
-                          style={{
-                            borderLeft: `3px solid ${GROUP_BARS[group.bar]}`,
-                          }}
-                          className="group block rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
-                        >
-                          <span className="block text-base font-semibold text-navy-900 group-hover:underline group-hover:underline-offset-4">
-                            {cat.title}
-                          </span>
-                          <span className="mt-0.5 block truncate text-sm leading-[1.55] text-navy-700">
-                            {cat.blurb}
-                          </span>
-                          <span className="mt-2 block text-sm font-semibold text-accent-700">
-                            Browse
-                          </span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </section>
 
-        {popular.length > 0 && (
-          <section aria-labelledby="discovery-popular-heading" className="mt-12">
-            <h3
-              id="discovery-popular-heading"
-              className="text-2xl font-semibold tracking-tight text-navy-900"
-            >
-              Popular chapters
-            </h3>
-            <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {popular.map((p) => {
-                const href = urls.chapterPage(
-                  p.classSlug,
-                  p.subjectSlug,
-                  p.resourceSlug,
-                  p.item.chapterSlug,
-                );
-                const tint =
-                  SUBJECT_TINTS[p.subjectSlug] ?? "var(--navy-900)";
-                const shortTitle =
-                  bySlug.get(p.resourceSlug as SchoolResourceSlug)
-                    ?.shortTitle ?? p.resourceSlug;
-                return (
-                  <li key={href} className="min-w-0">
-                    <Link
-                      href={href}
-                      style={{
-                        borderLeft: `3px solid ${tint}`,
-                        background: `color-mix(in srgb, ${tint} 6%, transparent)`,
-                      }}
-                      className="group block h-full rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
-                    >
-                      <span className="block text-lg font-semibold tracking-tight text-navy-900 group-hover:underline">
-                        {p.item.title}
-                      </span>
-                      <span className="mt-1.5 block text-[13px] font-medium text-navy-500">
-                        {p.classSlug.replace("class-", "Class ")} /{" "}
-                        {subjectName.get(
-                          `${p.classSlug}/${p.subjectSlug}`,
-                        ) ?? p.subjectSlug}{" "}
-                        / {shortTitle}
-                      </span>
-                      <span className="mt-2 block text-sm font-semibold text-accent-700">
-                        Open
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        )}
 
         <section aria-labelledby="discovery-exams-heading" className="mt-12">
           <h3

@@ -218,11 +218,38 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
             // Independent <details> accordion per question: only the question
             // is visible until tapped; the answer expands with a smooth
             // height + fade animation. Native <details> needs no client JS,
-            // so the answer stays in the HTML (SEO-friendly).
-            // Numbering restarts per section; a trailing "(N marks)"
-            // becomes a pill badge instead of question text.
+            // so the answer stays in the HTML (SEO-friendly). Questions
+            // render verbatim (including source marks); answer-less
+            // questions render as static text with no accordion.
+            // Numbering restarts after every h2.
             const num = qaNumberAt(i);
-            const { text: questionText, marks } = splitMarks(block.question);
+            if (block.answer.trim().length === 0) {
+              return (
+                <div
+                  key={i}
+                  className="rounded-md border border-border bg-surface px-5 py-4"
+                >
+                  <p className="font-semibold text-text-primary">
+                    <span
+                      aria-hidden="true"
+                      className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-sm bg-brand-navy text-sm font-bold text-brand-white"
+                    >
+                      {num}
+                    </span>
+                    <RichText text={block.question} />
+                    {block.options && block.options.length > 0 && (
+                      <span className="mt-2 grid gap-1 font-normal text-text-secondary sm:grid-cols-2">
+                        {block.options.map((opt, oi) => (
+                          <span key={oi}>
+                            <RichText text={opt} />
+                          </span>
+                        ))}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              );
+            }
             return (
               <details
                 key={i}
@@ -237,7 +264,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                       {num}
                     </span>
                     <span className="flex-1 font-semibold text-text-primary">
-                      <RichText text={questionText} />
+                      <RichText text={block.question} />
                       {block.options && block.options.length > 0 && (
                         <span className="mt-2 grid gap-1 font-normal text-text-secondary sm:grid-cols-2">
                           {block.options.map((opt, oi) => (
@@ -248,20 +275,12 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                         </span>
                       )}
                     </span>
-                    {marks !== null && (
-                      <span className="shrink-0 rounded-sm border border-accent/50 bg-accent/10 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-text-secondary">
-                        {marks} mark{marks === 1 ? "" : "s"}
-                      </span>
-                    )}
                     <span
                       aria-hidden="true"
                       className="shrink-0 text-xl leading-none font-light text-accent transition-transform duration-300 ease-in-out group-open:rotate-45 motion-reduce:transition-none"
                     >
                       +
                     </span>
-                  </span>
-                  <span className="mt-1 block pl-10 text-[13px] text-text-muted group-open:hidden">
-                    Tap to reveal answer
                   </span>
                 </summary>
                 <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr] motion-reduce:transition-none">

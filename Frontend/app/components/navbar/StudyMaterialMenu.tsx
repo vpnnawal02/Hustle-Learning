@@ -66,13 +66,12 @@ export default function StudyMaterialMenu({
         aria-controls="study-material-panel"
         onClick={() => (open ? onClose(false) : onOpen())}
         onKeyDown={onTriggerKeyDown}
-        className={`relative flex h-12 items-center gap-1.5 rounded px-3 text-[15px] font-medium whitespace-nowrap transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${
-          open
-            ? "bg-surface-muted text-text-primary"
-            : routeActive
-              ? "text-text-primary"
-              : "text-text-secondary"
-        }`}
+        className={`relative flex h-12 items-center gap-1.5 rounded px-3 text-[15px] font-medium whitespace-nowrap transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${open
+          ? "bg-surface-muted text-text-primary"
+          : routeActive
+            ? "text-text-primary"
+            : "text-text-secondary"
+          }`}
       >
         Study Material
         <ChevronDown
@@ -88,7 +87,7 @@ export default function StudyMaterialMenu({
           role="menu"
           aria-label="Study Material"
           onKeyDown={onPanelKeyDown}
-          className="absolute top-[calc(100%+14px)] left-1/2 z-50 max-h-[calc(100dvh-7rem)] w-[880px] max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto rounded-xl border border-border bg-surface"
+          className="absolute top-[calc(100%+16px)] left-1/2 z-50 max-h-[calc(100dvh-7rem)] w-[880px] max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto rounded-xl border border-border bg-surface"
           style={{ boxShadow: "0 12px 32px rgba(20,33,61,0.12)" }}
         >
           <div className="grid grid-cols-[1fr_1fr_1.2fr] gap-0">
@@ -110,16 +109,12 @@ export default function StudyMaterialMenu({
                         role="menuitem"
                         aria-current={active ? "page" : undefined}
                         onClick={() => onClose(false)}
-                        className={`flex items-center justify-between rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent hover:bg-surface-muted ${
-                          active
-                            ? "border-accent text-text-primary"
-                            : "text-text-primary"
-                        }`}
+                        className={`flex items-center justify-between border-b border-black/15 bg-surface px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent  ${active
+                          ? "border-accent text-text-primary"
+                          : "text-text-primary"
+                          }`}
                       >
                         {c.label}
-                        <span aria-hidden="true" className="text-accent">
-                          →
-                        </span>
                       </Link>
                     </li>
                   );
@@ -145,11 +140,10 @@ export default function StudyMaterialMenu({
                         role="menuitem"
                         aria-current={active ? "page" : undefined}
                         onClick={() => onClose(false)}
-                        className={`block rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-surface hover:text-text-primary ${
-                          active
-                            ? "text-text-primary underline decoration-accent decoration-2 underline-offset-4"
-                            : "text-text-secondary"
-                        }`}
+                        className={`flex items-center justify-between border-b border-black/15  px-4 py-2.5 text-sm font-semibold transition-colors hover:border-accent  ${active
+                          ? "border-accent text-text-primary"
+                          : "text-text-primary"
+                          }`}
                       >
                         {link.label}
                       </Link>
@@ -173,11 +167,10 @@ export default function StudyMaterialMenu({
                   return (
                     <div
                       key={exam.slug}
-                      className={`rounded-lg border p-4 transition-colors ${
-                        active
-                          ? "border-accent bg-surface-muted/60"
-                          : "border-border bg-surface-muted/40 hover:border-accent/60"
-                      }`}
+                      className={`rounded-lg border p-4 transition-colors ${active
+                        ? "border-accent bg-surface-muted/60"
+                        : "border-border bg-surface-muted/40 hover:border-accent/60"
+                        }`}
                     >
                       <Link
                         href={exam.href}
@@ -191,20 +184,7 @@ export default function StudyMaterialMenu({
                       <p className="mt-1 text-[13px] leading-snug text-text-secondary">
                         {exam.description}
                       </p>
-                      <ul className="mt-2 flex flex-wrap gap-1.5">
-                        {exam.subjects.map((s) => (
-                          <li key={s.slug}>
-                            <Link
-                              href={s.href}
-                              role="menuitem"
-                              onClick={() => onClose(false)}
-                              className="inline-flex h-8 items-center rounded border border-border bg-surface px-3 text-[13px] font-medium text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
-                            >
-                              {s.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
+
                     </div>
                   );
                 })}

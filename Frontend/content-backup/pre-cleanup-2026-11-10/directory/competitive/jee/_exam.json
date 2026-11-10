@@ -1,0 +1,95 @@
+{
+  "slug": "jee",
+  "name": "JEE",
+  "fullName": "Joint Entrance Examination",
+  "tagline": "Engineering entrance prep: Physics, Chemistry, Maths.",
+  "description": "JEE Main + Advanced preparation — chapter-wise notes, previous year questions, practice questions, mock tests, formula sheets and revision material for Physics, Chemistry and Mathematics.",
+  "status": "published",
+  "subjects": [
+    {
+      "slug": "physics",
+      "name": "Physics",
+      "tagline": "Mechanics to modern physics.",
+      "description": "JEE Physics — mechanics, electrodynamics, optics and modern physics with PYQs and formula-first revision.",
+      "status": "published",
+      "chapters": [
+        { "slug": "kinematics", "title": "Kinematics", "status": "published" },
+        { "slug": "laws-of-motion", "title": "Laws of Motion", "status": "draft" },
+        { "slug": "work-energy-power", "title": "Work, Energy and Power", "status": "draft" },
+        { "slug": "electrostatics", "title": "Electrostatics", "status": "draft" },
+        { "slug": "current-electricity", "title": "Current Electricity", "status": "draft" },
+        { "slug": "ray-optics", "title": "Ray Optics", "status": "draft" }
+      ]
+    },
+    {
+      "slug": "chemistry",
+      "name": "Chemistry",
+      "tagline": "Physical, organic and inorganic.",
+      "description": "JEE Chemistry — mole concept, thermodynamics, GOC, coordination compounds and more with NCERT-mapped revision.",
+      "status": "published",
+      "chapters": [
+        { "slug": "mole-concept", "title": "Mole Concept", "status": "draft" },
+        { "slug": "chemical-bonding", "title": "Chemical Bonding", "status": "draft" },
+        { "slug": "thermodynamics", "title": "Thermodynamics", "status": "draft" },
+        { "slug": "goc", "title": "General Organic Chemistry", "status": "draft" }
+      ]
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "tagline": "Algebra, calculus and geometry.",
+      "description": "JEE Mathematics — quadratic equations, matrices, limits, differentiation, integration and coordinate geometry.",
+      "status": "published",
+      "chapters": [
+        { "slug": "quadratic-equations", "title": "Quadratic Equations", "status": "draft" },
+        { "slug": "matrices-determinants", "title": "Matrices and Determinants", "status": "draft" },
+        { "slug": "limits-continuity", "title": "Limits and Continuity", "status": "draft" },
+        { "slug": "definite-integration", "title": "Definite Integration", "status": "draft" }
+      ]
+    }
+  ],
+  "resources": [
+    { "slug": "notes", "title": "Notes", "description": "Concept-first chapter notes with key results.", "icon": "NotebookText" },
+    { "slug": "pyqs", "title": "Chapter-wise PYQs", "description": "Previous year questions organised by chapter.", "icon": "Layers" },
+    { "slug": "practice-questions", "title": "Practice Questions", "description": "Graded practice sets from basics to Advanced level.", "icon": "ListChecks" },
+    { "slug": "mock-tests", "title": "Mock Tests", "description": "Timed full-syllabus and part-syllabus tests.", "icon": "FileText" },
+    { "slug": "formula-sheets", "title": "Formula Sheets", "description": "One-page result compilations per chapter.", "icon": "CalendarCheck" },
+    { "slug": "revision", "title": "Revision Material", "description": "Rapid-revision capsules before test day.", "icon": "BookOpenCheck" }
+  ],
+  "sections": [
+    {
+      "heading": "How JEE preparation is structured here",
+      "body": [
+        "JEE rewards depth over coverage: a smaller set of chapters mastered to problem-solving level outscores a full syllabus skimmed once. Our track follows that logic — concept-first notes establish each chapter's results and standard techniques, chapter-wise PYQs show how the examiners actually test them, and graded practice sets bridge the gap between board-level comfort and Advanced-level thinking.",
+        "Physics leans on mechanics as the grammar of everything after it; Chemistry splits into NCERT-anchored Inorganic, logic-driven Organic and practice-heavy Physical; Mathematics compounds — weak algebra quietly caps calculus scores. The subject pages call out these dependencies so study order is never a guess."
+      ]
+    },
+    {
+      "heading": "Using PYQs the JEE way",
+      "body": [
+        "JEE previous year questions are training data, not just assessment. Solve them topic-wise immediately after learning a chapter, tag every mistake by cause — concept gap, calculation slip, misread question — and maintain a formula-and-mistakes register that becomes the entire revision in the last month.",
+        "Mock tests enter once a subject's core is covered: one full paper a week under strict timing, analysed the same day. Score trends across mocks, not single-paper highs, tell you whether preparation is actually compounding."
+      ]
+    },
+    {
+      "heading": "What stays separate from school prep",
+      "body": [
+        "JEE material lives in its own track with its own difficulty curve — it never mixes with Class 6–10 board resources. Board exams reward complete, well-presented answers; JEE rewards speed and option elimination. Students preparing for both should finish board-level mastery of a chapter first, then switch to this track's JEE layer for the same chapter."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Should I prepare for JEE alongside Class 11–12 boards?",
+      "answer": "Yes, and in that order per chapter: board-level concepts first, then JEE problem practice. The two reinforce each other when sequenced this way."
+    },
+    {
+      "question": "How important are mock tests versus chapter practice?",
+      "answer": "Chapter practice builds the weapon; mocks teach you to wield it under time pressure. Roughly 70% chapter sets and PYQs, 30% mocks through most of preparation, shifting toward mocks in the final stretch."
+    },
+    {
+      "question": "Which subject should I start with?",
+      "answer": "Start with your strongest subject to build momentum and a working system — notes, PYQs, mistake register — then transplant that system to the other two."
+    }
+  ]
+}

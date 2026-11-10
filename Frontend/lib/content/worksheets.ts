@@ -50,13 +50,6 @@ export function worksheetDisplayNumber(slugOrTitle: string): string {
 
 export type MarksBand = "one" | "two-three" | "four-plus" | "mixed";
 
-const BAND_TITLES: Record<MarksBand, string> = {
-  one: "Very Short Answer Questions",
-  "two-three": "Short Answer Questions",
-  "four-plus": "Long Answer Questions",
-  mixed: "Questions",
-};
-
 function bandOf(marks: number | null): MarksBand {
   if (marks === null) return "mixed";
   if (marks <= 1) return "one";
@@ -76,8 +69,10 @@ export interface BandGroup {
   band: MarksBand;
   letter: string;
   title: string;
-  /** e.g. "(10 × 1 = 10 Marks)" or "(8 questions · 20 Marks)". */
+  /** e.g. "(10 × 1 = 10 Marks)" or "(8 questions · 20 Marks)". Empty when not explicit. */
   suffix: string;
+  /** True only for author-written `### Section …` headings. Auto groups carry no banner. */
+  explicit: boolean;
   items: BandQuestion[];
 }
 
@@ -115,21 +110,16 @@ export function groupWorksheetQuestions(
   const groups: BandGroup[] = [];
   const letter = () => String.fromCharCode(65 + groups.length);
   const pushAuto = (items: BandQuestion[]) => {
-    const byBand = new Map<MarksBand, BandQuestion[]>();
-    for (const q of items) {
-      const band = bandOf(q.marks);
-      if (!byBand.has(band)) byBand.set(band, []);
-      byBand.get(band)?.push(q);
-    }
-    for (const [band, list] of byBand) {
-      groups.push({
-        band,
-        letter: letter(),
-        title: BAND_TITLES[band],
-        suffix: suffixFor(list),
-        items: list,
-      });
-    }
+    if (items.length === 0) return;
+    // No banner: questions render as one flat numbered list.
+    groups.push({
+      band: "mixed",
+      letter: letter(),
+      title: "",
+      suffix: "",
+      explicit: false,
+      items,
+    });
   };
   let pending: BandQuestion[] = [];
   let explicitTitle: string | null = null;
@@ -143,6 +133,7 @@ export function groupWorksheetQuestions(
       letter: letter(),
       title: explicitTitle,
       suffix: suffixFor(items),
+      explicit: true,
       items,
     });
     explicitTitle = null;

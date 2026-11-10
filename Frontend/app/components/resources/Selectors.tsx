@@ -4,57 +4,121 @@ import { urls } from "@/lib/urls";
 import { LinkGroup } from "./LinkLists";
 
 /**
- * Class selection cards (single anchor each, no nested links):
- * "Class" label, 48px navy numeral, one-line description with reserved
- * height so baselines align, divider, plain-text subject list, and an
- * "Open Class N" text link. Board-year badge for Class 10.
+ * Class selection cards: "CLASS" label, 56px navy numeral, school stage,
+ * book icon, and an arrow over a soft amber quarter-circle. Board-year
+ * pill for Class 10. Hover: lift, accent border, arrow glide, icon tilt.
  */
+function stageFor(slug: string): string {
+  const n = Number(slug.replace("class-", ""));
+  return n <= 8 ? "Middle School" : "High School";
+}
+
+function BookIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    </svg>
+  );
+}
+
+function ArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </svg>
+  );
+}
+
 export function ClassSelector({ classes }: { classes: ClassFile[] }) {
   return (
-    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+    <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
       {classes.map((cls) => {
         const num = cls.slug.replace("class-", "");
+        const stage = stageFor(cls.slug);
         return (
-          <li
-            key={cls.slug}
-            className="min-w-0 last:col-span-2 sm:last:col-span-1"
-          >
+          <li key={cls.slug} className="min-w-0">
+            {/* Compact row on mobile: all five classes visible with minimal scroll. */}
             <Link
               href={urls.classPage(cls.slug)}
-              aria-label={`Open ${cls.label}: ${cls.tagline}`}
-              className="group relative flex h-full flex-col rounded-md border border-rule bg-surface p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(15,27,51,0.08)]"
+              aria-label={`Open ${cls.label} study material — ${stage}`}
+              className="flex items-center gap-4 rounded-lg border border-border bg-surface px-4 py-3 transition-colors active:bg-surface-muted sm:hidden"
             >
               <span
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-accent-500 opacity-0 transition-all duration-150 group-hover:scale-x-100 group-hover:opacity-100"
-              />
-              <span className="flex items-start justify-between gap-2">
-                <span>
-                  <span className="block text-xs font-medium tracking-[0.04em] text-navy-500 uppercase">
-                    Class
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="block text-5xl font-bold tracking-tight text-navy-900"
-                  >
-                    {cls.shortLabel}
-                  </span>
+                className="w-9 shrink-0 text-4xl leading-none font-bold tracking-tight text-text-primary"
+              >
+                {cls.shortLabel}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[15px] font-semibold text-text-primary">
+                  {cls.label}
                 </span>
-                {num === "10" && (
-                  <span className="rounded-sm bg-badge-amber px-2 py-1 text-xs font-semibold text-accent-700">
-                    Board year
-                  </span>
-                )}
+                <span className="block truncate text-sm text-text-secondary">
+                  {stage}
+                </span>
               </span>
-              <span className="mt-3 block min-h-[44px] text-sm leading-[1.55] text-navy-700">
-                <span className="line-clamp-2">{cls.tagline}</span>
+              {num === "10" && (
+                <span className="shrink-0 rounded-full bg-accent/15 px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-text-primary">
+                  Board Year
+                </span>
+              )}
+              <ArrowIcon className="h-5 w-5 shrink-0 text-text-muted" />
+            </Link>
+            {/* Full card on sm and up. */}
+            <Link
+              href={urls.classPage(cls.slug)}
+              aria-label={`Open ${cls.label} study material — ${stage}`}
+              className="group relative hidden h-full min-h-[240px] flex-col overflow-hidden rounded-lg border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/60 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring sm:flex motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              <span className="flex items-start justify-between gap-2">
+                <span className="text-xs font-semibold tracking-[1.2px] text-text-muted uppercase">
+                  Class
+                </span>
+                <span className="flex flex-col items-end gap-2">
+                  {num === "10" && (
+                    <span className="rounded-full bg-accent/15 px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-text-primary">
+                      Board Year
+                    </span>
+                  )}
+                  <BookIcon className="h-7 w-7 text-accent transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none" />
+                </span>
               </span>
-              <span className="mt-3 border-t border-rule pt-3 text-[13px] leading-[1.55] text-navy-500">
-                {cls.subjects.map((s) => s.name).join(", ")}
+              <span
+                aria-hidden="true"
+                className="mt-1 block text-[56px] leading-none font-bold tracking-tight text-text-primary"
+              >
+                {cls.shortLabel}
               </span>
-              <span className="mt-auto pt-3 text-sm font-semibold text-accent-700 group-hover:underline group-hover:underline-offset-4">
-                Open {cls.label}
+              <span className="mt-2 block text-sm text-text-secondary">
+                {stage}
               </span>
+              <span className="mt-auto pt-6">
+                <ArrowIcon className="h-5 w-5 text-text-primary transition-all duration-200 group-hover:translate-x-1.5 group-hover:text-accent motion-reduce:transition-none" />
+              </span>
+              <span
+                aria-hidden="true"
+                className="absolute -right-8 -bottom-8 h-32 w-32 origin-bottom-right rounded-tl-full bg-accent/10 transition-transform duration-300 group-hover:scale-125 motion-reduce:transition-none"
+              />
             </Link>
           </li>
         );

@@ -3,10 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import ContentRenderer from "@/app/components/resources/ContentRenderer";
-import TableOfContents from "@/app/components/resources/TableOfContents";
 import Faq from "@/app/components/resources/Faq";
-import { LinkList } from "@/app/components/resources/LinkLists";
-import { ComingSoon, PrevNextNav } from "@/app/components/resources/Navigation";
+import { ComingSoon } from "@/app/components/resources/Navigation";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
   CLASS_SLUGS,
@@ -22,7 +20,8 @@ import { urls } from "@/lib/urls";
 import {
   splitWorksheets,
   worksheetDisplayNumber,
-} from "@/lib/content/worksheets";import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
+} from "@/lib/content/worksheets";
+import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
 import { chapterCrumbs, classMaterialSubjectCrumbs } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
@@ -130,24 +129,24 @@ export default async function ChapterPage({
   const isWorksheetHub = worksheets.length > 0;
   const crumbs = materialMode
     ? [
-        ...classMaterialSubjectCrumbs(
-          cls.label,
-          cls.slug,
-          cat.title,
-          cat.slug,
-          subject.name,
-        ),
-        { label: chapterTitle },
-      ]
-    : chapterCrumbs(
+      ...classMaterialSubjectCrumbs(
         cls.label,
         cls.slug,
-        subject.name,
-        subject.slug,
         cat.title,
         cat.slug,
-        chapterTitle,
-      );
+        subject.name,
+      ),
+      { label: chapterTitle },
+    ]
+    : chapterCrumbs(
+      cls.label,
+      cls.slug,
+      subject.name,
+      subject.slug,
+      cat.title,
+      cat.slug,
+      chapterTitle,
+    );
 
   // Draft items render a friendly coming-soon state (noindex via metadata).
   if (item.status !== "published" || item.blocks.length === 0) {
@@ -165,27 +164,6 @@ export default async function ChapterPage({
       </div>
     );
   }
-
-  // Prev / next across all published items of this resource file.
-  const file = await getResourceFile(classSlug, effSubjectSlug, effResourceSlug);
-  const published = publishedItems(file);
-  const idx = published.findIndex((i) => i.chapterSlug === chapter);
-  const navFor = (i: (typeof published)[number]) => {
-    const meta = subject.chapters.find((c) => c.slug === i.chapterSlug);
-    return {
-      title: meta?.title ?? i.title,
-      href: urls.chapterPage(classSlug, effSubjectSlug, effResourceSlug, i.chapterSlug),
-    };
-  };
-  const prev = idx > 0 ? navFor(published[idx - 1]) : undefined;
-  const next =
-    idx >= 0 && idx < published.length - 1
-      ? navFor(published[idx + 1])
-      : undefined;
-  const relatedChapters = published
-    .filter((i) => i.chapterSlug !== chapter)
-    .slice(0, 4)
-    .map(navFor);
 
   // Other resource tabs for the same chapter.
   const categories = await getResourceCategories();
@@ -220,13 +198,7 @@ export default async function ChapterPage({
       />
       <Breadcrumbs items={crumbs} />
 
-      <div
-        className={
-          isWorksheetHub
-            ? "mt-6"
-            : "mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]"
-        }
-      >
+      <div className="mt-6">
         <article className="min-w-0">
           <p className="text-sm leading-[1.6] text-text-secondary">
             {cls.label} · {subject.name} · {cat.title}
@@ -271,12 +243,6 @@ export default async function ChapterPage({
             </nav>
           )}
 
-          {!isWorksheetHub && (
-            <div className="mt-6 lg:hidden">
-              <TableOfContents blocks={item.blocks} />
-            </div>
-          )}
-
           {isWorksheetHub ? (
             <div
               className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3"
@@ -305,15 +271,6 @@ export default async function ChapterPage({
                   <span className="mt-1 font-bold text-text-primary">
                     {ws.title}
                   </span>
-                  <span className="text-sm text-text-secondary">
-                    {ws.questionCount} question
-                    {ws.questionCount === 1 ? "" : "s"}
-                    {ws.totalMarks > 0 &&
-                      ` · ${ws.totalMarks} mark${ws.totalMarks === 1 ? "" : "s"}`}
-                  </span>
-                  <span className="mt-2 inline-flex h-8 items-center rounded-sm bg-brand-navy px-3 text-sm font-semibold text-white transition-colors duration-200 group-hover:bg-accent group-hover:text-on-accent">
-                    Start →
-                  </span>
                 </Link>
               ))}
             </div>
@@ -323,51 +280,10 @@ export default async function ChapterPage({
             </div>
           )}
 
-          {!isWorksheetHub && <PrevNextNav prev={prev} next={next} />}
-
-          {!isWorksheetHub && relatedChapters.length > 0 && (
-            <>
-              <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
-                More {subject.name} {cat.shortTitle.toLowerCase()}
-              </h2>
-              <div className="mt-4">
-                <LinkList
-                  items={relatedChapters.map((r) => ({
-                    title: r.title,
-                    href: r.href,
-                  }))}
-                />
-              </div>
-            </>
-          )}
-
           {!isWorksheetHub && (
             <Faq faqs={item.faqs ?? []} structured={(item.faqs ?? []).length > 0} />
           )}
         </article>
-
-        {!isWorksheetHub && (
-          <aside className="hidden lg:block">
-            <div className="sticky top-24 flex flex-col gap-4">
-              <TableOfContents blocks={item.blocks} />
-              <div className="rounded-lg border border-border bg-surface p-5">
-                <p className="text-sm font-bold text-text-primary">
-                  Need personal help?
-                </p>
-                <p className="mt-1 text-sm leading-[1.55] text-text-secondary">
-                  Our counsellor will call you back on WhatsApp with the right
-                  plan.
-                </p>
-                <Link
-                  href="/#hero-enquiry"
-                  className="mt-3 inline-flex h-11 w-full items-center justify-center rounded bg-accent px-5 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-                >
-                  Get a free callback
-                </Link>
-              </div>
-            </div>
-          </aside>
-        )}
       </div>
     </div>
   );

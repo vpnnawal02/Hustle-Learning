@@ -1,0 +1,430 @@
+{
+  "slug": "class-10",
+  "label": "Class 10",
+  "shortLabel": "10",
+  "tagline": "Board exam preparation for CBSE Class 10.",
+  "description": "Structured CBSE Class 10 resources — NCERT solutions, chapter-wise notes, important questions, sample papers, previous year questions, worksheets and formula sheets for every subject.",
+  "board": "CBSE · NCERT",
+  "status": "published",
+  "subjects": [
+    {
+      "slug": "science",
+      "name": "Science",
+      "tagline": "Physics, Chemistry and Biology mapped to NCERT.",
+      "description": "Class 10 Science covers chemical reactions, life processes, light, electricity and more. Find NCERT solutions, notes, important questions and revision material for every chapter.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "chemical-reactions-and-equations",
+          "title": "Chemical Reactions and Equations",
+          "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "acids-bases-and-salts",
+          "title": "Acids, Bases and Salts",
+          "number": 2,
+          "status": "published"
+        },
+        {
+          "slug": "metals-and-non-metals",
+          "title": "Metals and Non-metals",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "carbon-and-its-compounds",
+          "title": "Carbon and Its Compounds",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "life-processes",
+          "title": "Life Processes",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "control-and-coordination",
+          "title": "Control and Coordination",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "how-do-organisms-reproduce",
+          "title": "How Do Organisms Reproduce?",
+          "number": 7,
+          "status": "draft"
+        },
+        {
+          "slug": "heredity",
+          "title": "Heredity",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "light-reflection-and-refraction",
+          "title": "Light: Reflection and Refraction",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "human-eye-and-colourful-world",
+          "title": "The Human Eye and the Colourful World",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "electricity",
+          "title": "Electricity",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "magnetic-effects-of-electric-current",
+          "title": "Magnetic Effects of Electric Current",
+          "number": 12,
+          "status": "draft"
+        },
+        {
+          "slug": "our-environment",
+          "title": "Our Environment",
+          "number": 13,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "slug": "mathematics",
+      "name": "Mathematics",
+      "tagline": "Algebra, geometry, trigonometry and statistics.",
+      "description": "Class 10 Mathematics resources — from Real Numbers to Probability — with notes, important questions, formulas and solved examples for every chapter.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "real-numbers",
+          "title": "Real Numbers",
+          "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "polynomials",
+          "title": "Polynomials",
+          "number": 2,
+          "status": "published"
+        },
+        {
+          "slug": "pair-of-linear-equations",
+          "title": "Pair of Linear Equations in Two Variables",
+          "number": 3,
+          "status": "published"
+        },
+        {
+          "slug": "quadratic-equations",
+          "title": "Quadratic Equations",
+          "number": 4,
+          "status": "published"
+        },
+        {
+          "slug": "arithmetic-progressions",
+          "title": "Arithmetic Progressions",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "triangles",
+          "title": "Triangles",
+          "number": 6,
+          "status": "draft"
+        },
+        {
+          "slug": "coordinate-geometry",
+          "title": "Coordinate Geometry",
+          "number": 7,
+          "status": "published"
+        },
+        {
+          "slug": "introduction-to-trigonometry",
+          "title": "Introduction to Trigonometry",
+          "number": 8,
+          "status": "draft"
+        },
+        {
+          "slug": "applications-of-trigonometry",
+          "title": "Some Applications of Trigonometry",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "circles",
+          "title": "Circles",
+          "number": 10,
+          "status": "draft"
+        },
+        {
+          "slug": "areas-related-to-circles",
+          "title": "Areas Related to Circles",
+          "number": 11,
+          "status": "draft"
+        },
+        {
+          "slug": "surface-areas-and-volumes",
+          "title": "Surface Areas and Volumes",
+          "number": 12,
+          "status": "draft"
+        },
+        {
+          "slug": "statistics",
+          "title": "Statistics",
+          "number": 13,
+          "status": "draft"
+        },
+        {
+          "slug": "probability",
+          "title": "Probability",
+          "number": 14,
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "slug": "english",
+      "name": "English",
+      "tagline": "First Flight, Footprints Without Feet and grammar.",
+      "description": "Class 10 English resources — prose, poetry, supplementary reader chapters, writing skills and grammar practice.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "a-letter-to-god",
+          "title": "A Letter to God",
+          "number": 1,
+          "status": "draft"
+        },
+        {
+          "slug": "nelson-mandela-long-walk-to-freedom",
+          "title": "Nelson Mandela: Long Walk to Freedom",
+          "number": 2,
+          "status": "draft"
+        },
+        {
+          "slug": "two-stories-about-flying",
+          "title": "Two Stories About Flying",
+          "number": 3,
+          "status": "draft"
+        },
+        {
+          "slug": "dust-of-snow",
+          "title": "Dust of Snow",
+          "number": 4,
+          "status": "published"
+        },
+        {
+          "slug": "fire-and-ice",
+          "title": "Fire and Ice",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "tiger-in-the-zoo",
+          "title": "A Tiger in the Zoo",
+          "number": 6,
+          "status": "published"
+        },
+        {
+          "slug": "how-to-tell-wild-animals",
+          "title": "How to Tell Wild Animals",
+          "number": 7,
+          "status": "published"
+        },
+        {
+          "slug": "the-ball-poem",
+          "title": "The Ball Poem",
+          "number": 8,
+          "status": "published"
+        },
+        {
+          "slug": "amanda",
+          "title": "Amanda!",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "fog",
+          "title": "Fog",
+          "number": 10,
+          "status": "published"
+        },
+        {
+          "slug": "the-tale-of-custard-the-dragon",
+          "title": "The Tale of Custard the Dragon",
+          "number": 11,
+          "status": "published"
+        },
+        {
+          "slug": "for-anne-gregory",
+          "title": "For Anne Gregory",
+          "number": 12,
+          "status": "published"
+        },
+        {
+          "slug": "the-trees",
+          "title": "The Trees",
+          "number": 13,
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "slug": "social-science",
+      "name": "Social Science",
+      "tagline": "History, Geography, Civics and Economics.",
+      "description": "Class 10 Social Science resources — History, Geography, Political Science and Economics chapters with notes and important questions.",
+      "status": "published",
+      "chapters": [
+        {
+          "slug": "rise-of-nationalism-in-europe",
+          "title": "The Rise of Nationalism in Europe",
+          "number": 1,
+          "status": "published"
+        },
+        {
+          "slug": "nationalism-in-india",
+          "title": "Nationalism in India",
+          "number": 2,
+          "status": "published"
+        },
+        {
+          "slug": "the-making-of-a-global-world",
+          "title": "The Making of a Global World",
+          "number": 3,
+          "status": "published"
+        },
+        {
+          "slug": "the-age-of-industrialisation",
+          "title": "The Age of Industrialisation",
+          "number": 4,
+          "status": "draft"
+        },
+        {
+          "slug": "print-culture-and-the-modern-world",
+          "title": "Print Culture and the Modern World",
+          "number": 5,
+          "status": "published"
+        },
+        {
+          "slug": "resources-and-development",
+          "title": "Resources and Development",
+          "number": 6,
+          "status": "published"
+        },
+        {
+          "slug": "forest-and-wildlife-resources",
+          "title": "Forest and Wildlife Resources",
+          "number": 7,
+          "status": "published"
+        },
+        {
+          "slug": "water-resources",
+          "title": "Water Resources",
+          "number": 8,
+          "status": "published"
+        },
+        {
+          "slug": "agriculture",
+          "title": "Agriculture",
+          "number": 9,
+          "status": "published"
+        },
+        {
+          "slug": "minerals-and-energy-resources",
+          "title": "Minerals and Energy Resources",
+          "number": 10,
+          "status": "published"
+        },
+        {
+          "slug": "manufacturing-industries",
+          "title": "Manufacturing Industries",
+          "number": 11,
+          "status": "published"
+        },
+        {
+          "slug": "lifelines-of-national-economy",
+          "title": "Lifelines of National Economy",
+          "number": 12,
+          "status": "draft"
+        },
+        {
+          "slug": "power-sharing",
+          "title": "Power-sharing",
+          "number": 13,
+          "status": "published"
+        },
+        {
+          "slug": "federalism",
+          "title": "Federalism",
+          "number": 14,
+          "status": "published"
+        },
+        {
+          "slug": "gender-religion-and-caste",
+          "title": "Gender, Religion and Caste",
+          "number": 15,
+          "status": "published"
+        },
+        {
+          "slug": "political-parties",
+          "title": "Political Parties",
+          "number": 16,
+          "status": "published"
+        },
+        {
+          "slug": "outcomes-of-democracy",
+          "title": "Outcomes of Democracy",
+          "number": 17,
+          "status": "published"
+        },
+        {
+          "slug": "development",
+          "title": "Development",
+          "number": 18,
+          "status": "published"
+        },
+        {
+          "slug": "sectors-of-the-indian-economy",
+          "title": "Sectors of the Indian Economy",
+          "number": 19,
+          "status": "published"
+        },
+        {
+          "slug": "money-and-credit",
+          "title": "Money and Credit",
+          "number": 20,
+          "status": "published"
+        },
+        {
+          "slug": "globalisation-and-the-indian-economy",
+          "title": "Globalisation and the Indian Economy",
+          "number": 21,
+          "status": "published"
+        },
+        {
+          "slug": "consumer-rights",
+          "title": "Consumer Rights",
+          "number": 22,
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "focus": "Class 10 is the first full board-examination year: the entire syllabus is tested in timed papers, so preparation must shift from chapter completion to answer writing, revision cycles and speed. High-weightage chapters like Chemical Reactions, Life Processes, Light, Electricity, Real Numbers and Trigonometry deserve first-pass mastery, followed by sample papers and previous year questions under exam conditions.",
+  "faqs": [
+    {
+      "question": "How should I plan Class 10 preparation across the year?",
+      "answer": "Finish the syllabus once with notes and NCERT exercises, then run two revision cycles — important questions chapter-wise first, then timed sample papers and previous year papers subject-wise."
+    },
+    {
+      "question": "Which Class 10 subjects need the most practice?",
+      "answer": "Science and Mathematics reward written practice the most: diagrams, derivations, numericals and proofs. Languages reward consistent writing practice and grammar drills."
+    }
+  ]
+}
