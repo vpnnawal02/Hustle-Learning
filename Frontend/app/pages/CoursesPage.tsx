@@ -6,7 +6,7 @@ export default function CoursesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
       <main className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+        <h1 className="text-3xl text-balance sm:text-4xl">
           Batches by class
         </h1>
         <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">

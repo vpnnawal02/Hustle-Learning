@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import Faq from "@/app/components/resources/Faq";
-import CtaBand from "@/app/components/CtaBand";
 import Footer from "@/app/components/Footer";
+import { ResourceIcon } from "@/app/components/resources/icons";
+import { resourceTint } from "@/app/components/resources/resource-tints";
 import ClassSearchBar from "@/app/components/classes/ClassSearchBar";
 import ClassPills from "@/app/components/classes/ClassPills";
-import ResourceTiles from "@/app/components/classes/ResourceTiles";
 import SubjectCards, {
   type SubjectCardData,
 } from "@/app/components/classes/SubjectCards";
-import StudyPlan from "@/app/components/classes/StudyPlan";
-import ClassSidebar from "@/app/components/classes/ClassSidebar";
+import ResourceCards from "@/app/components/resources/ResourceCards";
+import ExamTimeline from "@/app/components/classes/ExamTimeline";
+import CounsellingCard from "@/app/components/classes/CounsellingCard";
 import MobileBar from "@/app/components/classes/MobileBar";
 import {
   CLASS_SLUGS,
@@ -62,137 +62,118 @@ export default async function ClassPage({
   const allClasses = await getClasses();
   const subjects = cls.subjects.filter((s) => s.status !== "archived");
 
-  // Per-subject, per-resource published counts — computed once so no
-  // subject × resource combination is ever rendered twice.
+  // Per-subject published counts — computed once for the subject cards.
   const cards: SubjectCardData[] = [];
   const classTotals = new Map<string, number>();
   for (const subject of subjects) {
     let total = 0;
-    const resources = [];
     for (const cat of categories) {
       const file = await getResourceFile(cls.slug, subject.slug, cat.slug);
       const n = publishedItems(file).length;
       total += n;
       classTotals.set(cat.slug, (classTotals.get(cat.slug) ?? 0) + n);
-      resources.push({
-        slug: cat.slug,
-        shortTitle: cat.shortTitle,
-        icon: cat.icon,
-        count: n,
-      });
     }
     cards.push({
       slug: subject.slug,
       name: subject.name,
-      tagline: subject.tagline,
+      href: urls.subjectPage(cls.slug, subject.slug),
       chapterCount: subject.chapters.length,
       totalPublished: total,
       live: subject.status === "published",
-      resources,
     });
   }
-
-  const readySubjects = [...cards]
-    .filter((c) => c.totalPublished > 0)
-    .sort((a, b) => b.totalPublished - a.totalPublished)
-    .map((c) => ({
-      slug: c.slug,
-      name: c.name,
-      totalPublished: c.totalPublished,
-    }));
 
   const isBoardYear = cls.slug === "class-10";
 
   return (
-    <>
-      <div className="mx-auto w-full max-w-[1200px] flex-1 px-4 pt-10 pb-24 md:px-6 md:pt-14 lg:pb-14">
+    <div className="bg-[#FAFAF8] dark:bg-background">
+      <div className="mx-auto w-full max-w-[var(--container-page)] flex-1 px-4 pt-10 pb-24 md:px-6 md:pt-14 lg:pb-14">
         <Breadcrumbs items={classCrumbs(cls.label)} />
 
-        <h1 className="mt-6 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+        <h1 className="mt-6 max-w-[24ch] text-[32px] leading-[1.15] text-balance text-text-primary sm:text-4xl">
           {cls.label} Study Material
         </h1>
+        <p className="mt-2 text-base text-text-secondary">
+          CBSE · 2026–27 · Updated Nov 2026
+        </p>
 
-        <ClassSearchBar classLabel={cls.label} />
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[300px_minmax(0,1fr)]">
+          <aside aria-label="Search and switch class" className="min-w-0">
+            <div className="flex flex-col gap-6 lg:sticky lg:top-24">
+              <ClassSearchBar classLabel={cls.label} />
 
-        <ClassPills
-          classes={allClasses.map((c) => ({
-            slug: c.slug,
-            label: c.label,
-            shortLabel: c.shortLabel,
-          }))}
-          currentSlug={cls.slug}
-        />
+              <ClassPills
+                classes={allClasses.map((c) => ({
+                  slug: c.slug,
+                  label: c.label,
+                  shortLabel: c.shortLabel,
+                }))}
+                currentSlug={cls.slug}
+              />
+            </div>
+          </aside>
 
-        <div className="mt-12">
-          <section aria-labelledby="resources-heading">
-            <h2
-              id="resources-heading"
-              className="text-2xl font-extrabold tracking-tight text-text-primary"
-            >
-              Explore Learning Resources
-            </h2>
-            <p className="mt-2 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
-              Everything you need to study smarter, practise better, and
-              prepare for your exams.
-            </p>
-            <ResourceTiles
-              classSlug={cls.slug}
-              classLabel={cls.label}
-              tiles={categories.map((cat) => ({
-                slug: cat.slug,
-                title: cat.title,
-                icon: cat.icon,
-                classCount: classTotals.get(cat.slug) ?? 0,
-              }))}
-            />
-          </section>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="min-w-0">
-            <section aria-labelledby="subjects-heading">
+            <section
+              aria-labelledby="subjects-heading"
+            >
               <h2
                 id="subjects-heading"
-                className="text-2xl font-extrabold tracking-tight text-text-primary"
+                className="text-[22px] leading-[1.25] font-semibold tracking-tight text-text-primary sm:text-2xl"
               >
                 Choose your subject
               </h2>
-              <p className="mt-2 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
-                Each card lists what is actually published. Anything still
-                in preparation is marked coming soon — never a dead link.
-              </p>
-              <div id="subjects" className="scroll-mt-24">
-                <SubjectCards classSlug={cls.slug} subjects={cards} />
+                <SubjectCards subjects={cards} />
+            </section>
+
+            <section
+              aria-labelledby="resources-heading"
+              className="mt-12 md:mt-16"
+            >
+              <h2
+                id="resources-heading"
+                className="text-[22px] leading-[1.25] font-semibold tracking-tight text-text-primary sm:text-2xl"
+              >
+                Browse by resource type
+              </h2>
+              <div className="mt-6">
+                <ResourceCards
+                  items={categories.map((cat) => {
+                    const tint = resourceTint(cat.slug);
+                    const n = classTotals.get(cat.slug) ?? 0;
+                    return {
+                      title: cat.title,
+                      blurb:
+                        n > 0
+                          ? `${n} chapter${n === 1 ? "" : "s"} published · ${cat.description}`
+                          : `Coming soon · ${cat.description}`,
+                      href: urls.classMaterial(classSlug, cat.slug),
+                      icon: <ResourceIcon name={cat.icon} size={22} />,
+                      tintText: tint.text,
+                      colorVar: tint.colorVar,
+                    };
+                  })}
+                />
               </div>
             </section>
 
-            <div className="mt-12">
-              <StudyPlan classLabel={cls.label} />
+            {isBoardYear && (
+              <div className="mt-12 md:mt-16">
+                <ExamTimeline />
+              </div>
+            )}
+
+            <div className="mt-12 md:mt-16">
+              <CounsellingCard classLabel={cls.label} />
             </div>
-
-            <Faq
-              faqs={cls.faqs ?? []}
-              heading={`${cls.label}: FAQs`}
-              openFirst
-            />
           </div>
-
-          <aside aria-label={`${cls.label} study sidebar`} className="min-w-0">
-            <ClassSidebar
-              classSlug={cls.slug}
-              classLabel={cls.label}
-              isBoardYear={isBoardYear}
-              readySubjects={readySubjects}
-            />
-          </aside>
         </div>
       </div>
 
-      <CtaBand />
       <div className="pb-16 lg:pb-0">
         <Footer />
       </div>
       <MobileBar classSlug={cls.slug} />
-    </>
+    </div>
   );
 }

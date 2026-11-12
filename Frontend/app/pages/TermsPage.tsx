@@ -2,7 +2,7 @@ export default function TermsPage() {
   return (
     <main className="mx-auto w-full max-w-[860px] px-4 py-10 md:px-6 md:py-14">
       <p className="text-sm text-text-secondary">Legal</p>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-balance text-text-primary sm:text-4xl">
+      <h1 className="mt-2 text-3xl text-balance text-text-primary sm:text-4xl">
         Terms of Use
       </h1>
       <p className="mt-2 text-sm text-text-muted">
@@ -11,7 +11,7 @@ export default function TermsPage() {
 
       <div className="mt-8 flex flex-col gap-6 text-base leading-[1.6] text-text-secondary">
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             1. What Hustle Learning offers
           </h2>
           <p className="mt-2">
@@ -23,7 +23,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             2. Enquiries and callbacks
           </h2>
           <p className="mt-2">
@@ -36,7 +36,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             3. Fair use
           </h2>
           <p className="mt-2">
@@ -48,7 +48,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             4. Fees and batches
           </h2>
           <p className="mt-2">
@@ -60,7 +60,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             5. Honest expectations
           </h2>
           <p className="mt-2">
@@ -71,7 +71,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-sans text-lg font-semibold text-text-primary">
             6. Changes to these terms
           </h2>
           <p className="mt-2">

@@ -204,7 +204,7 @@ export default async function ChapterPage({
             {cls.label} · {subject.name} · {cat.title}
             {chapterMeta ? ` · Chapter ${chapterMeta.number}` : ""}
           </p>
-          <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+          <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
             {item.title}
           </h1>
           {isWorksheetHub ? (

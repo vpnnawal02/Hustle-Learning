@@ -21,7 +21,7 @@ export default async function SearchPage() {
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Search" }]}
       />
-      <h1 className="mt-6 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-6 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         Search study material
       </h1>
       <Suspense

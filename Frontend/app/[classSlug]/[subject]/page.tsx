@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import { ChapterList } from "@/app/components/resources/ChapterList";
 import Faq from "@/app/components/resources/Faq";
-import { LinkList } from "@/app/components/resources/LinkLists";
+import ResourceCards from "@/app/components/resources/ResourceCards";
+import { ResourceIcon } from "@/app/components/resources/icons";
+import { resourceTint } from "@/app/components/resources/resource-tints";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import DiscoveryOptions from "@/app/components/discovery/DiscoveryOptions";
+import SubjectCards from "@/app/components/classes/SubjectCards";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import {
   CLASS_SLUGS,
@@ -90,14 +92,13 @@ export default async function SubjectPage({
         description={`Only ${cls.label} subjects with published ${cat.shortTitle.toLowerCase()} are listed — every option below leads to real chapters.`}
       >
         {subjects.length > 0 ? (
-          <DiscoveryOptions
-            label={`${cls.label} subjects with ${cat.shortTitle}`}
-            options={subjects.map(({ subject, count }) => ({
+          <SubjectCards
+            subjects={subjects.map(({ subject, count }) => ({
+              slug: subject.slug,
+              name: subject.name,
               href: urls.classMaterialSubject(cls.slug, cat.slug, subject.slug),
-              title: subject.name,
-              meta: subject.tagline,
-              badge: `${count} chapter${count === 1 ? "" : "s"}`,
-              ariaLabel: `${subject.name}: ${count} ${cat.shortTitle} chapters available`,
+              chapterCount: count,
+              live: true,
             }))}
           />
         ) : (
@@ -138,7 +139,7 @@ export default async function SubjectPage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {cls.label} · {subject.tagline}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {cls.label} {subject.name}
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -153,26 +154,30 @@ export default async function SubjectPage({
           : "Chapter resources are being verified by our academic team and will appear below as they publish."}
       </p>
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-10 text-2xl text-text-primary">
         {subject.name} Study Resources
       </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
+      <div className="mt-6">
+        <ResourceCards
           items={categories.map((cat) => {
             const n = perResource.get(cat.slug) ?? 0;
+            const tint = resourceTint(cat.slug);
             return {
               title: cat.title,
-              href: urls.resourcePage(cls.slug, subject.slug, cat.slug),
-              meta:
+              blurb:
                 n > 0
                   ? `${n} chapter${n === 1 ? "" : "s"} published · ${cat.description}`
                   : `Coming soon · ${cat.description}`,
+              href: urls.resourcePage(cls.slug, subject.slug, cat.slug),
+              icon: <ResourceIcon name={cat.icon} size={22} />,
+              tintText: tint.text,
+              colorVar: tint.colorVar,
             };
           })}
         />
       </div>
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         {subject.name} Chapters
       </h2>
       <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
@@ -188,18 +193,18 @@ export default async function SubjectPage({
 
       {relatedSubjects.length > 0 && (
         <>
-          <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="mt-12 text-2xl text-text-primary">
             More {cls.label} Subjects
           </h2>
-          <div className="mt-4 max-w-[860px]">
-            <LinkList
-              items={relatedSubjects.map((s) => ({
-                title: s.name,
-                href: urls.subjectPage(cls.slug, s.slug),
-                meta: s.tagline,
-              }))}
-            />
-          </div>
+          <SubjectCards
+            subjects={relatedSubjects.map((s) => ({
+              slug: s.slug,
+              name: s.name,
+              href: urls.subjectPage(cls.slug, s.slug),
+              chapterCount: s.chapters.length,
+              live: s.status === "published",
+            }))}
+          />
         </>
       )}
 

@@ -81,7 +81,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
               return (
                 <h3
                   key={i}
-                  className="scroll-mt-24 text-xl font-bold tracking-tight text-text-primary"
+                  className="scroll-mt-24 font-sans text-xl font-bold text-text-primary"
                 >
                   {block.text}
                 </h3>
@@ -93,7 +93,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 <h2
                   key={i}
                   id={id}
-                  className="scroll-mt-24 text-2xl font-extrabold tracking-tight text-balance text-text-primary"
+                    className="scroll-mt-24 text-2xl text-balance text-text-primary"
                 >
                   {block.text}
                 </h2>
@@ -108,7 +108,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 <div className="border-b border-border bg-surface-muted/60 px-5 py-4">
                   <h2
                     id={id}
-                    className="scroll-mt-24 text-xl font-extrabold tracking-tight text-balance text-text-primary"
+                    className="scroll-mt-24 text-xl text-balance text-text-primary"
                   >
                     {block.text}
                   </h2>
@@ -187,7 +187,7 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 <figcaption className="text-[13px] font-semibold text-text-secondary">
                   {block.label}
                 </figcaption>
-                <code className="mt-1.5 block font-mono text-base text-text-primary">
+                <code className="mt-1.5 block text-base text-text-primary">
                   {block.expression}
                 </code>
               </figure>

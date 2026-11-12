@@ -8,7 +8,7 @@ export default function CtaBand() {
         <Reveal variant="up">
           <h2
             id="cta-band-heading"
-            className="max-w-[24ch] text-2xl font-extrabold tracking-tight text-balance text-brand-white sm:text-3xl"
+            className="max-w-[24ch] text-2xl text-balance text-brand-white sm:text-3xl"
           >
             Learn Smart. Hustle Hard.
           </h2>

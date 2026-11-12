@@ -7,7 +7,8 @@ import ResourceExplorer, {
   type ExplorerClass,
 } from "@/app/components/resources/ResourceExplorer";
 import HowToSteps from "@/app/components/resources/HowToSteps";
-import OtherResources from "@/app/components/resources/OtherResources";
+import ResourceCards from "@/app/components/resources/ResourceCards";
+import { ResourceIcon } from "@/app/components/resources/icons";
 import CtaBand from "@/app/components/CtaBand";
 import Footer from "@/app/components/Footer";
 import { resourceTint } from "@/app/components/resources/resource-tints";
@@ -161,21 +162,29 @@ export default async function ResourceHubPage({
           />
         </section>
 
-        <OtherResources
-          items={categories
-            .filter((c) => c.slug !== resource)
-            .map((c) => {
-              const t = resourceTint(c.slug);
-              return {
-                slug: c.slug,
-                title: c.title,
-                blurb: c.blurb,
-                icon: c.icon,
-                tintText: t.text,
-                tintVar: t.colorVar,
-              };
-            })}
-        />
+        <section aria-labelledby="other-resources-heading" className="mt-12">
+          <h2
+            id="other-resources-heading"
+            className="text-2xl font-extrabold tracking-tight text-text-primary"
+          >
+            Explore other resources
+          </h2>
+          <ResourceCards
+            items={categories
+              .filter((c) => c.slug !== resource)
+              .map((c) => {
+                const t = resourceTint(c.slug);
+                return {
+                  title: c.title,
+                  blurb: c.blurb,
+                  href: urls.resourceHub(c.slug),
+                  icon: <ResourceIcon name={c.icon} size={22} />,
+                  tintText: t.text,
+                  colorVar: t.colorVar,
+                };
+              })}
+          />
+        </section>
 
         <HowToSteps
           title={`How to make the most of ${cat.shortTitle.toLowerCase()}`}

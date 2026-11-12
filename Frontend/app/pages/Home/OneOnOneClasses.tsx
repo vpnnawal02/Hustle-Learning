@@ -12,7 +12,7 @@ export default function OneOnOneClasses() {
         <Reveal variant="right">
           <h2
             id="one-on-one-heading"
-            className="text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl lg:text-[56px]"
+            className="text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl lg:text-[56px]"
           >
             Personalised Learning
           </h2>

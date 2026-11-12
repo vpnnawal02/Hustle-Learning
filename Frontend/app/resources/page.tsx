@@ -1,9 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Atom, Dna } from "lucide-react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import { LinkGroup, LinkList } from "@/app/components/resources/LinkLists";
+import ResourceCards from "@/app/components/resources/ResourceCards";
 import { ClassSelector } from "@/app/components/resources/Selectors";
-import { getExams } from "@/lib/data/exams";
+import { ResourceIcon } from "@/app/components/resources/icons";
+import { resourceTint } from "@/app/components/resources/resource-tints";
 import { getClasses, getResourceCategories } from "@/lib/data/school";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { urls } from "@/lib/urls";
@@ -16,10 +18,9 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function ResourcesHubPage() {
-  const [classes, categories, exams] = await Promise.all([
+  const [classes, categories] = await Promise.all([
     getClasses(),
     getResourceCategories(),
-    getExams(),
   ]);
 
   return (
@@ -27,99 +28,64 @@ export default async function ResourcesHubPage() {
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Study Material" }]}
       />
-      <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
-        Study Material
-      </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         Everything you need to prepare smarter.
       </h1>
-      <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-        Pick your class to find NCERT solutions, notes, important questions,
-        sample papers and more — or jump straight into a JEE or NEET track.
-        Every resource is organised the same way: class, then subject, then
-        chapter, so students always know exactly where they are.
+      <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-md">
+        Find everything you need to excel in your school exams with free and structured CBSE study material for Classes 6 to 10. Access NCERT solutions, chapter-wise notes, important questions, sample papers, previous year questions and practice worksheets — all organised by class, subject and chapter.
       </p>
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
-        School Education · Classes 6–10
+      <h2 className="mt-10 text-2xl text-text-primary">
+        School Study Material · Classes 6–10
       </h2>
       <div className="mt-4">
         <ClassSelector classes={classes} />
       </div>
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        Study Resources
+      <h2 className="mt-12 text-2xl text-text-primary">
+        CBSE Study Resources
       </h2>
       <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
         Seven resource types cover the full preparation cycle — learn a
-        chapter, practise it, test it under time, then revise it. Open any
-        type to browse it class-wise.
+        chapter, practise it, test it under time, then revise it.
       </p>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
-          items={categories.map((cat) => ({
+      <ResourceCards
+        items={categories.map((cat) => {
+          const tint = resourceTint(cat.slug);
+          return {
             title: cat.title,
+            blurb: cat.description,
             href: urls.resourceHub(cat.slug),
-            meta: cat.description,
-          }))}
-        />
-      </div>
+            icon: <ResourceIcon name={cat.icon} size={22} />,
+            tintText: tint.text,
+            colorVar: tint.colorVar,
+          };
+        })}
+      />
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
-        Three ways to explore
-      </h2>
-      <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
-        Start wherever feels natural — by material, by class, or by
-        subject. All three paths lead to the same chapter-wise resources.
-      </p>
-      <div className="mt-4 max-w-[860px]">
-        <LinkList
-          items={[
-            {
-              title: "Browse by material",
-              href: urls.materialsHub(),
-              meta: "Notes, solutions, questions, papers and more — then class, then subject.",
-            },
-            {
-              title: "Browse by subject",
-              href: urls.subjectsHub(),
-              meta: "Science, Mathematics, English, Social Science — then class, then material.",
-            },
-          ]}
-        />
-      </div>
-
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         Competitive Exams
       </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkGroup
-          label="JEE Preparation"
-          href={urls.examPage("jee")}
-          hint="Physics · Chemistry · Mathematics"
-          items={(
-            exams.find((e) => e.slug === "jee")?.subjects ?? []
-          ).map((s) => ({
-            title: s.name,
-            href: urls.examSubjectPage("jee", s.slug),
-            meta: s.tagline,
-          }))}
-        />
-        <div className="mt-8">
-          <LinkGroup
-            label="NEET Preparation"
-            href={urls.examPage("neet")}
-            hint="Physics · Chemistry · Biology"
-            items={(
-              exams.find((e) => e.slug === "neet")?.subjects ?? []
-            ).map((s) => ({
-              title: s.name,
-              href: urls.examSubjectPage("neet", s.slug),
-              meta: s.tagline,
-            }))}
-          />
-        </div>
-      </div>
+      <ResourceCards
+        items={[
+          {
+            title: "JEE Preparation",
+            blurb: "Physics · Chemistry · Mathematics",
+            href: urls.examPage("jee"),
+            icon: <Atom size={22} strokeWidth={1.5} aria-hidden="true" />,
+            tintText: "text-text-secondary",
+            colorVar: "var(--text-secondary)",
+          },
+          {
+            title: "NEET Preparation",
+            blurb: "Physics · Chemistry · Biology",
+            href: urls.examPage("neet"),
+            icon: <Dna size={22} strokeWidth={1.5} aria-hidden="true" />,
+            tintText: "text-text-secondary",
+            colorVar: "var(--text-secondary)",
+          },
+        ]}
+      />
 
       <p className="mt-10 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
         Not sure where to begin?{" "}

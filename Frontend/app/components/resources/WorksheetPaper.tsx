@@ -94,7 +94,7 @@ export default function WorksheetPaper({
             className="px-5 py-6 sm:px-8"
           >
             {g.explicit && (
-              <h2 className="rounded-md border border-accent/40 bg-accent/15 px-5 py-3 text-base font-bold text-text-primary sm:text-lg">
+              <h2 className="rounded-md border border-accent/40 bg-accent/15 px-5 py-3 font-sans text-base font-bold text-text-primary sm:text-lg">
                 Section {g.letter} – {g.title}{" "}
                 <span className="font-semibold whitespace-nowrap text-text-secondary">
                   {g.suffix}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import JsonLd from "./components/seo/JsonLd";
@@ -12,9 +13,26 @@ const inter = Inter({
   display: "swap",
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+// Display face: GT Walsheim (Trial, upright cuts only).
+const walsheim = localFont({
+  src: [
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Regular-Trial-BF651b7fc71a47d.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Medium-Trial-BF651b7fc728fb3.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Bold-Trial-BF651b7fc737c57.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-walsheim",
   display: "swap",
 });
 
@@ -68,7 +86,7 @@ export default function RootLayout({
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${walsheim.variable} h-full antialiased`}
     >
       <head>
         <ThemeInitScript />

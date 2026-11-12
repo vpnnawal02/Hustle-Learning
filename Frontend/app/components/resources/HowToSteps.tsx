@@ -15,7 +15,7 @@ export default function HowToSteps({
     <section aria-labelledby="howto-heading" className="mt-12">
       <h2
         id="howto-heading"
-        className="text-2xl font-extrabold tracking-tight text-text-primary"
+        className="text-2xl text-text-primary"
       >
         {title}
       </h2>

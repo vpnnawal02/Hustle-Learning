@@ -61,11 +61,11 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
             <Link
               href={urls.classPage(cls.slug)}
               aria-label={`Open ${cls.label} study material — ${stage}`}
-              className="flex items-center gap-4 rounded-lg border border-border bg-surface px-4 py-3 transition-colors active:bg-surface-muted sm:hidden"
+              className="flex items-center gap-4 rounded-md border border-border bg-surface px-4 py-3 transition-colors active:bg-surface-muted sm:hidden"
             >
               <span
                 aria-hidden="true"
-                className="w-9 shrink-0 text-4xl leading-none font-bold tracking-tight text-text-primary"
+                className="w-8 shrink-0 text-3xl leading-none font-bold tracking-tight text-text-primary"
               >
                 {cls.shortLabel}
               </span>
@@ -88,7 +88,7 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
             <Link
               href={urls.classPage(cls.slug)}
               aria-label={`Open ${cls.label} study material — ${stage}`}
-              className="group relative hidden h-full min-h-[240px] flex-col overflow-hidden rounded-lg border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/60 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring sm:flex motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="group relative hidden h-full min-h-[200px] flex-col overflow-hidden rounded-md border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/60 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring sm:flex motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               <span className="flex items-start justify-between gap-2">
                 <span className="text-xs font-semibold tracking-[1.2px] text-text-muted uppercase">
@@ -100,12 +100,12 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
                       Board Year
                     </span>
                   )}
-                  <BookIcon className="h-7 w-7 text-accent transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none" />
+                  <BookIcon className="h-6 w-6 text-accent transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none" />
                 </span>
               </span>
               <span
                 aria-hidden="true"
-                className="mt-1 block text-[56px] leading-none font-bold tracking-tight text-text-primary"
+                className="mt-1 block text-[44px] leading-none font-bold tracking-tight text-text-primary"
               >
                 {cls.shortLabel}
               </span>

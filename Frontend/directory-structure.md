@@ -147,7 +147,7 @@ questions ordered by ascending marks so bands read naturally.
 | `1. item` | Numbered list |
 | `\| a \| b \|` + separator row | Table (header + rows) |
 | `> [!TIP] text` / `[!NOTE]` / `[!WARNING]` | Tip / note / warning callout |
-| ` ```formula:Label ` fence | Formula card (JetBrains Mono) |
+| ` ```formula:Label ` fence | Formula card (Inter) |
 | ` ```stanza ` fence with verse lines | Poem stanza card (centred italic verse) |
 | ` ```keys ` fence with `- ` lines | “Key takeaways” panel |
 | `Q: question` (+ optional `{demo}`) newline `A: answer` | Question–answer block; `{demo}` marks demonstration content |

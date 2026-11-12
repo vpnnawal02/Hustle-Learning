@@ -106,14 +106,14 @@ export default function EnquiryForm({
         >
           ✓
         </div>
-        <h2 className="mt-2 text-sm font-bold text-text-primary">
+        <h2 className="mt-2 font-sans text-sm font-bold text-text-primary">
           Enquiry received
         </h2>
         <p className="mt-1 text-[13px] leading-snug text-text-secondary">
           We will contact you on WhatsApp shortly.
         </p>
         {referenceId && (
-          <p className="mt-1 font-mono text-[12px] text-text-muted">
+          <p className="mt-1 text-[12px] text-text-muted">
             Ref: {referenceId}
           </p>
         )}
@@ -132,7 +132,7 @@ export default function EnquiryForm({
     <div className="flex flex-col">
       <h2
         id={`${formIdPrefix}-title`}
-        className="text-xl font-extrabold tracking-tight text-text-primary"
+        className="text-xl text-text-primary"
       >
         Free counselling
       </h2>

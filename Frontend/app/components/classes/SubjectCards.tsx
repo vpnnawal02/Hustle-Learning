@@ -1,32 +1,25 @@
 import Link from "next/link";
 import {
+  ArrowRight,
   Atom,
-  Bell,
   BookOpenText,
   Calculator,
+  Dna,
+  FlaskConical,
   Globe2,
   type LucideIcon,
 } from "lucide-react";
-import { ResourceIcon } from "@/app/components/resources/icons";
-import { urls } from "@/lib/urls";
-
-export interface SubjectCardResource {
-  slug: string;
-  shortTitle: string;
-  icon: string;
-  /** Published chapter items for this subject. */
-  count: number;
-}
 
 export interface SubjectCardData {
   slug: string;
   name: string;
-  tagline: string;
+  /** Link target for live subjects. */
+  href: string;
   chapterCount: number;
-  totalPublished: number;
+  /** Published-resource total; omit to show chapters only. */
+  totalPublished?: number;
   /** Only published subjects have live pages — drafts 404, so no links. */
   live: boolean;
-  resources: SubjectCardResource[];
 }
 
 const SUBJECT_ICONS: Record<string, LucideIcon> = {
@@ -34,33 +27,9 @@ const SUBJECT_ICONS: Record<string, LucideIcon> = {
   mathematics: Calculator,
   english: BookOpenText,
   "social-science": Globe2,
-};
-
-/** Distinct icon colour per subject (tint tokens already themed for both modes). */
-const SUBJECT_TINT: Record<string, string> = {
-  science: "text-tint-science",
-  mathematics: "text-tint-maths",
-  english: "text-tint-english",
-  "social-science": "text-tint-sst",
-};
-
-/** Distinct top-edge accent per subject. */
-const SUBJECT_BAR: Record<string, string> = {
-  science: "bg-tint-science",
-  mathematics: "bg-tint-maths",
-  english: "bg-tint-english",
-  "social-science": "bg-tint-sst",
-};
-
-/** Specific action verb per resource type — never a bare "Open". */
-const RESOURCE_ACTION: Record<string, string> = {
-  "ncert-solutions": "View Solutions",
-  notes: "Read Notes",
-  "important-questions": "Practice Questions",
-  "sample-papers": "Practice Papers",
-  pyqs: "Solve PYQs",
-  worksheets: "Try Worksheets",
-  formulas: "Revise Formulas",
+  physics: Atom,
+  chemistry: FlaskConical,
+  biology: Dna,
 };
 
 function subjectIcon(slug: string): LucideIcon {
@@ -68,96 +37,77 @@ function subjectIcon(slug: string): LucideIcon {
 }
 
 /**
- * One card per subject: icon, name, and the resource types as compact
- * chips — nothing else. Every chip links to its real page (which states
- * honestly when content is still in preparation). Subjects with no live
- * pages render a "Coming soon" state with no dead links.
+ * Subjects are the hero: one large card per subject with chapter and
+ * resource counts merged in. Live subjects link (single arrow); subjects
+ * still in preparation render muted with no dead links. Monochrome Lucide
+ * icons, no tinted tiles or colored borders.
  */
 export default function SubjectCards({
-  classSlug,
   subjects,
 }: {
-  classSlug: string;
   subjects: SubjectCardData[];
 }) {
   return (
-    <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
       {subjects.map((subject) => {
         const Icon = subjectIcon(subject.slug);
-        const tint = SUBJECT_TINT[subject.slug] ?? "text-text-primary";
-        const bar = SUBJECT_BAR[subject.slug] ?? "bg-accent";
+        const chapters = `${subject.chapterCount} chapter${subject.chapterCount === 1 ? "" : "s"}`;
+        const meta =
+          !subject.live
+            ? "Coming soon — chapters in preparation"
+            : subject.totalPublished == null
+              ? chapters
+              : `${chapters} · ${subject.totalPublished} resource${subject.totalPublished === 1 ? "" : "s"} ready`;
         return (
           <li key={subject.slug} className="min-w-0">
-            <article
-              aria-labelledby={`subject-${subject.slug}`}
-              className="relative flex h-full flex-col overflow-hidden rounded-md border border-border bg-surface p-6 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-16px_rgba(20,33,61,0.35)]"
-            >
-              <span
-                aria-hidden="true"
-                className={`absolute inset-x-0 top-0 h-1 ${bar}`}
-              />
-              <div className="flex items-center gap-4">
-                <span
+            {subject.live ? (
+              <Link
+                href={subject.href}
+                aria-label={`Open ${subject.name} study material — ${meta}`}
+                className="group flex h-full items-center gap-3.5 rounded-sm border border-border bg-surface p-4 transition-colors duration-[var(--motion-quick)] ease-out hover:border-text-muted hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none sm:p-5"
+              >
+                <Icon
+                  size={24}
+                  strokeWidth={1.5}
                   aria-hidden="true"
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-surface-muted ${tint}`}
-                >
-                  <Icon size={24} strokeWidth={2} />
+                  className="shrink-0 text-text-secondary"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[17px] font-semibold tracking-tight text-text-primary">
+                    {subject.name}
+                  </span>
+                  <span className="mt-0.5 block text-[13px] text-text-secondary">
+                    {meta}
+                  </span>
                 </span>
-                <h3
-                  id={`subject-${subject.slug}`}
-                  className="min-w-0 flex-1 text-lg font-bold tracking-tight text-text-primary"
-                >
-                  {subject.live ? (
-                    <Link
-                      href={urls.subjectPage(classSlug, subject.slug)}
-                      className="transition-colors hover:text-accent-700 hover:underline hover:decoration-accent hover:decoration-2 hover:underline-offset-4"
-                    >
-                      {subject.name}
-                    </Link>
-                  ) : (
-                    subject.name
-                  )}
-                </h3>
+                <ArrowRight
+                  size={18}
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                  className="shrink-0 text-text-muted transition-transform duration-[var(--motion-quick)] ease-out group-hover:translate-x-1 motion-reduce:transition-none"
+                />
+              </Link>
+            ) : (
+              <div
+                aria-label={`${subject.name} — ${meta}`}
+                className="flex h-full items-center gap-3.5 rounded-sm border border-border bg-surface p-4 sm:p-5"
+              >
+                <Icon
+                  size={24}
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                  className="shrink-0 text-text-muted"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[17px] font-semibold tracking-tight text-text-primary">
+                    {subject.name}
+                  </span>
+                  <span className="mt-0.5 block text-[13px] text-text-secondary">
+                    {meta}
+                  </span>
+                </span>
               </div>
-
-              {subject.live ? (
-                <ul
-                  aria-label={`${subject.name} resource types`}
-                  className="mt-5 flex flex-wrap gap-2"
-                >
-                  {subject.resources.map((res) => (
-                    <li key={res.slug}>
-                      <Link
-                        href={urls.resourcePage(
-                          classSlug,
-                          subject.slug,
-                          res.slug,
-                        )}
-                        aria-label={`${RESOURCE_ACTION[res.slug] ?? res.shortTitle} — ${subject.name}${res.count > 0 ? `, ${res.count} published` : ", coming soon"}`}
-                        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-border bg-surface px-3 text-sm font-semibold text-text-secondary transition-colors hover:border-accent hover:text-text-primary active:bg-surface-muted"
-                      >
-                        <ResourceIcon name={res.icon} size={16} />
-                        {RESOURCE_ACTION[res.slug] ?? res.shortTitle}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="mt-4 rounded-md bg-surface-muted p-4">
-                  <p className="text-sm leading-[1.55] text-text-secondary">
-                    Our teachers are preparing {subject.name} chapters now.
-                    Get notified the moment the first chapter goes live.
-                  </p>
-                  <Link
-                    href="/subscribe"
-                    className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-md bg-accent px-5 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-                  >
-                    <Bell size={16} aria-hidden="true" />
-                    Notify me
-                  </Link>
-                </div>
-              )}
-            </article>
+            )}
           </li>
         );
       })}

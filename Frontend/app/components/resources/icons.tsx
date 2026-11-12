@@ -30,7 +30,7 @@ export function resourceIcon(name: string): LucideIcon {
 /** Render helper — keeps icon resolution out of component render bodies. */
 export function ResourceIcon({
   name,
-  size = 20,
+  size = 16,
 }: {
   name: string;
   size?: number;

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import DiscoveryOptions from "@/app/components/discovery/DiscoveryOptions";
+import ResourceCards from "@/app/components/resources/ResourceCards";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import { ResourceIcon } from "@/app/components/resources/icons";
 import { resourceTint } from "@/app/components/resources/resource-tints";
-import type { CSSProperties } from "react";
 import { getAllTriples, getMaterialsForClassSubject } from "@/lib/discovery";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { subjectClassCrumbs } from "@/lib/breadcrumbs";
@@ -59,29 +58,22 @@ export default async function SubjectClassMaterialsPage({
       description={`Only materials with published ${cls.label} ${subjectMeta.name} chapters are listed — every option below leads to real chapters.`}
     >
       {materials.length > 0 ? (
-        <DiscoveryOptions
-          label={`${cls.label} ${subjectMeta.name} materials`}
-          options={materials.map(({ cat, count }) => {
+        <ResourceCards
+          items={materials.map(({ cat, count }) => {
             const tint = resourceTint(cat.slug);
             return {
+              title: cat.title,
+              blurb: `${count} chapter${count === 1 ? "" : "s"} · ${cat.blurb}`,
               href: urls.subjectClassMaterial(
                 subjectMeta.slug,
                 cls.slug,
                 cat.slug,
               ),
-              title: cat.title,
-              meta: cat.blurb,
-              badge: `${count} chapter${count === 1 ? "" : "s"}`,
-              ariaLabel: `${cat.title}: ${count} chapters available`,
               icon: (
-                <span
-                  aria-hidden="true"
-                  className={`res-tint flex h-10 w-10 shrink-0 items-center justify-center rounded-sm ${tint.text}`}
-                  style={{ "--res-color": tint.colorVar } as CSSProperties}
-                >
-                  <ResourceIcon name={cat.icon} size={20} />
-                </span>
+                <ResourceIcon name={cat.icon} size={22} />
               ),
+              tintText: tint.text,
+              colorVar: tint.colorVar,
             };
           })}
         />

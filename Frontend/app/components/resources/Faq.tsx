@@ -23,7 +23,7 @@ export default function Faq({
       {structured && <JsonLd data={faqJsonLd(faqs)} />}
       <h2
         id="faq-heading"
-        className="text-2xl font-extrabold tracking-tight text-text-primary"
+        className="text-2xl text-text-primary"
       >
         {heading}
       </h2>

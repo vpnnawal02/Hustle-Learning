@@ -17,7 +17,7 @@ export default function Toolkit() {
       <Reveal>
         <h2
           id="toolkit-heading"
-          className="max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance text-text-primary sm:text-4xl lg:text-[44px]"
+          className="max-w-[24ch] text-3xl leading-[1.1] text-balance text-text-primary sm:text-4xl lg:text-[44px]"
         >
           Your Complete Learning Toolkit
         </h2>

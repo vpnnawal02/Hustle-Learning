@@ -15,7 +15,7 @@ export default function PopularCourses() {
             <div>
               <h2
                 id="popular-courses-heading"
-                className="text-3xl font-black tracking-tight text-balance text-text-primary sm:text-5xl"
+                className="text-3xl text-balance text-text-primary sm:text-5xl"
               >
                 Popular Courses
               </h2>

@@ -41,7 +41,7 @@ export default function NewsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
       <main className="mx-auto w-full max-w-[860px] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+        <h1 className="text-3xl text-balance sm:text-4xl">
           Newsroom
         </h1>
         <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">
@@ -58,7 +58,7 @@ export default function NewsPage() {
                 <p className="text-[13px] font-semibold text-text-muted">
                   <time dateTime={update.date}>{update.dateLabel}</time>
                 </p>
-                <h2 className="mt-1 text-xl font-bold tracking-tight text-text-primary">
+                <h2 className="mt-1 font-sans text-xl font-bold text-text-primary">
                   {update.title}
                 </h2>
                 <p className="mt-2 text-[15px] leading-[1.6] text-text-secondary">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import DiscoveryOptions from "@/app/components/discovery/DiscoveryOptions";
+import SubjectCards from "@/app/components/classes/SubjectCards";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import { getSubjectsForClassMaterial } from "@/lib/discovery";
 import { buildMetadata, canonical } from "@/lib/seo";
@@ -55,14 +55,13 @@ export default async function MaterialClassSubjectsPage({
       description={`Only ${cls.label} subjects with published ${cat.shortTitle.toLowerCase()} are listed — every option below leads to real chapters.`}
     >
       {subjects.length > 0 ? (
-        <DiscoveryOptions
-          label={`${cls.label} subjects with ${cat.shortTitle}`}
-          options={subjects.map(({ subject, count }) => ({
+        <SubjectCards
+          subjects={subjects.map(({ subject, count }) => ({
+            slug: subject.slug,
+            name: subject.name,
             href: urls.materialClassSubject(cat.slug, cls.slug, subject.slug),
-            title: subject.name,
-            meta: subject.tagline,
-            badge: `${count} chapter${count === 1 ? "" : "s"}`,
-            ariaLabel: `${subject.name}: ${count} ${cat.shortTitle} chapters available`,
+            chapterCount: count,
+            live: true,
           }))}
         />
       ) : (

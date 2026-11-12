@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "../layout/Breadcrumbs";
 import ContentRenderer from "../resources/ContentRenderer";
 import Faq from "../resources/Faq";
-import { LinkGroup } from "../resources/LinkLists";
+import ResourceCards from "../resources/ResourceCards";
+import SubjectCards from "../classes/SubjectCards";
+import { ResourceIcon } from "../resources/icons";
+import { resourceTint } from "../resources/resource-tints";
 import { ComingSoon } from "../resources/Navigation";
 import JsonLd from "../seo/JsonLd";
 import { getExam, getExamResourceFile } from "@/lib/data/exams";
@@ -29,7 +32,7 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.fullName} · {exam.tagline}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {exam.name} Preparation
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -38,7 +41,7 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
 
       {(exam.sections ?? []).map((section) => (
         <section key={section.heading} className="mt-8 max-w-[72ch]">
-          <h2 className="text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="text-2xl text-text-primary">
             {section.heading}
           </h2>
           {section.body.map((para, i) => (
@@ -52,7 +55,7 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
         </section>
       ))}
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         {exam.name} Subjects & Resources
       </h2>
       <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
@@ -61,17 +64,34 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
       </p>
       <div className="mt-4 max-w-[860px]">
         {subjects.map((subject) => (
-          <LinkGroup
-            key={subject.slug}
-            label={subject.name}
-            href={urls.examSubjectPage(exam.slug, subject.slug)}
-            hint={`${subject.tagline} · ${subject.chapters.length} chapters`}
-            items={exam.resources.map((res) => ({
-              title: res.title,
-              href: urls.examResourcePage(exam.slug, subject.slug, res.slug),
-              meta: res.description,
-            }))}
-          />
+          <section key={subject.slug} aria-label={subject.name} className="mt-10 first:mt-0">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 className="text-lg font-semibold tracking-tight text-text-primary">
+                <Link
+                  href={urls.examSubjectPage(exam.slug, subject.slug)}
+                  className="hover:underline hover:decoration-accent hover:decoration-2 hover:underline-offset-4"
+                >
+                  {subject.name}
+                </Link>
+              </h3>
+              <span className="text-[13px] font-medium text-text-muted">
+                {subject.tagline} · {subject.chapters.length} chapters
+              </span>
+            </div>
+            <ResourceCards
+              items={exam.resources.map((res) => {
+                const tint = resourceTint(res.slug);
+                return {
+                  title: res.title,
+                  blurb: res.description,
+                  href: urls.examResourcePage(exam.slug, subject.slug, res.slug),
+                  icon: <ResourceIcon name={res.icon} size={22} />,
+                  tintText: tint.text,
+                  colorVar: tint.colorVar,
+                };
+              })}
+            />
+          </section>
         ))}
       </div>
 
@@ -111,7 +131,7 @@ export async function ExamSubjectPage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.name} · {subject.tagline}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {exam.name} {subject.name}
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -129,26 +149,30 @@ export async function ExamSubjectPage({
         immediately, the rest is marked coming soon.
       </p>
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-10 text-2xl text-text-primary">
         {subject.name} Resources
       </h2>
-      <div className="mt-4 max-w-[860px]">
-        <LinkGroup
-          label={`${subject.name} preparation material`}
-          href={urls.examSubjectPage(exam.slug, subject.slug)}
+      <div className="mt-6 max-w-[860px]">
+        <ResourceCards
           items={exam.resources.map((res) => {
             const n = resourceCounts.get(res.slug) ?? 0;
+            const tint = resourceTint(res.slug);
             return {
               title: res.title,
+              blurb:
+                n > 0
+                  ? `${n} published · ${res.description}`
+                  : `Coming soon · ${res.description}`,
               href: urls.examResourcePage(exam.slug, subject.slug, res.slug),
-              meta: res.description,
-              badge: n > 0 ? `${n} published` : "Coming soon",
+              icon: <ResourceIcon name={res.icon} size={22} />,
+              tintText: tint.text,
+              colorVar: tint.colorVar,
             };
           })}
         />
       </div>
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         {subject.name} Chapters
       </h2>
       <ol className="mt-4 max-w-[860px] border-t border-border">
@@ -177,34 +201,20 @@ export async function ExamSubjectPage({
 
       {siblingSubjects.length > 0 && (
         <>
-          <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="mt-12 text-2xl text-text-primary">
             More {exam.name} Subjects
           </h2>
-          <ul className="mt-4 max-w-[860px] border-t border-border">
-            {siblingSubjects.map((s) => (
-              <li key={s.slug}>
-                <Link
-                  href={urls.examSubjectPage(exam.slug, s.slug)}
-                  className="group flex min-h-[52px] items-center justify-between gap-3 border-b border-border py-3"
-                >
-                  <span>
-                    <span className="block font-semibold text-text-primary group-hover:underline group-hover:decoration-accent group-hover:decoration-2 group-hover:underline-offset-4">
-                      {exam.name} {s.name}
-                    </span>
-                    <span className="mt-0.5 block text-[13px] text-text-muted">
-                      {s.tagline}
-                    </span>
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="font-bold text-text-muted group-hover:text-accent"
-                  >
-                    →
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-6 max-w-[860px]">
+            <SubjectCards
+              subjects={siblingSubjects.map((s) => ({
+                slug: s.slug,
+                name: s.name,
+                href: urls.examSubjectPage(exam.slug, s.slug),
+                chapterCount: s.chapters.length,
+                live: s.status === "published",
+              }))}
+            />
+          </div>
         </>
       )}
     </div>
@@ -277,7 +287,7 @@ export async function ExamResourcePage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.name} · {subject.name}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {exam.name} {subject.name} {resource.title}
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -309,7 +319,7 @@ export async function ExamResourcePage({
             />
             <h2
               id={`${item.id}-title`}
-              className="text-2xl font-extrabold tracking-tight text-text-primary"
+              className="text-2xl text-text-primary"
             >
               {item.title}
             </h2>
@@ -326,7 +336,7 @@ export async function ExamResourcePage({
 
       {siblingResources.length > 0 && (
         <>
-          <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="mt-12 text-2xl text-text-primary">
             More {subject.name} preparation
           </h2>
           <ul className="mt-4 max-w-[860px] border-t border-border">

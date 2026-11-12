@@ -27,7 +27,7 @@ export default function HubHero({
     >
       <h1
         id="hub-hero-heading"
-        className="max-w-[26ch] text-3xl leading-[1.15] font-extrabold tracking-tight text-balance md:text-[34px]"
+        className="max-w-[26ch] text-3xl leading-[1.15] text-balance md:text-[34px]"
       >
         {title}
       </h1>

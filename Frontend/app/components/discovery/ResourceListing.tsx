@@ -53,14 +53,14 @@ export default function ResourceListing({
       <p className="mt-6 text-base leading-[1.6] text-text-secondary">
         {context}
       </p>
-      <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+      <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {title}
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {description}
       </p>
 
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-10 text-2xl text-text-primary">
         Chapters
       </h2>
       <ol className="mt-4 border-t border-border">
@@ -107,7 +107,7 @@ export default function ResourceListing({
 
       {siblings.length > 0 && (
         <>
-          <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="mt-12 text-2xl text-text-primary">
             {siblingsHeading}
           </h2>
           <ul className="mt-4 border-t border-border">

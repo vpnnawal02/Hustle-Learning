@@ -170,7 +170,7 @@ export default function WhoWeAre() {
             <Reveal>
               <h2
                 id="who-we-are-heading"
-                className="mt-4 text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-text-primary sm:text-5xl lg:text-[56px]"
+                className="mt-4 text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl lg:text-[56px]"
               >
                 Who We{" "}
                 <span className="relative inline-block text-accent">

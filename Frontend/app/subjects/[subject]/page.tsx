@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import ClassOptionCards from "@/app/components/discovery/ClassOptionCards";
+import ClassPills from "@/app/components/classes/ClassPills";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import { getClassesForSubject, getSubjectUniverse } from "@/lib/discovery";
 import { buildMetadata, canonical } from "@/lib/seo";
@@ -47,17 +47,18 @@ export default async function SubjectClassesPage({
       description={`Choose your academic level to explore ${name} resources. Only classes with published ${name} chapters are listed.`}
     >
       {classes.length > 0 ? (
-        <ClassOptionCards
-          label={`Classes with ${name}`}
-          options={classes.map(({ cls, count }) => ({
-            href: urls.subjectClass(subject, cls.slug),
-            label: cls.label,
-            shortLabel: cls.shortLabel,
-            tagline: cls.tagline,
-            badge: `${count} chapter${count === 1 ? "" : "s"}`,
-            ariaLabel: `${cls.label} ${name}: ${count} chapters available`,
-          }))}
-        />
+        <div className="mt-6 max-w-[520px]">
+          <ClassPills
+            currentSlug=""
+            classes={classes.map(({ cls, count }) => ({
+              slug: cls.slug,
+              label: cls.label,
+              shortLabel: cls.shortLabel,
+              meta: `${count} chapter${count === 1 ? "" : "s"}`,
+              href: urls.subjectClass(subject, cls.slug),
+            }))}
+          />
+        </div>
       ) : (
         <div className="mt-8">
           <ComingSoon

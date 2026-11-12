@@ -65,7 +65,7 @@ export function ComingSoon({
       <p className="inline-flex items-center rounded-md bg-accent px-4 py-1.5 text-[13px] font-bold text-on-accent">
         Coming soon
       </p>
-      <h2 className="mx-auto mt-4 max-w-[40ch] text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mx-auto mt-4 max-w-[40ch] text-2xl text-text-primary">
         {title}
       </h2>
       <p className="mx-auto mt-2 max-w-[60ch] text-[15px] leading-[1.6] text-text-secondary">

@@ -215,7 +215,7 @@ export default async function ResourcePage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {cls.label} · {subject.name}
       </p>
-      <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-4xl">
+          <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
         {cls.label} {subject.name} {cat.title}
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -244,7 +244,7 @@ export default async function ResourcePage({
 
       {items.length > 0 ? (
         <>
-          <h2 className="mt-10 text-2xl font-extrabold tracking-tight text-text-primary">
+          <h2 className="mt-10 text-2xl text-text-primary">
             Chapter-wise {cat.shortTitle}
           </h2>
           <div className="mt-4 max-w-[860px]">
@@ -271,7 +271,7 @@ export default async function ResourcePage({
         </div>
       )}
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         Why use these {cat.shortTitle.toLowerCase()}?
       </h2>
       <ul className="mt-3 flex max-w-[68ch] list-disc flex-col gap-2 pl-6 text-[15px] leading-[1.6] text-text-secondary">
@@ -288,7 +288,7 @@ export default async function ResourcePage({
         </a>
       </p>
 
-      <h2 className="mt-12 text-2xl font-extrabold tracking-tight text-text-primary">
+      <h2 className="mt-12 text-2xl text-text-primary">
         More {subject.name} resources
       </h2>
       <div className="mt-4 max-w-[860px]">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import DiscoveryOptions from "@/app/components/discovery/DiscoveryOptions";
+import SubjectCards from "@/app/components/classes/SubjectCards";
 import { countSubject, getSubjectUniverse } from "@/lib/discovery";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { subjectsCrumbs } from "@/lib/breadcrumbs";
@@ -25,17 +25,13 @@ export default async function SubjectsHubPage() {
       title="Choose Your Subject"
       description="Explore resources organized around your subject. Pick one to see which classes hold published chapters for it."
     >
-      <DiscoveryOptions
-        label="Subjects"
-        options={withCounts.map((s) => ({
+      <SubjectCards
+        subjects={withCounts.map((s) => ({
+          slug: s.slug,
+          name: s.name,
           href: urls.subjectHub(s.slug),
-          title: s.name,
-          meta: s.tagline,
-          badge:
-            s.count > 0
-              ? `${s.count} chapter${s.count === 1 ? "" : "s"}`
-              : "Coming soon",
-          ariaLabel: `${s.name}: ${s.count > 0 ? `${s.count} chapters available` : "coming soon"}`,
+          chapterCount: s.count,
+          live: s.count > 0,
         }))}
       />
     </DiscoveryShell>

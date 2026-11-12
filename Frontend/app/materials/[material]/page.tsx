@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DiscoveryShell from "@/app/components/discovery/DiscoveryShell";
-import ClassOptionCards from "@/app/components/discovery/ClassOptionCards";
+import ClassPills from "@/app/components/classes/ClassPills";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import {
   getClassesForMaterial,
@@ -57,17 +57,18 @@ export default async function MaterialClassesPage({
       description={`Choose your academic level to explore ${cat.title.toLowerCase()} with published chapters. Only classes with available ${cat.shortTitle.toLowerCase()} are listed.`}
     >
       {classes.length > 0 ? (
-        <ClassOptionCards
-          label={`Classes with ${cat.shortTitle}`}
-          options={classes.map(({ cls, count }) => ({
-            href: urls.materialClass(cat.slug, cls.slug),
-            label: cls.label,
-            shortLabel: cls.shortLabel,
-            tagline: cls.tagline,
-            badge: `${count} chapter${count === 1 ? "" : "s"}`,
-            ariaLabel: `${cls.label}: ${count} ${cat.shortTitle} chapters available`,
-          }))}
-        />
+        <div className="mt-6 max-w-[520px]">
+          <ClassPills
+            currentSlug=""
+            classes={classes.map(({ cls, count }) => ({
+              slug: cls.slug,
+              label: cls.label,
+              shortLabel: cls.shortLabel,
+              meta: `${count} chapter${count === 1 ? "" : "s"}`,
+              href: urls.materialClass(cat.slug, cls.slug),
+            }))}
+          />
+        </div>
       ) : (
         <div className="mt-8">
           <ComingSoon

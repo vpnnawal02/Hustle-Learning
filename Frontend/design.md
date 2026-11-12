@@ -72,50 +72,53 @@ The visual identity is built around navy, amber, white, and grey. Use navy for s
 
 ## 2. Font Families
 
-**Interface font:** Inter for headings, body text, navigation, buttons, forms, labels, and captions.
+**Display font:** GT Walsheim for headings (`h1`, `h2`) and display treatments.
 
-**Code font:** JetBrains Mono for code snippets and technical code blocks, if included.
+> **Licensed files:** GT Walsheim (Grilli Type) ships as Trial `.otf` files under `fonts/gt-walsheim-font-family/` (see `Befonts-License.txt`). They load via `next/font/local` into `--font-display`. Upright Regular (400), Medium (500), and Bold (700) cuts are wired; obliques and condensed cuts are unused — add them only if a design calls for them.
 
-**Fallback stack:**
+**Body & UI font:** Inter (variable) for body text, navigation, buttons, forms, labels, captions, sub-headings (`h3`–`h6`), and code snippets.
+
+**Fallback stacks:**
 
 ```css
+/* Body and everything else */
 font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+/* Headings */
+font-family: "GT Walsheim", "Helvetica Neue", Arial, sans-serif;
 ```
 
-Use one family for the interface. Establish hierarchy through size, weight, line height, letter spacing, and colour rather than mixing unrelated typefaces.
+Headings (`h1`, `h2`) always use the display family at Medium (500); everything else uses Inter. Within each family, establish hierarchy through size, weight, line height, letter spacing, and colour rather than mixing in further typefaces.
+
+**OpenType features:** running body text enables Inter `cv11` (`font-feature-settings: "cv11" 1` on `body`). Display headings enable Walsheim `ss02` (`h1`, `h2` rule). Headline reserves Inter `cv05` for future use.
 
 ---
 
 ## 3. Typography Scale and Hierarchy
 
-Display weights use 700. Body and supporting text use 400, 500, or 600 according to emphasis. Negative letter spacing is reserved for large display text.
+Display styles use GT Walsheim (Archivo stand-in) at Medium (500). Headline uses Inter at Bold (700). Body and supporting text use Inter at 400 or 500 according to emphasis. Negative letter spacing scales with display size. Tailwind tokens (`text-display-xxl`, `text-headline`, `text-body`, …) are defined in `globals.css` (`@theme inline`) with size, line height, letter spacing, and weight baked in.
 
-| Token | Size | Weight | Line height | Letter spacing | Usage |
-|---|---:|---:|---:|---:|---|
-| `display-xl` | 72px | 700 | 1.05 | -2.5px | Exceptional desktop homepage headline |
-| `display-lg` | 56px | 700 | 1.1 | -2px | Main hero or major section headline |
-| `display-md` | 40px | 700 | 1.15 | -1.5px | Section headings |
-| `display-sm` | 32px | 700 | 1.2 | -1px | Subsection headings |
-| `heading-xl` | 28px | 700 | 1.25 | -0.5px | Page headings |
-| `title-lg` | 24px | 700 | 1.3 | -0.3px | Featured course/card title |
-| `title-md` | 18px | 600 | 1.4 | 0 | Course and card titles |
-| `title-sm` | 16px | 600 | 1.4 | 0 | Small titles and field labels |
-| `stat-display` | 56px | 700 | 1.0 | -1.5px | Key metrics; use amber where contrast allows |
-| `body-lg` | 18px | 400 | 1.6 | 0 | Hero supporting copy or introductions |
-| `body-md` | 16px | 400 | 1.55 | 0 | Default body copy |
-| `body-sm` | 14px | 400 | 1.55 | 0 | Secondary descriptions and footer text |
-| `caption` | 13px | 500 | 1.4 | 0 | Captions and compact metadata |
-| `label` | 12px | 600 | 1.4 | 1.2px | Section labels, category labels, small badges |
-| `button` | 14px | 600 | 1.0 | 0 | Button labels |
-| `nav-link` | 14px | 500 | 1.4 | 0 | Navigation links |
-| `code` | 14px | 400 | 1.55 | 0 | Code blocks in JetBrains Mono |
+| Token | Family | Size | Weight | Line height | Letter spacing | Feature | Usage |
+|---|---|---:|---:|---:|---:|---|---|
+| `display-xxl` | GT Walsheim | 110px | 500 | 0.85 | -5.5px | — | Exceptional hero moments |
+| `display-xl` | GT Walsheim | 85px | 500 | 0.95 | -4.25px | ss02 | Major display headlines |
+| `display-lg` | GT Walsheim | 62px | 500 | 1.0 | -3.1px | ss02 | Main hero or major section headline |
+| `display-md` | GT Walsheim | 40px | 500 | 1.13 | -1.0px | — | Section headings |
+| `headline` | Inter | 22px | 700 | 1.2 | -0.8px | cv05 | Subsection / card-group headings |
+| `subhead` | Inter Variable | 24px | 400 | 1.3 | -0.01px | cv11 | Supporting standfirsts |
+| `body-lg` | Inter Variable | 18px | 400 | 1.3 | -0.18px | cv11 | Hero supporting copy or introductions |
+| `body` | Inter Variable | 15px | 400 | 1.3 | -0.15px | cv11 | Default body copy |
+| `body-sm` | Inter Variable | 14px | 500 | 1.4 | -0.14px | cv11 | Secondary descriptions and footer text |
+| `caption` | Inter Variable | 13px | 500 | 1.2 | -0.13px | cv11 | Captions and compact metadata |
+| `micro` | Inter Variable | 12px | 400 | 1.2 | -0.12px | cv11 | Fine print, timestamps |
+| `button` | Inter Variable | 14px | 500 | 1.0 | -0.14px | cv11 | Button labels |
+| `code` | Inter Variable | 14px | 400 | 1.55 | 0 | cv11 | Code blocks and formula cards |
 
 ### Text hierarchy rules
 
 1. Use one `h1` per page for the primary page heading.
 2. Use `h2` for major sections and `h3` for subsections or card-group headings.
 3. Do not choose heading levels only for visual size; preserve semantic order.
-4. Use 700 weight for display headings and 600 for smaller titles.
+4. Use Medium (500) display face for `h1`/`h2` display headings, Bold (700) Inter for `headline` subsections, and 600 for smaller titles.
 5. Body copy should normally be 16px or larger, especially for lesson content.
 6. Use 14px text for secondary information, not for long educational passages.
 7. Use 12–13px text sparingly for metadata and labels.
@@ -188,11 +191,12 @@ Use borders and surface contrast as the primary separation method. Avoid large d
 
 ### Font setup
 
-Use `next/font/google` for Inter and JetBrains Mono where appropriate.
+Use `next/font/google` for Inter and `next/font/local` for GT Walsheim.
 
 ```tsx
 // app/layout.tsx
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -200,9 +204,25 @@ const inter = Inter({
   display: "swap",
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+const walsheim = localFont({
+  src: [
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Regular-Trial-BF651b7fc71a47d.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Medium-Trial-BF651b7fc728fb3.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/gt-walsheim-font-family/GT-Walsheim-Bold-Trial-BF651b7fc737c57.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-walsheim",
   display: "swap",
 });
 
@@ -212,7 +232,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${walsheim.variable}`}>
       <body>{children}</body>
     </html>
   );
@@ -263,8 +283,25 @@ body {
   background: var(--background);
   color: var(--text-primary);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "cv11" 1;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 ```
+
+Display/body type tokens live in `@theme inline` (`--font-sans`, `--font-display`, `--text-display-xxl` … `--text-button`, each with size, line height, letter-spacing, and weight) so components use utilities like `text-display-lg` or `text-body-sm` instead of arbitrary values.
 
 ### Theme behaviour
 
@@ -306,7 +343,7 @@ body {
 1. Light theme is the default; dark theme must be fully supported.
 2. Navy is the structural brand colour; amber is the accent.
 3. White and grey dominate light-mode surfaces.
-4. Inter is used throughout the interface; JetBrains Mono is reserved for code.
+4. GT Walsheim at Medium is used for `h1`/`h2` display headings; Inter is used for body text and everything else.
 5. Use the documented typography hierarchy instead of arbitrary font sizes.
 6. Use a 4px spacing base and consistent spacing tokens.
 7. Use semantic CSS variables for theme-dependent colours.

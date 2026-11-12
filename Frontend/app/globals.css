@@ -40,6 +40,10 @@
   --res-pyq: #4f46e5;
   --res-worksheet: #ea580c;
   --res-formula: #16a34a;
+  /* Class-page system tokens (reusable on all class pages) */
+  --container-page: 1200px;
+  --radius-card: 2px;
+  --motion-quick: 150ms;
 }
 
 :root[data-theme="dark"] {
@@ -125,7 +129,57 @@
   --color-res-formula: var(--res-formula);
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-walsheim), "Helvetica Neue", Arial, sans-serif;
+
+  /* Typography scale tokens (see design.md §3). */
+  --text-display-xxl: 110px;
+  --text-display-xxl--line-height: 0.85;
+  --text-display-xxl--letter-spacing: -5.5px;
+  --text-display-xxl--font-weight: 500;
+  --text-display-xl: 85px;
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -4.25px;
+  --text-display-xl--font-weight: 500;
+  --text-display-lg: 62px;
+  --text-display-lg--line-height: 1;
+  --text-display-lg--letter-spacing: -3.1px;
+  --text-display-lg--font-weight: 500;
+  --text-display-md: 40px;
+  --text-display-md--line-height: 1.13;
+  --text-display-md--letter-spacing: -1px;
+  --text-display-md--font-weight: 500;
+  --text-headline: 22px;
+  --text-headline--line-height: 1.2;
+  --text-headline--letter-spacing: -0.8px;
+  --text-headline--font-weight: 700;
+  --text-subhead: 24px;
+  --text-subhead--line-height: 1.3;
+  --text-subhead--letter-spacing: -0.01px;
+  --text-subhead--font-weight: 400;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.3;
+  --text-body-lg--letter-spacing: -0.18px;
+  --text-body-lg--font-weight: 400;
+  --text-body: 15px;
+  --text-body--line-height: 1.3;
+  --text-body--letter-spacing: -0.15px;
+  --text-body--font-weight: 400;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.4;
+  --text-body-sm--letter-spacing: -0.14px;
+  --text-body-sm--font-weight: 500;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.2;
+  --text-caption--letter-spacing: -0.13px;
+  --text-caption--font-weight: 500;
+  --text-micro: 12px;
+  --text-micro--line-height: 1.2;
+  --text-micro--letter-spacing: -0.12px;
+  --text-micro--font-weight: 400;
+  --text-button: 14px;
+  --text-button--line-height: 1;
+  --text-button--letter-spacing: -0.14px;
+  --text-button--font-weight: 500;
 }
 
 body {
@@ -133,7 +187,37 @@ body {
   color: var(--text-primary);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
+  font-feature-settings: "cv11" 1;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Display font (GT Walsheim): page and section headings.
+   Small functional headings stay Inter via .font-sans. */
+h1,
+h2 {
+  font-family: var(--font-walsheim), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-feature-settings: "ss02" 1;
+}
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+/* Hero keyword: primary (navy) with a secondary (amber) underline. */
+.hero-keyword {
+  color: #14213d;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.11em;
+  text-underline-offset: 0.16em;
+}
+:root[data-theme="dark"] .hero-keyword {
+  color: #ffffff;
 }
 
 /* Guard against page-level horizontal scroll (entrance transforms,
@@ -187,6 +271,20 @@ body {
 
 /* Hero carousel travels on a track (translateX); the global
    reduced-motion rule already neutralises it when requested. */
+
+/* ---- Hero autoscrolling image strip (single-slide hero) ---- */
+@keyframes hero-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-hero-marquee {
+  animation: hero-marquee 45s linear infinite;
+  will-change: transform;
+}
 
 html {
   scroll-behavior: smooth;
@@ -558,6 +656,9 @@ html {
   .reveal-scale {
     opacity: 1;
     transform: none;
+  }
+  .animate-hero-marquee {
+    animation: none;
   }
   .hero-enter,
   .hero-enter-media {

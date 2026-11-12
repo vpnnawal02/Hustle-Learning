@@ -112,13 +112,13 @@ export default function ResourceExplorer({
                   onClick={() => selectClass(cls.slug)}
                   aria-pressed={active}
                   aria-label={`${cls.label}: ${hasContent ? `${cls.totalChapters} chapters available` : "coming soon"}`}
-                  className={`flex min-h-[64px] w-full flex-col items-start justify-center gap-0.5 rounded-md border px-4 py-2 text-left transition-colors ${
+                  className={`flex min-h-[56px] w-full flex-col items-start justify-center gap-0.5 rounded-sm border px-4 py-2 text-left transition-colors ${
                     active
                       ? "border-accent bg-surface font-bold text-text-primary"
                       : "border-border bg-surface text-text-secondary hover:border-accent hover:text-text-primary"
                   }`}
                 >
-                  <span className="text-[15px] font-bold">{cls.label}</span>
+                  <span className="text-sm font-semibold">{cls.label}</span>
                   <span className="text-[13px] font-medium text-text-muted">
                     {hasContent
                       ? `${cls.totalChapters} chapter${cls.totalChapters === 1 ? "" : "s"}`
