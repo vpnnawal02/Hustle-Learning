@@ -97,7 +97,7 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
   const firstError = errors.name ?? errors.classLevel ?? errors.phone;
 
   const fieldCls = (invalid: boolean) =>
-    `h-12 w-full rounded-md border bg-surface-muted/70 pr-3.5 pl-10 text-sm text-text-primary transition-all duration-200 placeholder:text-text-muted/70 focus:outline-none ${invalid
+    `h-12 w-full rounded-md border bg-surface-muted pr-3.5 pl-10 text-sm text-text-primary transition-all duration-200 placeholder:text-text-muted/70 focus:outline-none ${invalid
       ? "border-red-500 focus:ring-2 focus:ring-red-500/25"
       : "border-transparent focus:border-accent/60 focus:bg-surface focus:ring-2 focus:ring-accent/30"
     }`;
@@ -106,7 +106,7 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
     "pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-text-muted";
 
   return (
-    <div className="mt-6 rounded-md border border-border bg-surface p-3 shadow-[0_12px_40px_-12px_rgba(20,33,61,0.18)] sm:p-4 md:mt-6">
+    <div className="mt-6 rounded-md bg-transparent p-3 shadow-sm border-1 border-border sm:p-4 md:mt-6">
 
       {notice?.kind === "ok" ? (
         <div role="status" className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1 py-2">

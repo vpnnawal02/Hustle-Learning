@@ -3,9 +3,9 @@
   "subjects": {
     "english": ["poem-explanations", "important-questions", "worksheets"],
     "hindi": ["poem-explanations", "important-questions", "worksheets"],
-    "mathematics": ["ncert-solutions", "important-questions", "sample-papers", "pyqs", "formulas"],
-    "science": ["ncert-solutions", "notes", "important-questions", "sample-papers", "pyqs"],
-    "social-science": ["ncert-solutions", "important-questions", "sample-papers", "pyqs"]
+    "mathematics": ["ncert-solutions", "notes", "important-questions", "sample-papers", "pyqs", "worksheets", "formulas"],
+    "science": ["ncert-solutions", "notes", "important-questions", "sample-papers", "pyqs", "formulas"],
+    "social-science": ["ncert-solutions", "notes", "important-questions", "sample-papers", "pyqs"]
   },
   "resourceClasses": {
     "pyqs": ["class-10"]

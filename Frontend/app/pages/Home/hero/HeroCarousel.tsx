@@ -68,14 +68,15 @@ export default function HeroCarousel() {
     <section
       id="hero-enquiry"
       aria-label="Hustle Learning offerings"
-      className="relative mx-auto w-full max-w-[var(--container-wide)] scroll-mt-24 border-b border-border px-4 py-5 md:flex md:min-h-[80svh] md:flex-col md:justify-center md:px-6 md:py-10"
+      className="relative mx-auto w-full max-w-[var(--container-wide)] scroll-mt-24 border-b border-border px-4 py-5 md:flex md:flex-col md:px-6 md:py-10 xl:min-h-[80svh] xl:justify-center"
     >
 
       {/* ---- Top row: headline left, proof right (reference layout).
-          Mobile order: headline → slider → proof → trust. ---- */}
+          Mobile order: header → subtext → slider → proof → CTA → trust. ---- */}
       <div className="flex flex-col md:grid md:grid-cols-12 md:items-end md:gap-x-6 md:gap-y-0">
-        <div className="hero-enter hero-enter-copy md:col-span-7 max-md:order-1">
+        <div className="contents md:flex md:flex-col md:col-span-7">
 
+          <div className="hero-enter hero-enter-copy max-md:order-1">
           <h1 className="mt-4 max-w-[20ch] text-4xl leading-[1.15] font-bold text-balance text-text-primary sm:text-5xl md:mt-3 md:text-4xl lg:text-5xl">
             Complete <span className="hero-keyword">Learning</span> Support
             for Every Student.
@@ -84,8 +85,21 @@ export default function HeroCarousel() {
           <p className="mt-4 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg md:mt-3 md:text-[15px] lg:text-base pb-5">
             {LEAD_SLIDE.description}
           </p>
+          </div>
 
+          <div className="max-md:order-4">
+          <div className="hidden md:block">
           <QuickEnquiryForm onBusyChange={setFormBusy} />
+          </div>
+          <button
+            type="button"
+            onClick={openEnquiry}
+            aria-haspopup="dialog"
+            className="mt-6 w-full rounded-lg bg-accent px-5 py-3.5 text-center text-base font-bold text-on-accent shadow-lg transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent-hover active:translate-y-0 md:hidden"
+          >
+            {LEAD_SLIDE.ctaLabel}
+          </button>
+          </div>
         </div>
 
         {/* Proof column */}
@@ -187,7 +201,7 @@ export default function HeroCarousel() {
         </div>
 
         {/* ---- Trust strip (reference brand row, restyled) ---- */}
-        <div className="mt-6 border-t border-border pt-5 md:col-span-12 md:mt-4 md:pt-4 max-md:order-4">
+        <div className="mt-6 border-t border-border pt-5 md:col-span-12 md:mt-4 md:pt-4 max-md:order-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
 
             <ul className="flex flex-1 flex-wrap items-center gap-x-1 gap-y-3 sm:justify-between">
@@ -216,10 +230,7 @@ export default function HeroCarousel() {
         onClose={closeEnquiry}
         labelledBy="hero-enquiry-form-title"
       >
-        <div className="p-5 pt-12 sm:p-6 sm:pt-12">
-          <p className="mb-4 text-[13px] leading-relaxed text-text-secondary">
-            {LEAD_SLIDE.formNote}
-          </p>
+        <div className="p-5 sm:p-6">
           <EnquiryForm
             slide={LEAD_SLIDE}
             values={values}

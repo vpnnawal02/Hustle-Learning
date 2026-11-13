@@ -17,6 +17,7 @@ type OpenMenu = "study" | "classes" | null;
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const studyTriggerRef = useRef<HTMLButtonElement>(null);
   const classesTriggerRef = useRef<HTMLButtonElement>(null);
@@ -46,6 +47,14 @@ export default function Navbar() {
     isActivePath("/neet") ||
     pathname.startsWith("/class-");
   const isClasses = isActivePath("/classes");
+
+  // Frosted at the very top, solid once content scrolls underneath.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Outside-click dismissal + Escape for desktop dropdowns
   useEffect(() => {
@@ -77,11 +86,14 @@ export default function Navbar() {
       if (e.key === "Escape") setMobileOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    const prev = document.body.style.overflow;
+    const prevBody = document.body.style.overflow;
+    const prevRoot = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevRoot;
     };
   }, [mobileOpen]);
 
@@ -89,7 +101,10 @@ export default function Navbar() {
     <>
       <header
         ref={navRef}
-        className="sticky top-0 z-50 border-b border-border bg-surface"
+        className={`fixed inset-x-0 top-0 z-50 border-b border-border transition-colors ${scrolled
+          ? "bg-surface shadow-[0_8px_24px_rgba(20,33,61,0.08)]"
+          : "bg-surface/80 backdrop-blur-md backdrop-saturate-150"
+          }`}
       >
         <div className="mx-auto flex h-20 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1280px]:gap-10">
           <Logo />
@@ -196,6 +211,9 @@ export default function Navbar() {
 
         <MobileMenu open={mobileOpen} onNavigate={closeMobile} />
       </header>
+      {/* Spacer: the fixed header is out of flow — this reserves its exact
+          h-20 height so page content never slides underneath it. */}
+      <div aria-hidden="true" className="h-20 shrink-0" />
       {mobileOpen && (
         <button
           type="button"

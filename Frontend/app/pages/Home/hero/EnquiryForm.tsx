@@ -131,13 +131,10 @@ export default function EnquiryForm({
     <div className="flex flex-col">
       <h2
         id={`${formIdPrefix}-title`}
-        className="text-xl text-text-primary"
+        className="pr-12 text-xl text-text-primary"
       >
         Free counselling
       </h2>
-      <p className="mt-1 text-[15px] font-semibold text-text-secondary">
-        Request a callback
-      </p>
 
       <form
         id={formIdPrefix}
@@ -198,33 +195,6 @@ export default function EnquiryForm({
           {errors.whatsapp && (
             <p role="alert" className={errCls}>
               {errors.whatsapp}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor={`${uid}-email`}
-            className="text-sm font-semibold text-text-primary"
-          >
-            Email address{" "}
-            <span className="font-normal text-text-muted">(optional)</span>
-          </label>
-          <input
-            id={`${uid}-email`}
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={values.email}
-            onChange={(e) => onChange({ ...values, email: e.target.value })}
-            placeholder="parent@example.com"
-            aria-invalid={!!errors.email}
-            data-invalid={!!errors.email}
-            className={`${inputCls(!!errors.email)} mt-1`}
-          />
-          {errors.email && (
-            <p role="alert" className={errCls}>
-              {errors.email}
             </p>
           )}
         </div>
@@ -316,16 +286,11 @@ export default function EnquiryForm({
 
         <button
           type="submit"
-          disabled={!consent || sending}
+          disabled={sending}
           className="mt-1 inline-flex h-12 w-full items-center justify-center rounded bg-accent px-5 text-sm font-bold tracking-wide text-on-accent uppercase transition-colors hover:bg-accent-hover active:bg-accent-pressed disabled:cursor-not-allowed disabled:opacity-50"
         >
           {sending ? "Submitting…" : "Submit"}
         </button>
-        {!consent && !sending && (
-          <p className="text-center text-[13px] text-text-muted">
-            Tick the checkbox above to enable Submit.
-          </p>
-        )}
       </form>
     </div>
   );
