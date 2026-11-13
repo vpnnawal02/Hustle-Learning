@@ -144,6 +144,14 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "slug": "hindi",
+      "name": "Hindi",
+      "tagline": "Hindi language, grammar and literature practice.",
+      "description": "Class 7 Hindi resources — vyakaran, patra-lekhan, nibandh and pathya-pustak practice, publishing progressively.",
+      "status": "draft",
+      "chapters": []
     }
   ],
   "focus": "Class 7 expands every subject outward: integers grow into rational numbers and simple equations, Science moves from observation to explanation with heat, acids and motion, and Social Science opens a thousand years of history. Students benefit most from reading ahead, asking why at every step, and keeping short self-made notes from this year on.",

@@ -104,7 +104,7 @@ export default function MobileMenu({ open, onNavigate }: Props) {
     >
       <nav
         aria-label="Mobile"
-        className="mx-auto max-h-[calc(100dvh-81px)] w-full max-w-[1380px] overflow-y-auto px-6 py-8 md:px-6"
+        className="mx-auto max-h-[calc(100dvh-81px)] w-full max-w-[var(--container-wide)] overflow-y-auto px-6 py-8 md:px-6"
       >
         {/* Home */}
         <Link

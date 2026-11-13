@@ -1,6 +1,6 @@
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto w-full max-w-[860px] px-4 py-10 md:px-6 md:py-14">
+    <main className="mx-auto w-full max-w-[var(--container-narrow)] px-4 py-10 md:px-6 md:py-14">
       <p className="text-sm text-text-secondary">Legal</p>
       <h1 className="mt-2 text-3xl text-balance text-text-primary sm:text-4xl">
         Privacy Policy
@@ -9,7 +9,7 @@ export default function PrivacyPage() {
         Last updated: October 2026
       </p>
 
-      <div className="mt-8 flex flex-col gap-6 text-base leading-[1.6] text-text-secondary">
+      <div className="mt-8 flex max-w-[68ch] flex-col gap-6 text-base leading-[1.6] text-text-secondary">
         <section>
           <h2 className="font-sans text-lg font-semibold text-text-primary">
             1. Information we collect

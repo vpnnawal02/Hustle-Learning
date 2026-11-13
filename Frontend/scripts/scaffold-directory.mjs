@@ -58,12 +58,21 @@ async function main() {
   const resources = (
     await readJson(path.join(dirRoot, "_resources.json"))
   ).map((r) => r.slug);
+  // Only scaffold offered (subject x resource) combos for classes 6-10,
+  // per directory/_availability.json — keeps the tree aligned with the
+  // enforced catalog instead of materialising every permutation.
+  const availability = await readJson(
+    path.join(dirRoot, "_availability.json"),
+  ).catch(() => null);
+  const offeredFor = (subject) =>
+    availability?.subjects?.[subject] ?? resources;
   let leaves = 0;
   for (let n = 6; n <= 12; n++) {
     const cls = `class-${n}`;
     const subjects = await subjectsFor(cls);
-    for (const res of resources) {
-      for (const subject of subjects) {
+    for (const subject of subjects) {
+      const resList = n >= 11 ? resources : offeredFor(subject);
+      for (const res of resList) {
         await ensureLeaf(path.join(dirRoot, cls, res, subject));
         leaves += 1;
       }

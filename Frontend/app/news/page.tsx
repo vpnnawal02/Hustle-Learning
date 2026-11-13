@@ -40,7 +40,7 @@ const UPDATES = [
 export default function NewsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
-      <main className="mx-auto w-full max-w-[860px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <main className="mx-auto w-full max-w-[var(--container-narrow)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <h1 className="text-3xl text-balance sm:text-4xl">
           Newsroom
         </h1>
@@ -51,7 +51,7 @@ export default function NewsPage() {
           Announcements about new study material, batches and platform
           features.
         </p>
-        <ol className="mt-8 flex flex-col gap-4">
+        <ol className="mt-8 flex max-w-[68ch] flex-col gap-4">
           {UPDATES.map((update) => (
             <li key={update.title}>
               <article className="rounded-lg border border-border bg-surface p-5 sm:p-6">

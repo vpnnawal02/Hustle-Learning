@@ -27,7 +27,7 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
   const subjects = exam.subjects.filter((s) => s.status !== "archived");
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs items={examCrumbs(exam.name)} />
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.fullName} · {exam.tagline}
@@ -126,7 +126,7 @@ export async function ExamSubjectPage({
   );
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs items={examSubjectCrumbs(exam.name, exam.slug, subject.name)} />
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.name} · {subject.tagline}
@@ -247,7 +247,7 @@ export async function ExamResourcePage({
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <Breadcrumbs
           items={examResourceCrumbs(
             exam.name,
@@ -274,7 +274,7 @@ export async function ExamResourcePage({
   );
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs
         items={examResourceCrumbs(
           exam.name,

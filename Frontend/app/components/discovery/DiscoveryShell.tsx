@@ -21,7 +21,7 @@ export default function DiscoveryShell({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs items={crumbs} />
       <p className="mt-6 text-[15px] leading-[1.6] text-text-secondary">
         {context}

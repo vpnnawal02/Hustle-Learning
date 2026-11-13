@@ -57,7 +57,8 @@ export type SchoolResourceSlug =
   | "sample-papers"
   | "pyqs"
   | "worksheets"
-  | "formulas";
+  | "formulas"
+  | "poem-explanations";
 
 export interface ResourceCategory {
   slug: SchoolResourceSlug;

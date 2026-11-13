@@ -164,7 +164,7 @@ export default function WhoWeAre() {
       id="who-we-are"
       className="scroll-mt-24 bg-background"
     >
-      <div className="mx-auto w-full max-w-[1380px] px-4 py-12 md:px-6 md:py-16">
+      <div className="mx-auto w-full max-w-[var(--container-wide)] px-4 py-12 md:px-6 md:py-16">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-x-8 lg:gap-y-0">
           <div className="min-w-0">
             <Reveal>
@@ -221,7 +221,7 @@ export default function WhoWeAre() {
                   className="animate-float-y h-full w-full"
                   style={{
                     borderRadius: "100px",
-                    background: "rgb(252 163 17 / 0.16)",
+                    background: "rgb(255 182 39 / 0.16)",
                   }}
                 />
               </div>

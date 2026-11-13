@@ -114,7 +114,7 @@ export default async function StudyDiscovery() {
       aria-labelledby="study-discovery-heading"
       className="scope-discovery border-b border-rule bg-canvas"
     >
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-10 md:px-8 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-page)] px-4 py-10 md:px-6 md:py-14">
         <h2
           id="study-discovery-heading"
           className="max-w-[24ch] text-[30px] leading-[1.15] text-balance text-navy-900 lg:text-[44px]"

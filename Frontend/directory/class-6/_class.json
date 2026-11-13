@@ -126,6 +126,14 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "slug": "hindi",
+      "name": "Hindi",
+      "tagline": "Hindi language, grammar and literature practice.",
+      "description": "Class 6 Hindi resources — varnamala revision, vyakaran basics, lekhan kaushal and pathya-pustak practice, publishing progressively.",
+      "status": "draft",
+      "chapters": []
     }
   ],
   "focus": "Class 6 is the bridge into middle school: new subjects, longer chapters and the first real need for organised study. Number sense in Mathematics, observation skills in Science and map awareness in Social Science are the three foundations to build — with curiosity intact, short daily practice, and plenty of diagrams drawn by hand.",

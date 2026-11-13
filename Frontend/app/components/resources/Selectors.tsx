@@ -53,7 +53,6 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
   return (
     <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
       {classes.map((cls) => {
-        const num = cls.slug.replace("class-", "");
         const stage = stageFor(cls.slug);
         return (
           <li key={cls.slug} className="min-w-0">
@@ -77,11 +76,6 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
                   {stage}
                 </span>
               </span>
-              {num === "10" && (
-                <span className="shrink-0 rounded-full bg-accent/15 px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-text-primary">
-                  Board Year
-                </span>
-              )}
               <ArrowIcon className="h-5 w-5 shrink-0 text-text-muted" />
             </Link>
             {/* Full card on sm and up. */}
@@ -95,11 +89,6 @@ export function ClassSelector({ classes }: { classes: ClassFile[] }) {
                   Class
                 </span>
                 <span className="flex flex-col items-end gap-2">
-                  {num === "10" && (
-                    <span className="rounded-full bg-accent/15 px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-text-primary">
-                      Board Year
-                    </span>
-                  )}
                   <BookIcon className="h-6 w-6 text-accent transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none" />
                 </span>
               </span>

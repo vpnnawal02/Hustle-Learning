@@ -90,8 +90,7 @@ export default function EnquiryForm({
   }
 
   const inputCls = (invalid: boolean) =>
-    `h-11 w-full rounded border border-border bg-surface-muted/60 px-3 text-sm text-text-primary placeholder:text-text-muted/60 transition-colors focus:border-accent focus:bg-surface focus:outline-none focus:ring-2 focus:ring-accent/40 ${
-      invalid ? "border-red-500" : ""
+    `h-11 w-full rounded border border-border bg-surface-muted/60 px-3 text-sm text-text-primary placeholder:text-text-muted/60 transition-colors focus:border-accent focus:bg-surface focus:outline-none focus:ring-2 focus:ring-accent/40 ${invalid ? "border-red-500" : ""
     }`;
 
   const errCls =
@@ -139,6 +138,7 @@ export default function EnquiryForm({
       <p className="mt-1 text-[15px] font-semibold text-text-secondary">
         Request a callback
       </p>
+
       <form
         id={formIdPrefix}
         onSubmit={handleSubmit}

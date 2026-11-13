@@ -18,7 +18,7 @@ The visual identity is built around navy, amber, white, and grey. Use navy for s
 |---|---|---|
 | `brand-white` | `#FFFFFF` | Main light-theme background and cards |
 | `brand-gray` | `#E5E5E5` | Neutral surfaces and muted areas |
-| `brand-amber` | `#FCA311` | Primary accent, CTA, active states, key metrics |
+| `brand-amber` | `#FFB627` | Primary accent, CTA, active states, key metrics |
 | `brand-navy` | `#14213D` | Primary text, headings, navigation, brand elements |
 | `brand-black` | `#000000` | High-contrast use where appropriate |
 
@@ -34,9 +34,9 @@ The visual identity is built around navy, amber, white, and grey. Use navy for s
 | `text-secondary` | `#46536A` | Supporting text |
 | `text-muted` | `#687386` | Captions and metadata; verify contrast |
 | `border` | `#D9DEE7` | Dividers, outlines, inputs |
-| `accent` | `#FCA311` | Primary brand accent |
-| `accent-hover` | `#E99100` | Accent hover state |
-| `accent-pressed` | `#CC7F00` | Accent pressed state |
+| `accent` | `#FFB627` | Primary brand accent |
+| `accent-hover` | `#F0A200` | Accent hover state |
+| `accent-pressed` | `#CF8500` | Accent pressed state |
 | `on-accent` | `#14213D` | Text/icons on amber |
 | `focus-ring` | `#14213D` | Keyboard focus |
 
@@ -52,11 +52,11 @@ The visual identity is built around navy, amber, white, and grey. Use navy for s
 | `text-secondary` | `#D5DCE7` | Supporting text |
 | `text-muted` | `#A6B0C0` | Captions and metadata |
 | `border` | `#2B3950` | Dividers, outlines, inputs |
-| `accent` | `#FCA311` | Primary brand accent |
-| `accent-hover` | `#FFB338` | Accent hover state |
-| `accent-pressed` | `#E99100` | Accent pressed state |
+| `accent` | `#FFB627` | Primary brand accent |
+| `accent-hover` | `#FFC65C` | Accent hover state |
+| `accent-pressed` | `#F0A200` | Accent pressed state |
 | `on-accent` | `#14213D` | Text/icons on amber |
-| `focus-ring` | `#FCA311` | Keyboard focus |
+| `focus-ring` | `#FFB627` | Keyboard focus |
 
 ### Colour rules
 
@@ -162,8 +162,11 @@ Use a **4px base spacing unit**. Keep spacing values consistent instead of inven
 
 ### Layout spacing
 
-- Maximum content width: approximately **1280px**, centered.
-- Horizontal page padding: **16px mobile**, **20px tablet**, **24px desktop**.
+Every page and section on the site shares one container width — **1380px** — so all left and right edges align everywhere. The tokens in `globals.css` (`container-wide`, `container-page`, `container-reading`, `container-narrow`) all resolve to 1380px; keep the semantic token names at call sites so widths can diverge again later without a hunt. Never use arbitrary pixel values for page containers.
+
+- All page containers are centered with `mx-auto w-full`.
+- Horizontal page padding: **16px mobile**, **24px desktop** (`px-4 md:px-6`).
+- Long-form copy keeps a `max-w-[860px]` (or `max-w-[68ch]`) inner measure for readability even inside wider containers.
 - Card padding: **24px** for standard cards; **32px** for featured/large cards.
 - Major marketing section spacing: **96px desktop**, **64px tablet**, **40–48px mobile**.
 - Keep dashboard and lesson layouts more compact than the public landing page.
@@ -255,9 +258,9 @@ Keep theme values centralized in a global stylesheet and reference them from Tai
   --text-secondary: #46536a;
   --text-muted: #687386;
   --border: #d9dee7;
-  --accent: #fca311;
-  --accent-hover: #e99100;
-  --accent-pressed: #cc7f00;
+  --accent: #ffb627;
+  --accent-hover: #f0a200;
+  --accent-pressed: #cf8500;
   --on-accent: #14213d;
   --focus-ring: #14213d;
 }
@@ -272,11 +275,11 @@ Keep theme values centralized in a global stylesheet and reference them from Tai
   --text-secondary: #d5dce7;
   --text-muted: #a6b0c0;
   --border: #2b3950;
-  --accent: #fca311;
-  --accent-hover: #ffb338;
-  --accent-pressed: #e99100;
+  --accent: #ffb627;
+  --accent-hover: #ffc65c;
+  --accent-pressed: #f0a200;
   --on-accent: #14213d;
-  --focus-ring: #fca311;
+  --focus-ring: #ffb627;
 }
 
 body {

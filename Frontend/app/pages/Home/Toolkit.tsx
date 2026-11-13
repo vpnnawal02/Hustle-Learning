@@ -12,7 +12,7 @@ export default function Toolkit() {
   return (
     <section
       aria-labelledby="toolkit-heading"
-      className="mx-auto w-full max-w-[1380px] px-4 pt-10 pb-12 md:px-6 md:pb-16"
+      className="mx-auto w-full max-w-[var(--container-wide)] px-4 pt-10 pb-12 md:px-6 md:pb-16"
     >
       <Reveal>
         <h2

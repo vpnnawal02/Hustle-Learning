@@ -216,6 +216,14 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "slug": "hindi",
+      "name": "Hindi",
+      "tagline": "Hindi language, grammar and literature practice.",
+      "description": "Class 9 Hindi resources — Kshitij and Kritika support with vyakaran and lekhan practice, publishing progressively.",
+      "status": "draft",
+      "chapters": []
     }
   ],
   "focus": "Class 9 is the foundation year for the boards: abstraction jumps sharply with atoms and molecules, Euclid's geometry, polynomials and the French Revolution. Students who build clean notes, learn derivations properly and practise proof-style answers in Class 9 find Class 10 dramatically easier — this is the year study habits are formed.",

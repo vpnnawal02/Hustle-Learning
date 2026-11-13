@@ -5,6 +5,7 @@ import { BookOpen, ShieldCheck, Users, Wallet } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import EnquiryForm from "./EnquiryForm";
 import EnquiryModal from "./EnquiryModal";
+import QuickEnquiryForm from "./QuickEnquiryForm";
 import { HERO_SLIDES } from "./hero-slides";
 import type { EnquiryValues } from "./validation";
 
@@ -15,10 +16,12 @@ const ENQUIRY_HASHES = new Set(["#hero-enquiry", "#enquiry-form"]);
 const LEAD_SLIDE = HERO_SLIDES[0];
 
 const TRUST_ITEMS = [
-  { icon: BookOpen, label: "NCERT-aligned notes" },
-  { icon: Users, label: "Small live batches" },
-  { icon: ShieldCheck, label: "Verified home tutors" },
-  { icon: Wallet, label: "Plans for every budget" },
+  { icon: BookOpen, label: "Free resources" },
+  { icon: Users, label: "Interactive Drill Mode" },
+  { icon: ShieldCheck, label: "Worksheet and Question Bank" },
+  { icon: Wallet, label: "Affordable Pricing" },
+  { icon: Wallet, label: "Personal Online and Home Tuitions" },
+  { icon: Wallet, label: "Much more with Subscription" },
 ];
 
 
@@ -65,13 +68,9 @@ export default function HeroCarousel() {
     <section
       id="hero-enquiry"
       aria-label="Hustle Learning offerings"
-      className="relative mx-auto w-full max-w-[1380px] scroll-mt-24 border-b border-border px-5 py-5 md:flex md:min-h-[80svh] md:flex-col md:justify-center md:py-10"
+      className="relative mx-auto w-full max-w-[var(--container-wide)] scroll-mt-24 border-b border-border px-4 py-5 md:flex md:min-h-[80svh] md:flex-col md:justify-center md:px-6 md:py-10"
     >
-      {/* Soft warm glow behind the headline */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-accent/[0.07] blur-3xl"
-      />
+
       {/* ---- Top row: headline left, proof right (reference layout).
           Mobile order: headline → slider → proof → trust. ---- */}
       <div className="flex flex-col md:grid md:grid-cols-12 md:items-end md:gap-x-6 md:gap-y-0">
@@ -86,21 +85,7 @@ export default function HeroCarousel() {
             {LEAD_SLIDE.description}
           </p>
 
-          <ul className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 md:mt-3">
-            {LEAD_SLIDE.bullets.map((b) => (
-              <li
-                key={b}
-                className="flex items-center gap-1.5 text-sm font-medium text-text-secondary md:text-[13px]"
-              >
-                <span aria-hidden="true" className="font-bold text-accent">
-                  ✦
-                </span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-
-
+          <QuickEnquiryForm onBusyChange={setFormBusy} />
         </div>
 
         {/* Proof column */}
@@ -128,7 +113,7 @@ export default function HeroCarousel() {
                 +
               </span>
             </div>
-            <p className="text-[13px] leading-snug font-medium text-text-secondary">
+            <p className="text-[15px] leading-snug font-medium text-text-secondary">
               <span aria-hidden="true" className="font-bold text-text-primary">
                 ★★★★★{" "}
               </span>
@@ -137,7 +122,7 @@ export default function HeroCarousel() {
               and parents across Classes 6–12
             </p>
           </div>
-          <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-text-secondary md:mt-2 md:text-[13px]">
+          <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-text-secondary md:mt-2 md:text-[14ppx]">
             Notes, live online classes, personal home tutors, and books —
             expert guidance matched to your syllabus, at prices families can
             afford.
@@ -204,19 +189,12 @@ export default function HeroCarousel() {
         {/* ---- Trust strip (reference brand row, restyled) ---- */}
         <div className="mt-6 border-t border-border pt-5 md:col-span-12 md:mt-4 md:pt-4 max-md:order-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <p className="shrink-0 text-[13px] leading-snug font-semibold text-text-secondary">
-              Building Success
-              <br className="hidden sm:block" /> with Trusted Learning
-            </p>
-            <span
-              aria-hidden="true"
-              className="hidden h-8 w-px bg-border sm:block"
-            />
-            <ul className="flex flex-1 flex-wrap items-center gap-x-8 gap-y-3 sm:justify-between">
+
+            <ul className="flex flex-1 flex-wrap items-center gap-x-1 gap-y-3 sm:justify-between">
               {TRUST_ITEMS.map(({ icon: Icon, label }) => (
                 <li
                   key={label}
-                  className="flex items-center gap-2 text-sm font-semibold text-text-muted md:text-[13px]"
+                  className="flex items-center gap-2 text-sm font-semibold text-text-muted md:text-md border border-border rounded-md px-2 py-1 bg-surface-muted"
                 >
                   <Icon
                     size={16}

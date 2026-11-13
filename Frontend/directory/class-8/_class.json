@@ -180,6 +180,14 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "slug": "hindi",
+      "name": "Hindi",
+      "tagline": "Hindi language, grammar and literature practice.",
+      "description": "Class 8 Hindi resources — vyakaran, lekhan kaushal and pathya-pustak practice with revision material, publishing progressively.",
+      "status": "draft",
+      "chapters": []
     }
   ],
   "focus": "Class 8 consolidates middle-school learning while opening the door to higher concepts: linear equations, rational numbers, force and pressure, and modern Indian history. It is the ideal year to build exam temperament — timed worksheets, neat presentation and regular revision — before the syllabus pressure of Classes 9 and 10.",

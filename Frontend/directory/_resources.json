@@ -238,5 +238,37 @@
       }
     ],
     "blurb": "One-page formulas for last-minute revision."
+  },
+  {
+    "slug": "poem-explanations",
+    "title": "Poem Explanations",
+    "shortTitle": "Poems",
+    "description": "Stanza-by-stanza explanations of CBSE English and Hindi poems — meanings, poetic devices and exam takeaways.",
+    "icon": "Feather",
+    "intro": [
+      "Poems are not meant to be memorised line by line — they are meant to be unpacked. Each explanation walks through the poem stanza by stanza: what the poet literally says, what the images and figures of speech actually mean, and the one-line takeaway an examiner expects in the answer.",
+      "Use these after one loud reading of the poem. First pass for sound and feeling, then the explanation to fix meanings, then a closed-book retelling of every stanza in your own words. If you can explain each stanza aloud without looking, the poem is ready."
+    ],
+    "howTo": [
+      "Read the poem aloud once before opening the explanation — rhythm carries meaning.",
+      "Convert every stanza into one sentence in your own words.",
+      "Learn the names of devices used (simile, metaphor, alliteration) with one example each.",
+      "Practise the RTC (reference to context) format: poet and poem, context, explanation, takeaway."
+    ],
+    "faqs": [
+      {
+        "question": "Should I memorise the poem?",
+        "answer": "Memorise meanings, not lines. Board answers reward explanation of stanzas and devices in your own words far more than reproduced text."
+      },
+      {
+        "question": "How do I answer reference-to-context questions?",
+        "answer": "Name the poet and poem, place the lines in context, explain the meaning stanza-wise, and close with the poetic device or message involved."
+      },
+      {
+        "question": "Are prose chapters covered here?",
+        "answer": "No — this resource covers poems only. Prose and grammar practice lives under Important Questions and Worksheets."
+      }
+    ],
+    "blurb": "Stanza-wise meanings for every poem."
   }
 ]

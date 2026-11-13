@@ -414,6 +414,14 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "slug": "hindi",
+      "name": "Hindi",
+      "tagline": "Hindi language, grammar and literature practice.",
+      "description": "Class 10 Hindi resources — Kshitij and Kritika support with vyakaran, lekhan and board-pattern practice, publishing progressively.",
+      "status": "draft",
+      "chapters": []
     }
   ],
   "focus": "Class 10 is the first full board-examination year: the entire syllabus is tested in timed papers, so preparation must shift from chapter completion to answer writing, revision cycles and speed. High-weightage chapters like Chemical Reactions, Life Processes, Light, Electricity, Real Numbers and Trigonometry deserve first-pass mastery, followed by sample papers and previous year questions under exam conditions.",

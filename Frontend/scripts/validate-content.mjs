@@ -95,6 +95,21 @@ async function main() {
   }
   ok(`${resources.length} resource categories with editorial content`);
 
+  // ---- hardcoded slug lists must mirror the registry ----
+  const helpersSrc = await readFile(
+    path.join(root, "lib", "data", "helpers.ts"),
+    "utf-8",
+  );
+  const hardcoded = new Set(
+    [...helpersSrc.matchAll(/"([a-z0-9-]+)"/g)]
+      .map((m) => m[1])
+      .filter((s) => resourceSlugs.has(s)),
+  );
+  for (const r of resourceSlugs) {
+    if (!hardcoded.has(r))
+      fail(`helpers.ts isSchoolResourceSlug is missing "${r}" (add it or the route 404s)`);
+  }
+
   // ---- class registries ----
   console.log("directory/class-N/_class.json");
   const registry = new Map(); // "class-10/science" -> { chapters: Map(slug -> number) }
@@ -151,6 +166,7 @@ async function main() {
   const seenIds = new Set();
   let files = 0;
   let published = 0;
+  const publishedSchoolFiles = [];
   const walk = async (dir) => {
     for (const entry of await readdir(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
@@ -197,6 +213,13 @@ async function main() {
             fail(`${rel}: planned class must not publish yet`);
           continue;
         }
+        publishedSchoolFiles.push({
+          rel,
+          cls,
+          resource,
+          subject,
+          status: fm.status,
+        });
         if (!classSlugs.includes(cls)) fail(`${rel}: unknown class ${cls}`);
         if (!resourceSlugs.has(resource)) fail(`${rel}: unknown resource ${resource}`);
         const chapters = registry.get(`${cls}/${subject}`);
@@ -208,6 +231,44 @@ async function main() {
   };
   await walk(directoryDir);
   ok(`${files} chapter files, ${published} published, ids unique`);
+
+  // ---- _availability.json (subject x resource x class matrix) ----
+  console.log("directory/_availability.json");
+  const availability = await readJson(
+    path.join(directoryDir, "_availability.json"),
+  );
+  const offeredBySubject = availability.subjects ?? {};
+  const classesByResource = availability.resourceClasses ?? {};
+  for (const [subject, resources] of Object.entries(offeredBySubject)) {
+    for (const r of resources) {
+      if (!resourceSlugs.has(r))
+        fail(`availability: unknown resource ${r} for subject ${subject}`);
+    }
+  }
+  for (const [r, classes] of Object.entries(classesByResource)) {
+    if (!resourceSlugs.has(r)) fail(`availability: unknown resource ${r}`);
+    for (const c of classes) {
+      if (!classSlugs.includes(c))
+        fail(`availability: unknown class ${c} for resource ${r}`);
+    }
+  }
+  let matrixBreaches = 0;
+  for (const f of publishedSchoolFiles) {
+    if (f.status !== "published") continue;
+    // Unknown class/resource already reported above — don't double-report.
+    if (!classSlugs.includes(f.cls) || !resourceSlugs.has(f.resource)) continue;
+    const offered = offeredBySubject[f.subject] ?? [];
+    const allowedClasses = classesByResource[f.resource] ?? classSlugs;
+    if (!offered.includes(f.resource) || !allowedClasses.includes(f.cls)) {
+      fail(
+        `${f.rel}: published but outside the availability matrix ` +
+          `(${f.cls}/${f.subject}/${f.resource}) — set status to draft or move it`,
+      );
+      matrixBreaches += 1;
+    }
+  }
+  if (matrixBreaches === 0)
+    ok("published files satisfy the availability matrix");
 
   console.log(errors === 0 ? "\nAll content checks passed." : `\n${errors} error(s) found.`);
   process.exit(errors === 0 ? 0 : 1);

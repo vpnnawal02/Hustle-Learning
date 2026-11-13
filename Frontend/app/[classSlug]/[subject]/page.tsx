@@ -16,6 +16,8 @@ import {
   getResourceFile,
   getSubject,
 } from "@/lib/data/school";
+import { getOfferedResources } from "@/lib/data/availability";
+import { displayCategory } from "@/lib/data/display-names";
 import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
 import { getSubjectsForClassMaterial } from "@/lib/discovery";
 import { urls } from "@/lib/urls";
@@ -117,14 +119,29 @@ export default async function SubjectPage({
   if (!found || found.subject.status !== "published") notFound();
   const { cls, subject } = found;
 
-  const categories = await getResourceCategories();
+  // Only matrix-offered resources are shown for this subject.
+  const offered = new Set(await getOfferedResources(subject.slug));
+  const categories = (await getResourceCategories())
+    .filter((c) => offered.has(c.slug))
+    .map((c) => displayCategory(subject.slug, c));
   const perResource = new Map<string, number>();
+  // First published resource per chapter (registry order) for chapter links.
+  const chapterHref = new Map<string, string>();
   let totalPublished = 0;
   for (const cat of categories) {
     const file = await getResourceFile(cls.slug, subject.slug, cat.slug);
-    const n = publishedItems(file).length;
+    const items = publishedItems(file);
+    const n = items.length;
     perResource.set(cat.slug, n);
     totalPublished += n;
+    for (const item of items) {
+      if (!chapterHref.has(item.chapterSlug)) {
+        chapterHref.set(
+          item.chapterSlug,
+          urls.chapterPage(cls.slug, subject.slug, cat.slug, item.chapterSlug),
+        );
+      }
+    }
   }
 
   const first = subject.chapters[0];
@@ -134,7 +151,7 @@ export default async function SubjectPage({
   );
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs items={subjectCrumbs(cls.label, cls.slug, subject.name)} />
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {cls.label} · {subject.tagline}
@@ -181,13 +198,21 @@ export default async function SubjectPage({
         {subject.name} Chapters
       </h2>
       <p className="mt-2 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary">
-        Chapter links open the notes view — every chapter page carries tabs
-        for solutions, questions, worksheets and more where published.
+        Chapter links open the chapter reading view — every chapter page
+        carries tabs for solutions, questions, worksheets and more where
+        published.
       </p>
       <div className="mt-4 max-w-[860px]">
         <ChapterList
           chapters={subject.chapters}
-          hrefFor={() => urls.resourcePage(cls.slug, subject.slug, "notes")}
+          hrefFor={(chapterSlug) =>
+            chapterHref.get(chapterSlug) ??
+            urls.resourcePage(
+              cls.slug,
+              subject.slug,
+              categories[0]?.slug ?? "notes",
+            )
+          }
         />
       </div>
 
@@ -213,7 +238,10 @@ export default async function SubjectPage({
           faqs={[
             {
               question: `How should I study ${subject.name} in ${cls.label}?`,
-              answer: `Start with the chapter notes, practise the important questions, then test yourself with sample papers and previous year questions — all linked from each ${subject.name} chapter page.`,
+              answer:
+                subject.slug === "english"
+                  ? `Start with the chapter summaries and poem explanations, practise the important questions, then try the worksheets — all linked from each ${subject.name} chapter page.`
+                  : `Start with the chapter notes, practise the important questions, then test yourself with sample papers and previous year questions — all linked from each ${subject.name} chapter page.`,
             },
             {
               question: `Are all ${subject.name} chapters available yet?`,

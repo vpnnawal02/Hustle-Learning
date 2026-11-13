@@ -9,7 +9,7 @@ export default function PopularCourses() {
       aria-labelledby="popular-courses-heading"
       className=""
     >
-      <div className="relative mx-auto w-full max-w-[1380px] px-4 pt-16 pb-12 md:px-6 md:pt-24 md:pb-16">
+      <div className="relative mx-auto w-full max-w-[var(--container-wide)] px-4 pt-16 pb-12 md:px-6 md:pt-24 md:pb-16">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <Reveal variant="left">
             <div>

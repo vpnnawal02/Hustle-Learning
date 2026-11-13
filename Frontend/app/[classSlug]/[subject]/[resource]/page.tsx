@@ -123,7 +123,7 @@ export default async function ResourcePage({
     const { cls, subject, cat, items } = triple;
     if (items.length === 0) {
       return (
-        <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+        <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
           <div className="mt-8">
             <ComingSoon
               title={`${cat.title} for ${cls.label} ${subject.name} are on their way`}
@@ -154,7 +154,7 @@ export default async function ResourcePage({
         meta: `${m.count} chapter${m.count === 1 ? "" : "s"} published`,
       })) ?? [];
     return (
-      <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <ResourceListing
           crumbs={classMaterialSubjectCrumbs(
             cls.label,
@@ -202,7 +202,7 @@ export default async function ResourcePage({
   const related = categories.filter((c) => c.slug !== resource).slice(0, 4);
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs
         items={resourceCrumbs(
           cls.label,

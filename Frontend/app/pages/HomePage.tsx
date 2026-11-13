@@ -41,7 +41,7 @@ export default function HomePage() {
         <PopularCourses />
         <OneOnOneClasses />
         <Toolkit />
-        <div className="mx-auto w-full max-w-[1380px] px-4 pb-12 md:px-6 md:pb-16">
+        <div className="mx-auto w-full max-w-[var(--container-wide)] px-4 pb-12 md:px-6 md:pb-16">
           <Faq faqs={HOME_FAQS} />
         </div>
         <CtaBand />

@@ -6,7 +6,7 @@ import { TUTORING_OPTIONS } from "../components/tutoring";
 export default function ClassesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
-      <main className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <main className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <h1 className="max-w-[22ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
           Personalised Learning
         </h1>

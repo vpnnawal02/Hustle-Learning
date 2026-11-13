@@ -46,6 +46,17 @@ Mirror structure under `directory/competitive/`: registry in
 `competitive/<exam>/<subject>/<resource>/`. Exam URLs stop at the resource
 level — items render inline on that page. Never mix school and exam data.
 
+## Availability matrix (which resources each subject offers)
+
+`directory/_availability.json` is the single source of truth: `subjects`
+maps each subject to its offered resource slugs, and `resourceClasses`
+restricts resources to classes (currently `pyqs` → Class 10 only).
+`npm run validate-content` **fails the build** if a `published` file falls
+outside the matrix — set it to `draft` or move it instead. Subject pages,
+chapter tabs and the scaffold script all read the same matrix, so listings
+never show unoffered resources. English `notes` is the legacy home of the
+published poem explanations; all new poems belong in `poem-explanations`.
+
 ## Content rules (non-negotiable)
 
 - **Never fabricate** NCERT answers, CBSE questions or historical PYQs.

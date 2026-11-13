@@ -91,7 +91,7 @@ export default function Navbar() {
         ref={navRef}
         className="sticky top-0 z-50 border-b border-border bg-surface"
       >
-        <div className="mx-auto flex h-20 w-full max-w-[1380px] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1280px]:gap-10">
+        <div className="mx-auto flex h-20 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1280px]:gap-10">
           <Logo />
 
           {/* Desktop nav — single row, no wrap */}

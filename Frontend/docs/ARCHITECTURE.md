@@ -43,7 +43,7 @@ appear automatically. Full conventions: `directory-structure.md`.
 | Decision | Rationale |
 |---|---|
 | No framework migration | Project was already Next.js App Router — improved in place. |
-| Navy/amber identity kept | `design.md` + all components use `#14213D`/`#FCA311`. The brief's purple (`#6256CA`) conflicts with the "preserve existing identity" rule, so navy/amber wins. Documented exception, not an oversight. |
+| Navy/amber identity kept | `design.md` + all components use `#14213D`/`#FFB627`. The brief's purple (`#6256CA`) conflicts with the "preserve existing identity" rule, so navy/amber wins. Documented exception, not an oversight. |
 | JSON content blocks, not MDX/KaTeX yet | Avoids new deps and build complexity; every block maps 1:1 to a future MDX component (`contentFile` field reserves the path). Demo content is explicitly labelled — no fabricated NCERT/CBSE answers. MDX migration path is in `CONTENT_GUIDE.md`. |
 | No Zod | A dependency-free `validate-content.mjs` enforces the same schemas without adding a runtime dependency. |
 | No Pagefind/Algolia | Static registry search (`lib/search.ts`) suits current scale; Pagefind is the documented upgrade path. |

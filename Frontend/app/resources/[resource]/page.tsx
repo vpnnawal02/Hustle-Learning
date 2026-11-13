@@ -121,7 +121,7 @@ export default async function ResourceHubPage({
 
   return (
     <>
-      <div className="mx-auto w-full max-w-[960px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
@@ -147,7 +147,7 @@ export default async function ResourceHubPage({
         >
           <h2
             id="explorer-heading"
-            className="text-2xl font-extrabold tracking-tight text-text-primary"
+            className="text-2xl text-text-primary"
           >
             Browse {cat.shortTitle.toLowerCase()} by class
           </h2>
@@ -165,7 +165,7 @@ export default async function ResourceHubPage({
         <section aria-labelledby="other-resources-heading" className="mt-12">
           <h2
             id="other-resources-heading"
-            className="text-2xl font-extrabold tracking-tight text-text-primary"
+            className="text-2xl text-text-primary"
           >
             Explore other resources
           </h2>

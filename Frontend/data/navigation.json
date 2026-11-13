@@ -17,7 +17,7 @@
     "hubHref": "/resources",
     "links": [
       { "slug": "ncert-solutions", "label": "NCERT Solutions", "href": "/resources/ncert-solutions", "icon": "BookOpenCheck" },
-      { "slug": "notes", "label": "Notes", "href": "/resources/notes", "icon": "NotebookText" },
+      { "slug": "poem-explanations", "label": "Poem Explanations", "href": "/resources/poem-explanations", "icon": "Feather" },
       { "slug": "important-questions", "label": "Important Questions", "href": "/resources/important-questions", "icon": "ListChecks" },
       { "slug": "sample-papers", "label": "Sample Papers", "href": "/resources/sample-papers", "icon": "FileText" },
       { "slug": "pyqs", "label": "Previous Year Questions", "href": "/resources/pyqs", "icon": "Layers" },

@@ -11,16 +11,16 @@
   --text-secondary: #46536a;
   --text-muted: #687386;
   --border: #d9dee7;
-  --accent: #fca311;
-  --accent-hover: #e99100;
-  --accent-pressed: #cc7f00;
+  --accent: #ffb627;
+  --accent-hover: #f0a200;
+  --accent-pressed: #cf8500;
   --on-accent: #14213d;
   --focus-ring: #14213d;
   /* Discovery page tokens (scoped use; see StudyDiscovery section) */
   --navy-900: #0f1b33;
   --navy-700: #243556;
   --navy-500: #5b6b87;
-  --accent-500: #f59e0b;
+  --accent-500: #ffb627;
   --accent-700: #b45309;
   --canvas: #f6f7f9;
   --rule: #e3e6ec;
@@ -40,8 +40,12 @@
   --res-pyq: #4f46e5;
   --res-worksheet: #ea580c;
   --res-formula: #16a34a;
-  /* Class-page system tokens (reusable on all class pages) */
-  --container-page: 1200px;
+  /* Single site-wide container width: every page and section
+     aligns to the same edge. Inner copy keeps its own measure. */
+  --container-wide: 1380px;
+  --container-page: 1380px;
+  --container-reading: 1380px;
+  --container-narrow: 1380px;
   --radius-card: 2px;
   --motion-quick: 150ms;
 }
@@ -56,16 +60,16 @@
   --text-secondary: #d5dce7;
   --text-muted: #a6b0c0;
   --border: #2b3950;
-  --accent: #fca311;
-  --accent-hover: #ffb338;
-  --accent-pressed: #e99100;
+  --accent: #ffb627;
+  --accent-hover: #ffc65c;
+  --accent-pressed: #f0a200;
   --on-accent: #14213d;
-  --focus-ring: #fca311;
+  --focus-ring: #ffb627;
   /* Discovery tokens, dark mappings */
   --navy-900: #eef2f9;
   --navy-700: #c9d3e4;
   --navy-500: #9aa7bd;
-  --accent-500: #f59e0b;
+  --accent-500: #ffb627;
   --accent-700: #f5b04c;
   --canvas: #0b1220;
   --rule: #2b3950;
@@ -102,7 +106,7 @@
   --color-on-accent: var(--on-accent);
   --color-brand-white: #ffffff;
   --color-brand-gray: #e5e5e5;
-  --color-brand-amber: #fca311;
+  --color-brand-amber: #ffb627;
   --color-brand-navy: #14213d;
   --color-brand-black: #000000;
   --color-navy-900: var(--navy-900);
@@ -231,6 +235,7 @@ body {
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--accent) 32%, transparent);
 }
 
 /* Discovery section uses the exact navy-900 focus colour. */
@@ -453,12 +458,12 @@ html {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(560px 320px at 88% 8%, rgb(252 163 17 / 0.08), transparent 65%),
+    radial-gradient(560px 320px at 88% 8%, rgb(255 182 39 / 0.08), transparent 65%),
     radial-gradient(720px 420px at 8% 100%, rgb(20 33 61 / 0.05), transparent 60%);
 }
 :root[data-theme="dark"] .band-hero::before {
   background:
-    radial-gradient(640px 360px at 85% 6%, rgb(252 163 17 / 0.1), transparent 62%),
+    radial-gradient(640px 360px at 85% 6%, rgb(255 182 39 / 0.1), transparent 62%),
     radial-gradient(820px 480px at 5% 100%, rgb(66 110 180 / 0.16), transparent 62%);
 }
 .band-who {
@@ -471,14 +476,14 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(620px 300px at 12% 0%, rgb(252 163 17 / 0.06), transparent 65%);
+  background: radial-gradient(620px 300px at 12% 0%, rgb(255 182 39 / 0.06), transparent 65%);
 }
 :root[data-theme="dark"] .band-who {
   background: linear-gradient(180deg, #0b1220, #0e1830);
 }
 :root[data-theme="dark"] .band-who::before {
   background:
-    radial-gradient(680px 320px at 10% 0%, rgb(252 163 17 / 0.07), transparent 62%),
+    radial-gradient(680px 320px at 10% 0%, rgb(255 182 39 / 0.07), transparent 62%),
     radial-gradient(760px 420px at 95% 100%, rgb(66 110 180 / 0.12), transparent 60%);
 }
 
@@ -504,7 +509,7 @@ html {
 :root[data-theme="dark"] .courses-band::before {
   background:
     radial-gradient(700px 300px at 50% -60px, rgb(120 165 230 / 0.14), transparent 65%),
-    radial-gradient(600px 300px at 90% 110%, rgb(252 163 17 / 0.06), transparent 60%);
+    radial-gradient(600px 300px at 90% 110%, rgb(255 182 39 / 0.06), transparent 60%);
 }
 
 /* Personalised learning: distinct blue-grey / slate surface. */
@@ -522,11 +527,11 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(640px 300px at 88% 0%, rgb(252 163 17 / 0.05), transparent 62%);
+  background: radial-gradient(640px 300px at 88% 0%, rgb(255 182 39 / 0.05), transparent 62%);
 }
 :root[data-theme="dark"] .band-tutoring::before {
   background:
-    radial-gradient(640px 300px at 88% 0%, rgb(252 163 17 / 0.06), transparent 60%),
+    radial-gradient(640px 300px at 88% 0%, rgb(255 182 39 / 0.06), transparent 60%),
     radial-gradient(720px 380px at 8% 100%, rgb(66 110 180 / 0.1), transparent 62%);
 }
 
@@ -579,7 +584,7 @@ html {
 /* CTA band: highlighted deep navy conclusion with restrained glow. */
 .cta-band {
   background:
-    radial-gradient(560px 240px at 82% 20%, rgb(252 163 17 / 0.14), transparent 62%),
+    radial-gradient(560px 240px at 82% 20%, rgb(255 182 39 / 0.14), transparent 62%),
     linear-gradient(180deg, #18294a, #14213d);
   overflow: clip;
 }
@@ -594,7 +599,7 @@ html {
   }
   .lift:hover {
     transform: translateY(-4px);
-    border-color: rgb(252 163 17 / 0.55);
+    border-color: rgb(255 182 39 / 0.55);
     box-shadow: 0 12px 28px -16px rgb(0 0 0 / 0.35);
   }
   .lift .zoom-img img {

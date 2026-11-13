@@ -14,7 +14,7 @@ import {
   getResourceFile,
   getSubject,
 } from "@/lib/data/school";
-import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
+import { isSchoolResourceSlug } from "@/lib/data/helpers";
 import { splitWorksheets } from "@/lib/content/worksheets";
 import { urls } from "@/lib/urls";
 import { articleJsonLd, buildMetadata, canonical } from "@/lib/seo";
@@ -39,7 +39,11 @@ export async function generateStaticParams() {
       if (subject.status === "archived") continue;
       for (const cat of categories) {
         const file = await getResourceFile(cls.slug, subject.slug, cat.slug);
-        for (const item of publishedItems(file)) {
+        // Include drafts too (they render a ComingSoon state); only
+        // archived items are excluded from prerendering.
+        for (const item of (file?.items ?? []).filter(
+          (i) => i.status !== "archived",
+        )) {
           if (item.blocks.length === 0) continue;
           for (const ws of splitWorksheets(item.blocks)) {
             out.push({
@@ -187,7 +191,7 @@ export default async function WorksheetPage({
   const questionBlocks = ws.blocks.slice(1);
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <JsonLd
         data={articleJsonLd({
           headline: `${ws.title} | ${item.title}`,
@@ -198,7 +202,7 @@ export default async function WorksheetPage({
       />
       <Breadcrumbs items={crumbs} />
 
-      <div className="mt-6">
+      <div className="mx-auto mt-6 max-w-[860px]">
         <article className="flex min-w-0 flex-col gap-6">
           <WorksheetHero
             worksheetLabel={ws.title}

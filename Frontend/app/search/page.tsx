@@ -17,7 +17,7 @@ export const metadata: Metadata = buildMetadata({
 export default async function SearchPage() {
   const entries = await buildSearchIndex();
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Search" }]}
       />

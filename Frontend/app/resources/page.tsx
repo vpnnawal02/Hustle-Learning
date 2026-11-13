@@ -24,7 +24,7 @@ export default async function ResourcesHubPage() {
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Study Material" }]}
       />

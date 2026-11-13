@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import ContentRenderer from "@/app/components/resources/ContentRenderer";
 import Faq from "@/app/components/resources/Faq";
+import TableOfContents from "@/app/components/resources/TableOfContents";
 import { ComingSoon } from "@/app/components/resources/Navigation";
 import JsonLd from "@/app/components/seo/JsonLd";
 import {
@@ -16,6 +17,8 @@ import {
   getSubject,
 } from "@/lib/data/school";
 import { isSchoolResourceSlug, publishedItems } from "@/lib/data/helpers";
+import { getOfferedResources } from "@/lib/data/availability";
+import { displayCategory } from "@/lib/data/display-names";
 import { urls } from "@/lib/urls";
 import {
   splitWorksheets,
@@ -119,6 +122,7 @@ export default async function ChapterPage({
   if (!found || !cat || !entry) notFound();
   const { cls, subject } = found;
   const { item } = entry;
+  const displayCat = displayCategory(effSubjectSlug, cat);
 
   const chapterMeta = subject.chapters.find((c) => c.slug === chapter);
   const chapterTitle = chapterMeta?.title ?? item.title;
@@ -132,7 +136,7 @@ export default async function ChapterPage({
       ...classMaterialSubjectCrumbs(
         cls.label,
         cls.slug,
-        cat.title,
+        displayCat.title,
         cat.slug,
         subject.name,
       ),
@@ -143,7 +147,7 @@ export default async function ChapterPage({
       cls.slug,
       subject.name,
       subject.slug,
-      cat.title,
+      displayCat.title,
       cat.slug,
       chapterTitle,
     );
@@ -151,22 +155,26 @@ export default async function ChapterPage({
   // Draft items render a friendly coming-soon state (noindex via metadata).
   if (item.status !== "published" || item.blocks.length === 0) {
     return (
-      <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <Breadcrumbs items={crumbs} />
         <div className="mt-8">
           <ComingSoon
-            title={`${chapterTitle} — ${cat.title} coming soon`}
-            description={`Our academic team is verifying this material. Published ${cat.shortTitle.toLowerCase()} for ${cls.label} ${subject.name} will appear here automatically.`}
+            title={`${chapterTitle} — ${displayCat.title} coming soon`}
+            description={`Our academic team is verifying this material. Published ${displayCat.shortTitle.toLowerCase()} for ${cls.label} ${subject.name} will appear here automatically.`}
             backHref={urls.resourcePage(classSlug, effSubjectSlug, effResourceSlug)}
-            backLabel={`Back to ${cat.title}`}
+            backLabel={`Back to ${displayCat.title}`}
           />
         </div>
       </div>
     );
   }
 
-  // Other resource tabs for the same chapter.
-  const categories = await getResourceCategories();
+  // Other resource tabs for the same chapter (matrix-offered only,
+  // with per-subject display labels, e.g. English "Chapter Summary").
+  const offered = new Set(await getOfferedResources(effSubjectSlug));
+  const categories = (await getResourceCategories())
+    .filter((c) => offered.has(c.slug))
+    .map((c) => displayCategory(effSubjectSlug, c));
   const tabs: { label: string; href: string; active: boolean }[] = [];
   for (const c of categories) {
     if (c.slug === effResourceSlug) {
@@ -187,7 +195,7 @@ export default async function ChapterPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1380px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <JsonLd
         data={articleJsonLd({
           headline: item.title,
@@ -198,8 +206,8 @@ export default async function ChapterPage({
       />
       <Breadcrumbs items={crumbs} />
 
-      <div className="mt-6">
-        <article className="min-w-0">
+      <div className="mt-6 lg:grid lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start lg:gap-10">
+        <article className="mx-auto min-w-0 max-w-[860px]">
           <p className="text-sm leading-[1.6] text-text-secondary">
             {cls.label} · {subject.name} · {cat.title}
             {chapterMeta ? ` · Chapter ${chapterMeta.number}` : ""}
@@ -284,6 +292,11 @@ export default async function ChapterPage({
             <Faq faqs={item.faqs ?? []} structured={(item.faqs ?? []).length > 0} />
           )}
         </article>
+        {!isWorksheetHub && (
+          <aside className="hidden min-w-0 self-start lg:sticky lg:top-24 lg:block lg:max-h-[calc(100svh-7rem)] lg:overflow-y-auto">
+            <TableOfContents blocks={item.blocks} />
+          </aside>
+        )}
       </div>
     </div>
   );

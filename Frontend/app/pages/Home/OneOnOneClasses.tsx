@@ -8,7 +8,7 @@ export default function OneOnOneClasses() {
       aria-labelledby="one-on-one-heading"
       className="border-b-1 border-border bg-surface py-10 md:py-14"
     >
-      <div className="relative mx-auto w-full max-w-[1380px] px-4 pt-10 pb-12 md:px-6 md:pt-14 md:pb-16">
+      <div className="relative mx-auto w-full max-w-[var(--container-wide)] px-4 pt-10 pb-12 md:px-6 md:pt-14 md:pb-16">
         <Reveal variant="right">
           <h2
             id="one-on-one-heading"

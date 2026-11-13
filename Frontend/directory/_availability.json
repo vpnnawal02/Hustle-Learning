@@ -1,0 +1,13 @@
+{
+  "_note": "Offered (subject x resource) matrix, enforced by scripts/validate-content.mjs on published files: a published chapter file whose (class, subject, resource) falls outside this matrix fails the build — set it to draft or move it. Poems live in poem-explanations; PYQs are Class 10 only.",
+  "subjects": {
+    "english": ["poem-explanations", "important-questions", "worksheets"],
+    "hindi": ["poem-explanations", "important-questions", "worksheets"],
+    "mathematics": ["ncert-solutions", "important-questions", "sample-papers", "pyqs", "formulas"],
+    "science": ["ncert-solutions", "notes", "important-questions", "sample-papers", "pyqs"],
+    "social-science": ["ncert-solutions", "important-questions", "sample-papers", "pyqs"]
+  },
+  "resourceClasses": {
+    "pyqs": ["class-10"]
+  }
+}

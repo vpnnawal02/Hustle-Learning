@@ -64,7 +64,7 @@ export default async function SubjectClassMaterialListingPage({
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
         <div className="mt-8">
           <ComingSoon
             title={`${cat.title} for ${cls.label} ${subjectMeta.name} are on their way`}
@@ -98,7 +98,7 @@ export default async function SubjectClassMaterialListingPage({
     })) ?? [];
 
   return (
-    <div className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto w-full max-w-[var(--container-reading)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <ResourceListing
         crumbs={subjectClassMaterialCrumbs(
           subjectMeta.name,
