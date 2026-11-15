@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   push("/resources", undefined, 0.9);
   push("/classes", undefined, 0.6);
   push("/courses", undefined, 0.6);
+  push("/pricing", undefined, 0.7);
   push("/news", undefined, 0.6);
   push("/subscribe", undefined, 0.5);
 

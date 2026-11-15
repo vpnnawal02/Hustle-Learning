@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import Footer from "@/app/components/Footer";
+import { PageTitle } from "@/app/components/typography";
 import { ResourceIcon } from "@/app/components/resources/icons";
 import { resourceTint } from "@/app/components/resources/resource-tints";
 import ClassSearchBar from "@/app/components/classes/ClassSearchBar";
@@ -90,9 +91,9 @@ export default async function ClassPage({
       <div className="mx-auto w-full max-w-[var(--container-page)] flex-1 px-4 pt-10 pb-24 md:px-6 md:pt-14 lg:pb-14">
         <Breadcrumbs items={classCrumbs(cls.label)} />
 
-        <h1 className="mt-6 max-w-[24ch] text-[32px] leading-[1.15] text-balance text-text-primary sm:text-4xl">
+        <PageTitle className="mt-6 max-w-[24ch]">
           {cls.label} Study Material
-        </h1>
+        </PageTitle>
         <p className="mt-2 text-base text-text-secondary">
           CBSE · 2026–27 · Updated Nov 2026
         </p>

@@ -1,12 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import freeBackgroundImg from "../../assets/images/free-background-img.png";
+import { ArrowRight } from "lucide-react";
 import Reveal from "../../components/Reveal";
-import ToolkitCard from "../../components/ToolkitCard";
 import { TOOLKIT_RESOURCES } from "../../components/toolkit";
-
-const middle = TOOLKIT_RESOURCES.slice(0, -1);
-const last = TOOLKIT_RESOURCES[TOOLKIT_RESOURCES.length - 1];
 
 export default function Toolkit() {
   return (
@@ -19,79 +14,60 @@ export default function Toolkit() {
           id="toolkit-heading"
           className="max-w-[24ch] text-3xl leading-[1.1] text-balance text-text-primary sm:text-4xl lg:text-[44px]"
         >
-          Your Complete Learning Toolkit
+          Everything for Better Preparation
         </h2>
-        <p className="mt-3 max-w-[30ch] text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
-          Everything You Need to Prepare Smarter.
+        <p className="mt-3 text-lg font-semibold text-text-primary sm:text-xl">
+          Study, practise and assess your understanding.
         </p>
-        <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-          From understanding NCERT concepts to practising exam-level
-          questions, find the right resources for every stage of your
-          preparation.
+        <p className="mt-2 max-w-[62ch] text-[15px] leading-[1.6] text-text-muted sm:text-base">
+          Find the right learning resources for every stage of your
+          preparation, from understanding concepts to exam-level practice.
         </p>
       </Reveal>
 
-      {/* Bento on desktop, slider on mobile */}
-      <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:-mx-6 md:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0">
-        {/* Brand anchor tile */}
-        <Reveal className="w-[85%] shrink-0 snap-start sm:w-[52%] lg:col-span-2 lg:row-span-2 lg:w-auto">
-          <div className="relative flex h-full min-h-[320px] flex-col justify-between overflow-hidden rounded-lg p-6 sm:p-8 lg:min-h-[420px]">
-            <Image
-              src={freeBackgroundImg}
-              alt=""
-              aria-hidden="true"
-              fill
-              sizes="(max-width: 1024px) 85vw, 640px"
-              loading="lazy"
-              className="object-cover object-center"
-            />
-            {/* Light legibility wash so navy copy keeps contrast over the artwork */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-r from-white/70 via-white/35 to-transparent"
-            />
-            <div className="relative">
-              <p className="text-sm font-semibold text-brand-navy/70">
-                Hustle Learning Resources
-              </p>
-              <p className="mt-3 max-w-[16ch] text-3xl leading-[1.05] font-extrabold tracking-tight text-balance text-brand-navy sm:text-4xl lg:text-[44px]">
-                Learn. Practise. Improve.
-              </p>
-              <p className="mt-3 max-w-[40ch] text-[15px] leading-[1.6] font-medium text-brand-navy/75">
-                Notes, question banks, drills, and test papers — one toolkit
-                for every stage of preparation.
-              </p>
-            </div>
-            <div className="relative mt-6">
-              <Link
-                href="/subscribe"
-                className="inline-flex h-12 items-center justify-center rounded bg-brand-navy px-7 text-sm font-bold text-white transition-opacity hover:opacity-90 active:opacity-80"
-              >
-                Explore Our Resources
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-
-        {middle.map((resource, i) => (
-          <Reveal
-            key={resource.id}
-            delay={Math.min(i, 3) * 80}
-            className="w-[68%] shrink-0 snap-start sm:w-[38%] lg:w-auto"
-          >
-            <ToolkitCard resource={resource} />
-          </Reveal>
-        ))}
-
-        {last && (
-          <Reveal
-            delay={240}
-            className="w-[68%] shrink-0 snap-start sm:w-[38%] lg:w-auto"
-          >
-            <ToolkitCard resource={last} featured />
-          </Reveal>
-        )}
-      </div>
+      <nav
+        aria-label="Learning resources"
+        className="mx-auto mt-8 w-full max-w-[880px]"
+      >
+        <ul className="border-y border-border">
+          {TOOLKIT_RESOURCES.map((resource, i) => {
+            const Icon = resource.icon;
+            return (
+              <li key={resource.id}>
+                <Reveal delay={Math.min(i, 5) * 60}>
+                  <Link
+                    href="/subscribe"
+                    aria-label={`${resource.title} — ${resource.description}`}
+                    className="group flex items-center gap-4 px-4 py-4 transition-colors duration-150 hover:bg-surface-muted/60 focus-visible:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-[-2px] focus-visible:outline-accent motion-reduce:transition-none"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-surface-muted text-text-primary transition-colors duration-150 group-hover:bg-surface-subtle motion-reduce:transition-none"
+                    >
+                      <Icon size={18} strokeWidth={1.75} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[15px] font-semibold text-text-primary md:truncate">
+                        {resource.title}
+                      </span>
+                      <span className="mt-0.5 block text-sm leading-snug text-text-muted md:truncate">
+                        {resource.description}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-text-primary"
+                    >
+                      Explore
+                      <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transition-none" />
+                    </span>
+                  </Link>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
     </section>
   );
 }

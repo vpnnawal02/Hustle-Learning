@@ -1,6 +1,7 @@
 import Reveal from "../../components/Reveal";
 import TutoringCard from "../../components/TutoringCard";
 import { TUTORING_OPTIONS } from "../../components/tutoring";
+import { SectionHeading } from "../../components/typography";
 
 export default function OneOnOneClasses() {
   return (
@@ -10,22 +11,15 @@ export default function OneOnOneClasses() {
     >
       <div className="relative mx-auto w-full max-w-[var(--container-wide)] px-4 pt-10 pb-12 md:px-6 md:pt-14 md:pb-16">
         <Reveal variant="right">
-          <h2
-            id="one-on-one-heading"
-            className="text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl lg:text-[56px]"
-          >
-            Personalised Learning
-          </h2>
-          <p className="mt-3 max-w-[30ch] text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
-            One Student. One Teacher. Undivided Attention.
-          </p>
+          <SectionHeading
+            titleId="one-on-one-heading"
+            title="Personalised Learning"
+            sub="One Student. One Teacher. Undivided Attention."
+            subTone="secondary"
+            description="Get personalised academic support with one-on-one classes tailored to your learning needs. Choose online or offline classes, clear your doubts, strengthen concepts, and learn at your own pace."
+          />
         </Reveal>
         <Reveal variant="up" delay={100}>
-          <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-md">
-            Get personalised academic support with one-on-one classes tailored
-            to your learning needs. Choose online or offline classes, clear
-            your doubts, strengthen concepts, and learn at your own pace.
-          </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {["Online Classes", "Offline Home Tuition"].map((mode) => (
               <span
@@ -50,7 +44,7 @@ export default function OneOnOneClasses() {
               delay={Math.min(i, 2) * 90}
               className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-auto"
             >
-              <TutoringCard option={option} tone={(i % 3) as 0 | 1 | 2} />
+              <TutoringCard option={option} />
             </Reveal>
           ))}
         </div>

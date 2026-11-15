@@ -5,6 +5,7 @@ import { getAllPublishedSchoolItems, getClasses, getResourceCategories } from "@
 import { urls } from "@/lib/urls";
 import type { SchoolResourceSlug } from "@/types/content";
 import DiscoverySearch, { type Suggestion } from "./DiscoverySearch";
+import { SectionHeading } from "../../components/typography";
 
 const GROUPS: {
   title: string;
@@ -115,12 +116,10 @@ export default async function StudyDiscovery() {
       className="scope-discovery border-b border-rule bg-canvas"
     >
       <div className="mx-auto w-full max-w-[var(--container-page)] px-4 py-10 md:px-6 md:py-14">
-        <h2
-          id="study-discovery-heading"
-          className="max-w-[24ch] text-[30px] leading-[1.15] text-balance text-navy-900 lg:text-[44px]"
-        >
-          Find your material
-        </h2>
+        <SectionHeading
+          titleId="study-discovery-heading"
+          title="Find your material"
+        />
         <p className="mt-3 max-w-[60ch] text-base leading-[1.55] font-normal text-navy-700">
           Notes, solutions and practice papers for CBSE Classes 6 to 10.
         </p>

@@ -176,11 +176,11 @@ export default function HomeFaq() {
       />
       <h2
         id="home-faq-heading"
-        className="text-center text-3xl text-text-primary sm:text-4xl"
+        className="max-w-[24ch] text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl"
       >
         Frequently asked questions
       </h2>
-      <p className="mx-auto mt-3 max-w-[52ch] text-center text-[15px] leading-[1.6] text-text-secondary">
+      <p className="mt-3 max-w-[52ch] text-[15px] leading-[1.6] text-text-secondary">
         Find answers to the most common questions about classes,
         subscriptions, books and more. Still stuck?{" "}
         <a
@@ -194,7 +194,7 @@ export default function HomeFaq() {
       <div
         role="tablist"
         aria-label="FAQ categories"
-        className="mt-6 flex flex-wrap items-center justify-center gap-2"
+        className="mt-6 flex flex-wrap items-center justify-start gap-2"
       >
         {CATEGORIES.map((c) => (
           <button

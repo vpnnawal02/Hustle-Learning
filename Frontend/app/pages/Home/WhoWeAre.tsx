@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "../../components/Reveal";
+import { SectionHeading } from "../../components/typography";
 import ownerPhoto from "../../assets/images/owner.png";
 
 function GradCapIcon({ className }: { className?: string }) {
@@ -120,18 +121,23 @@ function LayersIcon({ className }: { className?: string }) {
 }
 
 const STATS = [
-  { icon: UsersIcon, value: "6–10", label: "CBSE classes" },
-  { icon: LayersIcon, value: "7", label: "Study resources" },
-  { icon: BookIcon, value: "41+", label: "Published chapters" },
+  { icon: UsersIcon, value: "500+", label: "Students Learning" },
+  { icon: LayersIcon, value: "200+", label: "Learning Resources" },
+  { icon: ChartIcon, value: "100%", label: "Better results" },
 ];
 
 /**
- * Only benefits that exist today: free library items map to real resource
- * types; subscription bullets match /subscribe; batch bullets match /courses.
- * No ad-free, tracking, Drill Mode, or competitive-level promises.
+ * Homepage stats are owner-provided marketing figures (set explicitly by
+ * the site owner). They are not derived from the codebase — keep them in
+ * sync with real business numbers as the platform grows.
  */
-const PILLARS = [
-  {
+/**
+ * Pillar benefits must map to things that exist today: free library items
+ * to real resource types; subscription bullets to /subscribe; batch
+ * bullets to /courses. No ad-free, tracking, Drill Mode, or
+ * competitive-level promises.
+ */
+const PILLARS = [  {
     eyebrow: "Learn without limits.",
     icon: BookIcon,
     title: "Free Resources",
@@ -168,40 +174,36 @@ export default function WhoWeAre() {
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-x-8 lg:gap-y-0">
           <div className="min-w-0">
             <Reveal>
-              <h2
-                id="who-we-are-heading"
-                className="mt-4 text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl lg:text-[56px]"
-              >
-                Who We{" "}
-                <span className="relative inline-block text-accent">
-                  Are
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 120 12"
-                    fill="none"
-                    className="absolute -bottom-1.5 left-0 w-full"
-                  >
-                    <path
-                      d="M3 9 C 40 3, 80 3, 117 7"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      pathLength={1}
-                      className="draw-underline"
-                    />
-                  </svg>
-                </span>
-              </h2>
-              <p className="mt-5 max-w-[36ch] text-xl leading-snug font-bold text-text-primary sm:text-2xl">
-                A student-focused learning platform for smarter and more
-                effective exam preparation.
-              </p>
-              <p className="mt-3 max-w-[54ch] text-base leading-[1.65] text-text-secondary">
-                Hustle Learning brings together high-quality study resources,
-                clear explanations, and structured practice to help you build
-                strong concepts, solve better, and score higher in your school
-                exams.
-              </p>
+              <SectionHeading
+                size="xl"
+                className="mt-4"
+                titleId="who-we-are-heading"
+                title={
+                  <>
+                    Who We{" "}
+                    <span className="relative inline-block text-accent">
+                      Are
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 120 12"
+                        fill="none"
+                        className="absolute -bottom-1.5 left-0 w-full"
+                      >
+                        <path
+                          d="M3 9 C 40 3, 80 3, 117 7"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          pathLength={1}
+                          className="draw-underline"
+                        />
+                      </svg>
+                    </span>
+                  </>
+                }
+                sub="A student-focused learning platform for smarter and more effective exam preparation."
+                description="Hustle Learning brings together high-quality study resources, clear explanations, and structured practice to help you build strong concepts, solve better, and score higher in your school exams."
+              />
             </Reveal>
           </div>
 

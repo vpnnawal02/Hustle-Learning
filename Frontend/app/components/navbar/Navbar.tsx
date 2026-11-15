@@ -39,6 +39,7 @@ export default function Navbar() {
   const isHome = isActivePath("/");
   const isCourses = isActivePath("/courses");
   const isNews = isActivePath("/news");
+  const isPricing = isActivePath("/pricing");
   // Study section covers the whole resource platform: hub, class pages,
   // subject/resource/chapter pages, and the JEE/NEET tracks.
   const isStudy =
@@ -154,6 +155,15 @@ export default function Navbar() {
             >
               News
               {isNews && <ActiveBar />}
+            </Link>
+            <Link
+              href="/pricing"
+              aria-current={isPricing ? "page" : undefined}
+              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isPricing ? "text-text-primary" : "text-text-secondary"
+                }`}
+            >
+              Pricing
+              {isPricing && <ActiveBar />}
             </Link>
           </nav>
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import type { BreadcrumbItem } from "@/types/content";
 
 /**
@@ -26,9 +27,7 @@ export default function DiscoveryShell({
       <p className="mt-6 text-[15px] leading-[1.6] text-text-secondary">
         {context}
       </p>
-      <h1 className="mt-2 max-w-[26ch] text-[28px] leading-[1.1] text-balance text-text-primary sm:text-4xl">
-        {title}
-      </h1>
+      <PageTitle className="mt-2 max-w-[26ch]">{title}</PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
         {description}
       </p>

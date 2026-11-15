@@ -69,6 +69,7 @@ export const CLASSES_LINKS: NavLink[] = [
 export const PRIMARY_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Courses", href: "/courses" },
+  { label: "Pricing", href: "/pricing" },
   { label: "News", href: "/news" },
 ];
 

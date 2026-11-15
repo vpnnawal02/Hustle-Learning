@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import CourseCard from "../components/CourseCard";
 import { COURSES } from "../components/courses";
+import { Clock } from "lucide-react";
 
 export default function CoursesPage() {
   return (
@@ -17,10 +18,26 @@ export default function CoursesPage() {
           middle school, focused board preparation in Classes 9 and 10, and
           subject-specific study in Classes 11 and 12.
         </p>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {COURSES.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}
+        </div>
+        <div className="mt-8 flex flex-col gap-3 rounded-md border border-accent/50 bg-accent/10 p-5 sm:flex-row sm:items-center sm:gap-4">
+          <span
+            aria-hidden="true"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent text-on-accent"
+          >
+            <Clock size={18} strokeWidth={2} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-bold text-text-primary">
+              More classes on the way — coming soon
+            </p>
+            <p className="mt-0.5 text-sm leading-snug text-text-secondary">
+              Class 6, 7, 11 &amp; 12 · JEE Mains / Advanced · NEET batches.
+            </p>
+          </div>
         </div>
       </main>
       <Footer />

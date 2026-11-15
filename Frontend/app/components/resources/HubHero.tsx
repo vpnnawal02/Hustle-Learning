@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PageTitle } from "@/app/components/typography";
 
 /**
  * Compact hub hero on a subtle lavender wash: title, short description,
@@ -25,12 +26,9 @@ export default function HubHero({
       aria-labelledby="hub-hero-heading"
       className="hero-wash rounded-md px-5 py-6 sm:px-7 sm:py-8"
     >
-      <h1
-        id="hub-hero-heading"
-        className="max-w-[26ch] text-3xl leading-[1.15] text-balance md:text-[34px]"
-      >
+      <PageTitle id="hub-hero-heading" className="max-w-[26ch]">
         {title}
-      </h1>
+      </PageTitle>
       <p className="mt-3 max-w-[68ch] text-[15px] leading-[1.6] text-text-secondary sm:text-base">
         {description}
       </p>
