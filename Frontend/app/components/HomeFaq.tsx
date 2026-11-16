@@ -167,7 +167,7 @@ export default function HomeFaq() {
   return (
     <section
       aria-labelledby="home-faq-heading"
-      className="mx-auto w-full max-w-[768px] px-4 py-10 md:px-6 md:py-14"
+      className="mx-auto w-full max-w-[768px] border-b border-border px-4 py-10 md:px-6 md:py-14"
     >
       <JsonLd
         data={faqJsonLd(

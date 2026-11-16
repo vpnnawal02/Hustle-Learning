@@ -1,50 +1,10 @@
 import Link from "next/link";
 import { ClassSelector } from "../../components/resources/Selectors";
 import { getExams } from "@/lib/data/exams";
-import { getAllPublishedSchoolItems, getClasses, getResourceCategories } from "@/lib/data/school";
+import { getAllPublishedSchoolItems, getClasses } from "@/lib/data/school";
 import { urls } from "@/lib/urls";
-import type { SchoolResourceSlug } from "@/types/content";
 import DiscoverySearch, { type Suggestion } from "./DiscoverySearch";
 import { SectionHeading } from "../../components/typography";
-
-const GROUPS: {
-  title: string;
-  text: string;
-  bar: string;
-  slugs: SchoolResourceSlug[];
-}[] = [
-    {
-      title: "Learn",
-      text: "Understand the chapter first.",
-      bar: "navy-900",
-      slugs: ["notes", "ncert-solutions"],
-    },
-    {
-      title: "Practice",
-      text: "Drill questions until they feel easy.",
-      bar: "accent-500",
-      slugs: ["important-questions", "worksheets", "pyqs"],
-    },
-    {
-      title: "Revise",
-      text: "Simulate exams, then compress to formulas.",
-      bar: "tint-science",
-      slugs: ["sample-papers", "formulas"],
-    },
-  ];
-
-const SUBJECT_TINTS: Record<string, string> = {
-  mathematics: "var(--tint-maths)",
-  science: "var(--tint-science)",
-  "social-science": "var(--tint-sst)",
-  english: "var(--tint-english)",
-};
-
-const GROUP_BARS: Record<string, string> = {
-  "navy-900": "var(--navy-900)",
-  "accent-500": "var(--accent-500)",
-  "tint-science": "var(--tint-science)",
-};
 
 /**
  * Homepage discovery — header + search, class cards, grouped resources,
@@ -52,13 +12,11 @@ const GROUP_BARS: Record<string, string> = {
  * micro-transitions (≤150ms); no carousels, no auto-scroll, no icons.
  */
 export default async function StudyDiscovery() {
-  const [classes, categories, exams, published] = await Promise.all([
+  const [classes, exams, published] = await Promise.all([
     getClasses(),
-    getResourceCategories(),
     getExams(),
     getAllPublishedSchoolItems(),
   ]);
-  const bySlug = new Map(categories.map((c) => [c.slug, c]));
   const subjectName = new Map<string, string>();
   for (const cls of classes) {
     for (const s of cls.subjects) subjectName.set(`${cls.slug}/${s.slug}`, s.name);
@@ -99,16 +57,6 @@ export default async function StudyDiscovery() {
       }
     }
   }
-
-  const publishedByResource = new Map<string, number>();
-  for (const p of published) {
-    publishedByResource.set(
-      p.resourceSlug,
-      (publishedByResource.get(p.resourceSlug) ?? 0) + 1,
-    );
-  }
-
-  const popular = published.slice(0, 6);
 
   return (
     <section

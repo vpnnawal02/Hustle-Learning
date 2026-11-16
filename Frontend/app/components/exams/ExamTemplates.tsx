@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "../layout/Breadcrumbs";
+import { PageTitle } from "../typography";
 import ContentRenderer from "../resources/ContentRenderer";
 import Faq from "../resources/Faq";
 import ResourceCards from "../resources/ResourceCards";
@@ -32,9 +33,9 @@ export async function ExamLanding({ examSlug }: { examSlug: string }) {
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.fullName} · {exam.tagline}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+      <PageTitle className="mt-2 max-w-[24ch]">
         {exam.name} Preparation
-      </h1>
+      </PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {exam.description}
       </p>
@@ -131,9 +132,9 @@ export async function ExamSubjectPage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.name} · {subject.tagline}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+      <PageTitle className="mt-2 max-w-[24ch]">
         {exam.name} {subject.name}
-      </h1>
+      </PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {subject.description}
       </p>
@@ -287,9 +288,9 @@ export async function ExamResourcePage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {exam.name} · {subject.name}
       </p>
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+      <PageTitle className="mt-2 max-w-[24ch]">
         {exam.name} {subject.name} {resource.title}
-      </h1>
+      </PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {resource.description} {items.length} published{" "}
         {items.length === 1 ? "section" : "sections"} below

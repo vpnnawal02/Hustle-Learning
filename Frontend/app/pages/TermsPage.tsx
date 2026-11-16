@@ -1,10 +1,12 @@
+import { PageTitle } from "../components/typography";
+
 export default function TermsPage() {
   return (
     <main className="mx-auto w-full max-w-[var(--container-narrow)] px-4 py-10 md:px-6 md:py-14">
       <p className="text-sm text-text-secondary">Legal</p>
-      <h1 className="mt-2 text-3xl text-balance text-text-primary sm:text-4xl">
+      <PageTitle className="mt-2">
         Terms of Use
-      </h1>
+      </PageTitle>
       <p className="mt-2 text-sm text-text-muted">
         Last updated: October 2026
       </p>

@@ -8,9 +8,9 @@ export default function PopularCourses() {
   return (
     <section
       aria-labelledby="popular-courses-heading"
-      className=""
+      className="border-b border-border"
     >
-      <div className="relative mx-auto w-full max-w-[var(--container-wide)] px-4 pt-16 pb-12 md:px-6 md:pt-24 md:pb-16">
+      <div className="relative mx-auto w-full max-w-[var(--container-wide)] px-4 pt-16 pb-12 md:px-6 md:pt-10 md:pb-16">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <Reveal variant="left">
             <SectionHeading
@@ -18,6 +18,7 @@ export default function PopularCourses() {
               title="Popular Courses"
               sub="Batches by class"
               subTone="secondary"
+              description="Explore our learning programmes designed to help students build strong concepts, improve academic performance, and prepare confidently for examinations. Choose your class to discover structured lessons, expert guidance, and learning support aligned with your academic needs."
             />
           </Reveal>
         </div>

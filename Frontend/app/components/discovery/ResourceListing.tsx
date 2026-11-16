@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import type { BreadcrumbItem } from "@/types/content";
 import { urls } from "@/lib/urls";
 
@@ -53,9 +54,7 @@ export default function ResourceListing({
       <p className="mt-6 text-base leading-[1.6] text-text-secondary">
         {context}
       </p>
-      <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
-        {title}
-      </h1>
+      <PageTitle className="mt-2 max-w-[26ch]">{title}</PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {description}
       </p>

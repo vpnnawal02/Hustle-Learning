@@ -1,4 +1,5 @@
 import Footer from "../components/Footer";
+import { PageTitle } from "../components/typography";
 import CourseCard from "../components/CourseCard";
 import { COURSES } from "../components/courses";
 import { Clock } from "lucide-react";
@@ -7,9 +8,9 @@ export default function CoursesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
       <main className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <h1 className="text-3xl text-balance sm:text-4xl">
+        <PageTitle>
           Batches by class
-        </h1>
+        </PageTitle>
         <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">
           All Courses
         </p>

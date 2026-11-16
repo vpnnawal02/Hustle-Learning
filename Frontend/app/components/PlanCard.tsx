@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { useId, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
 import type { SubscriptionPlan } from "./subscription";
 
 /**
@@ -50,26 +53,54 @@ export function PlanCard({
           plus:
         </p>
       )}
-      <ul className="mt-3 flex flex-col gap-4">
+      <ul className="mt-3 flex flex-col gap-1">
         {plan.features.map((f) => (
-          <li key={f.title} className="flex gap-3">
-            <Check
-              aria-hidden="true"
-              size={18}
-              strokeWidth={2.5}
-              className="mt-0.5 shrink-0 text-brand-navy"
-            />
-            <span className="min-w-0">
-              <span className="block text-sm font-bold text-text-primary">
-                {f.title}
-              </span>
-              <span className="mt-0.5 block text-[13px] leading-relaxed text-text-secondary">
-                {f.description}
-              </span>
-            </span>
-          </li>
+          <FeatureItem key={f.title} title={f.title} description={f.description} />
         ))}
       </ul>
     </article>
+  );
+}
+
+function FeatureItem({ title, description }: { title: string; description: string }) {
+  const [open, setOpen] = useState(false);
+  const tipId = useId();
+  return (
+    <li
+      className={`rounded-sm transition-colors duration-200 motion-reduce:transition-none ${open ? "bg-surface-muted/60" : ""}`}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={tipId}
+        onClick={() => setOpen((v) => !v)}
+        className="flex min-h-[44px] w-full items-center gap-3 rounded-sm px-2 py-2 text-left transition-colors hover:bg-surface-muted/60 focus-visible:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-accent motion-reduce:transition-none"
+      >
+        <Check
+          aria-hidden="true"
+          size={18}
+          strokeWidth={2.5}
+          className="shrink-0 text-brand-navy"
+        />
+        <span className="min-w-0 flex-1 text-sm font-bold text-text-primary">
+          {title}
+        </span>
+        <ChevronDown
+          aria-hidden="true"
+          size={14}
+          className={`shrink-0 text-text-muted transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      <div
+        id={tipId}
+        className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div className="overflow-hidden">
+          <p className="px-2 pt-0.5 pb-2.5 pl-[38px] text-[13px] leading-relaxed text-text-secondary">
+            {description}
+          </p>
+        </div>
+      </div>
+    </li>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { buildSearchIndex } from "@/lib/search";
 import SearchClient from "./SearchClient";
@@ -21,9 +22,9 @@ export default async function SearchPage() {
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Search" }]}
       />
-      <h1 className="mt-6 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+      <PageTitle className="mt-6 max-w-[24ch]">
         Search study material
-      </h1>
+      </PageTitle>
       <Suspense
         fallback={
           <p className="mt-6 text-[15px] text-text-secondary">

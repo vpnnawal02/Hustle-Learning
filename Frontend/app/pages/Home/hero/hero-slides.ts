@@ -1,12 +1,8 @@
 import type { StaticImageData } from "next/image";
-import booksHl2 from "../../../assets/images/hero-section-images/books-hl-2.png";
-import booksHl from "../../../assets/images/hero-section-images/books-hl.jpg";
-import notesHl from "../../../assets/images/hero-section-images/notes-hl.jpg";
-import onlineClass2 from "../../../assets/images/hero-section-images/student-taking-online-class-2.jpg";
-import onlineClass from "../../../assets/images/hero-section-images/student-taking-online-class.jpg";
-import personalTutorOnline from "../../../assets/images/hero-section-images/personal-tutor-online.png";
-import personalTutor from "../../../assets/images/hero-section-images/personal-tutor.png";
-import studentStudying from "../../../assets/images/hero-section-images/student-studying.png";
+import booksImg from "../../../assets/images/hero-section-images/books.png";
+import freeResourcesImg from "../../../assets/images/hero-section-images/free-resources.png";
+import liveClassesImg from "../../../assets/images/hero-section-images/live-classes.png";
+import onlineLearningImg from "../../../assets/images/hero-section-images/online-learning.png";
 
 export type ServiceCategory =
   | "general"
@@ -28,8 +24,6 @@ export type SlideTile =
 export interface HeroSlide {
   id: string;
   service: ServiceCategory;
-  /** Exactly 3 small bento tiles. No image repeats within a slide;
-      every image appears in at most 2 slides. */
   tiles: SlideTile[];
   /** Small white pill, e.g. "LIVE Online Classes" */
   badge: string;
@@ -54,16 +48,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "main",
     service: "general",
-    tiles: [
-      { kind: "image", ref: 2 },
-      {
-        kind: "asset",
-        src: onlineClass2,
-        alt: "Girl student writing notes during a live online class",
-        target: 2,
-      },
-      { kind: "offer" },
-    ],
+    tiles: [],
     badge: "Admissions Open",
     badgeBatch: "Classes 6–12 · All Subjects",
     heading: "Complete Learning Support for Every Student.",
@@ -81,9 +66,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Enquire Now",
     ctaHref: "#enquiry-form",
     offerText: "Plans for every budget",
-    image: studentStudying,
-    imageAlt:
-      "Indian student watching a Hustle Learning video lesson on a laptop while studying",
+    image: freeResourcesImg,
+    imageAlt: "Folder with downloadable study resources",
     eager: true,
     formNote:
       "Tell us your details and our counsellor will help you choose the right mix of notes, classes, tutors, or books.",
@@ -91,11 +75,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "study-material",
     service: "study-material",
-    tiles: [
-      { kind: "image", ref: 3 },
-      { kind: "offer" },
-      { kind: "text", text: "Notes for Classes 6–12" },
-    ],
+    tiles: [],
     badge: "Study Material",
     badgeBatch: "Notes for Classes 6–12",
     heading: "Clear notes and practice for every chapter",
@@ -110,9 +90,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Get Material",
     ctaHref: "#enquiry-form",
     offerText: "Free sample chapters",
-    image: notesHl,
-    imageAlt:
-      "Hustle Learning Class 10 Science chapter-wise revision notes",
+    image: booksImg,
+    imageAlt: "Hustle Learning study books",
     eager: false,
     formNote:
       "Share your class details and we will recommend the right study material and revision notes for your syllabus.",
@@ -120,21 +99,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "online-classes",
     service: "online-classes",
-    tiles: [
-      {
-        kind: "asset",
-        src: booksHl2,
-        alt: "Complete Hustle Learning book set for Class 10",
-        target: 4,
-      },
-      {
-        kind: "asset",
-        src: personalTutorOnline,
-        alt: "Student in a one-on-one online session with a tutor",
-        target: 3,
-      },
-      { kind: "offer" },
-    ],
+    tiles: [],
     badge: "LIVE Online Classes",
     badgeBatch: "Small batches · All subjects",
     heading: "Expert online classes at prices families can afford",
@@ -149,9 +114,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Book Free Demo",
     ctaHref: "#enquiry-form",
     offerText: "Courses from ₹999",
-    image: onlineClass,
-    imageAlt:
-      "Boy attending a live online class with a teacher on a laptop",
+    image: liveClassesImg,
+    imageAlt: "Teacher taking a live online class",
     eager: false,
     formNote:
       "Enquire about online batches and we will share batch timings, fees, and a free counselling call on WhatsApp.",
@@ -159,11 +123,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "home-tutors",
     service: "home-tuition",
-    tiles: [
-      { kind: "image", ref: 0 },
-      { kind: "offer" },
-      { kind: "text", text: "Verified personal tutors" },
-    ],
+    tiles: [],
     badge: "Home Tuition",
     badgeBatch: "Verified personal tutors",
     heading: "A personal tutor who teaches at your pace",
@@ -178,9 +138,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Find a Tutor",
     ctaHref: "#enquiry-form",
     offerText: "Free trial session",
-    image: personalTutor,
-    imageAlt:
-      "Tutor teaching quadratic equations one-on-one to a student at home",
+    image: onlineLearningImg,
+    imageAlt: "Tablet with recorded lessons on study books",
     eager: false,
     formNote:
       "Share your class and location needs and we will match a suitable home tutor and confirm availability on WhatsApp.",
@@ -188,11 +147,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "books",
     service: "books",
-    tiles: [
-      { kind: "image", ref: 1 },
-      { kind: "offer" },
-      { kind: "text", text: "Classes 6–12 · Exam-ready" },
-    ],
+    tiles: [],
     badge: "Hustle Books",
     badgeBatch: "Classes 6–12 · Exam-ready",
     heading: "Books that make concepts stick",
@@ -207,9 +162,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     ctaLabel: "Order Books",
     ctaHref: "#enquiry-form",
     offerText: "Discounts on sets",
-    image: booksHl,
-    imageAlt:
-      "Hustle Learning Class 10 Science chapter-wise notes and question bank",
+    image: booksImg,
+    imageAlt: "Hustle Learning Class 10 books",
     eager: false,
     formNote:
       "Tell us your class and we will recommend the right Hustle Learning books and share ordering details.",

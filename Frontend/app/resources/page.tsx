@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Atom, Dna } from "lucide-react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import ResourceCards from "@/app/components/resources/ResourceCards";
 import { ClassSelector } from "@/app/components/resources/Selectors";
 import { ResourceIcon } from "@/app/components/resources/icons";
@@ -26,9 +27,10 @@ export default async function ResourcesHubPage() {
   return (
     <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       <Breadcrumbs
+
         items={[{ label: "Home", href: "/" }, { label: "Study Material" }]}
       />
-      <h1 className="mt-2 max-w-[24ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+      <h1 className="text-4xl font-bold text-text-primary pt-5">
         Everything you need to prepare smarter.
       </h1>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-md">

@@ -6,25 +6,6 @@ import Reveal from "../../components/Reveal";
 import { SectionHeading } from "../../components/typography";
 import ownerPhoto from "../../assets/images/owner.png";
 
-function GradCapIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.75}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M22 10 12 5 2 10l10 5 10-5z" />
-      <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
-      <path d="M22 10v6" />
-    </svg>
-  );
-}
-
 function BookIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -168,7 +149,7 @@ export default function WhoWeAre() {
     <section
       aria-labelledby="who-we-are-heading"
       id="who-we-are"
-      className="scroll-mt-24 bg-background"
+      className="scroll-mt-24 border-b border-border bg-background"
     >
       <div className="mx-auto w-full max-w-[var(--container-wide)] px-4 py-12 md:px-6 md:py-16">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-x-8 lg:gap-y-0">

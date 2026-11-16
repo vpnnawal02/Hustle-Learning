@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import ContentRenderer from "@/app/components/resources/ContentRenderer";
 import Faq from "@/app/components/resources/Faq";
 import TableOfContents from "@/app/components/resources/TableOfContents";
@@ -212,9 +213,9 @@ export default async function ChapterPage({
             {cls.label} · {subject.name} · {cat.title}
             {chapterMeta ? ` · Chapter ${chapterMeta.number}` : ""}
           </p>
-          <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+          <PageTitle className="mt-2 max-w-[26ch]">
             {item.title}
-          </h1>
+          </PageTitle>
           {isWorksheetHub ? (
             <p className="mt-3 max-w-[68ch] text-base leading-[1.6] text-text-secondary">
               {item.description}

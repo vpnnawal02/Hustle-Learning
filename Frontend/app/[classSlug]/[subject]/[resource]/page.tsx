@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
+import { PageTitle } from "@/app/components/typography";
 import {
   ChapterList,
   itemsToPublishedSets,
@@ -215,9 +216,9 @@ export default async function ResourcePage({
       <p className="mt-6 text-sm leading-[1.6] text-text-secondary">
         {cls.label} · {subject.name}
       </p>
-          <h1 className="mt-2 max-w-[26ch] text-3xl leading-[1.1] text-balance sm:text-4xl">
+          <PageTitle className="mt-2 max-w-[26ch]">
         {cls.label} {subject.name} {cat.title}
-      </h1>
+      </PageTitle>
       <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
         {cat.description} Below, {subject.name} is broken into its{" "}
         {subject.chapters.length} chapters
