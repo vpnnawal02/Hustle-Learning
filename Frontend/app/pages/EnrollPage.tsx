@@ -19,6 +19,8 @@ const CLASS_LABELS: Record<string, string> = {
   "class-6": "Class 6",
   "class-7": "Class 7",
   "class-8": "Class 8",
+  "class-9": "Class 9",
+  "class-10": "Class 10",
 };
 
 export default function EnrollPage() {
@@ -229,7 +231,7 @@ export default function EnrollPage() {
                             {p === "monthly" ? "Monthly" : "Yearly"}
                           </span>
                           <span className="block text-[13px] text-text-secondary">
-                            {p === "monthly" ? "₹499/- per month" : "₹5000/- per year"}
+                            {p === "monthly" ? "₹499/- per month" : "₹5000/- per academic year"}
                           </span>
                         </span>
                       </label>
@@ -360,12 +362,12 @@ export default function EnrollPage() {
                     <p className="text-2xl font-extrabold tracking-tight text-text-primary">
                       {price != null ? formatINR(price) : "—"}{" "}
                       <span className="text-sm font-medium text-text-muted">
-                        {plan === "monthly" ? "per month" : "per year"}
+                        {plan === "monthly" ? "per month" : "per academic year"}
                       </span>
                     </p>
                     <p className="mt-1 text-[13px] text-text-secondary">
                       {plan === "monthly"
-                        ? `Or ${formatINR(selectedCourse.yearlyPrice)} per year`
+                        ? `Or ${formatINR(selectedCourse.yearlyPrice)} per academic year`
                         : `Or ${formatINR(selectedCourse.monthlyPrice)} per month`}
                     </p>
                   </div>
@@ -373,7 +375,7 @@ export default function EnrollPage() {
               ) : (
                 <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   Select a class and course to see the price here. Every course
-                  is ₹499/- per month or ₹5000/- per year.
+                  is ₹499/- per month or ₹5000/- per academic year.
                 </p>
               )}
             </div>

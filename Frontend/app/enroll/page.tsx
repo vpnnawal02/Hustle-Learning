@@ -5,7 +5,7 @@ import EnrollPage from "../pages/EnrollPage";
 export const metadata: Metadata = {
   title: "Enroll Now — Live Batches | Hustle Learning",
   description:
-    "Enroll in Hustle Learning live online batches for Class 6, 7 and 8. ₹499/month or ₹5000/year. Share your details and we will confirm your batch on WhatsApp.",
+    "Enroll in Hustle Learning live online batches for Classes 6 to 10. ₹499 per month or ₹5000 per academic year. Share your details and we will confirm your batch on WhatsApp.",
 };
 
 export default function EnrollRoute() {

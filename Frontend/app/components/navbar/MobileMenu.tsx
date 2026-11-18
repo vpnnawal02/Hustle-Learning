@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import ThemeToggle from "../ThemeToggle";
 import {
   CONTACT,
   MEGA_MENU,
@@ -244,12 +243,6 @@ export default function MobileMenu({ open, onNavigate }: Props) {
           >
             Sign Up
           </Link>
-          <div className="flex items-center justify-between px-1 pt-2">
-            <span className="text-sm font-medium text-text-secondary">
-              Theme
-            </span>
-            <ThemeToggle />
-          </div>
         </div>
       </nav>
     </div>

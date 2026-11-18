@@ -1,80 +1,40 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Breadcrumbs from "../components/layout/Breadcrumbs";
 import Footer from "../components/Footer";
+import JsonLd from "../components/seo/JsonLd";
 import { PageTitle } from "../components/typography";
-import { buildMetadata, canonical } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, canonical } from "@/lib/seo";
+import NewsExplorer from "./NewsExplorer";
 
 export const metadata: Metadata = buildMetadata({
-  title: "News & Updates | Hustle Learning",
+  title: "Hustle Learning News – CBSE Updates, Board Exam 2027 & Prep Guides",
   description:
-    "Latest updates from Hustle Learning — new study material, batches, features and announcements.",
+    "Latest CBSE updates, board exam 2027 schedules, sample papers, preparation strategies and practical exam guidance for Classes 10 and 12.",
   canonical: canonical("/news"),
 });
-
-const UPDATES = [
-  {
-    date: "2026-10-15",
-    dateLabel: "October 2026",
-    title: "Study material platform launched",
-    text: "Chapter-wise NCERT solutions, notes, important questions, sample papers, PYQs, worksheets and formula sheets for Classes 6–10 are now live, alongside dedicated JEE and NEET tracks.",
-    href: "/resources",
-    cta: "Browse study material",
-  },
-  {
-    date: "2026-10-01",
-    dateLabel: "October 2026",
-    title: "JEE and NEET preparation tracks",
-    text: "Structured Physics, Chemistry, Mathematics and Biology tracks with notes, chapter-wise PYQs, practice questions and mock tests.",
-    href: "/jee",
-    cta: "Explore JEE",
-  },
-  {
-    date: "2026-09-20",
-    dateLabel: "September 2026",
-    title: "Admissions open: new session batches",
-    text: "Online classes and personal home tuition batches for Classes 6–12 across all subjects. Request a callback to find the right plan.",
-    href: "/#hero-enquiry",
-    cta: "Get a free callback",
-  },
-];
 
 export default function NewsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
-      <main className="mx-auto w-full max-w-[var(--container-narrow)] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <PageTitle>
-          Newsroom
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { label: "Home", href: "/" },
+          { label: "News" },
+        ])}
+      />
+      <main className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
+        <Breadcrumbs
+          items={[{ label: "Home", href: "/" }, { label: "News" }]}
+        />
+        <PageTitle className="mt-6 max-w-[28ch]">
+          Hustle Learning News
         </PageTitle>
-        <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">
-          News & Updates
+        <p className="mt-4 max-w-[68ch] text-base leading-[1.7] text-text-secondary sm:text-lg">
+          Latest CBSE updates, examination news and educational resources for
+          students — date sheets, sample papers, preparation strategies and
+          practical exam guidance for the 2026–27 board season.
         </p>
-        <p className="mt-4 max-w-[60ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-          Announcements about new study material, batches and platform
-          features.
-        </p>
-        <ol className="mt-8 flex max-w-[68ch] flex-col gap-4">
-          {UPDATES.map((update) => (
-            <li key={update.title}>
-              <article className="rounded-lg border border-border bg-surface p-5 sm:p-6">
-                <p className="text-[13px] font-semibold text-text-muted">
-                  <time dateTime={update.date}>{update.dateLabel}</time>
-                </p>
-                <h2 className="mt-1 font-sans text-xl font-bold text-text-primary">
-                  {update.title}
-                </h2>
-                <p className="mt-2 text-[15px] leading-[1.6] text-text-secondary">
-                  {update.text}
-                </p>
-                <Link
-                  href={update.href}
-                  className="mt-4 inline-flex h-11 items-center justify-center rounded bg-accent px-6 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-                >
-                  {update.cta}
-                </Link>
-              </article>
-            </li>
-          ))}
-        </ol>
+        <NewsExplorer />
       </main>
       <Footer />
     </div>

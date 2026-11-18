@@ -39,7 +39,7 @@ export async function generateMetadata({
   }
   return {
     title: `${group.label} Courses — Live Online Batches | Hustle Learning`,
-    description: `${group.description} Subjects: ${group.courses.map((c) => c.subject).join(", ")}. ₹499/month, ₹5000/year.`,
+    description: `${group.description} Subjects: ${group.courses.map((c) => c.subject).join(", ")}. ₹499 per month, ₹5000 per academic year.`,
   };
 }
 
@@ -56,9 +56,45 @@ function RichClassPage({
   const toc = [
     { href: "#explore", label: `Explore ${group.label} courses` },
     { href: "#subjects", label: `${group.label} subjects` },
+    ...(content.offerings && content.offerings.length > 0
+      ? [
+          {
+            href: "#offerings",
+            label: content.offeringsHeading ?? "What we offer",
+          },
+        ]
+      : []),
+    ...(content.materials && content.materials.length > 0
+      ? [
+          {
+            href: "#materials",
+            label: content.materialsHeading ?? "Study materials",
+          },
+        ]
+      : []),
+    ...(content.onlineBody && content.onlineBody.length > 0
+      ? [
+          {
+            href: "#online-classes",
+            label: content.onlineHeading ?? "Online classes",
+          },
+        ]
+      : []),
+    ...(content.tutoringOptions && content.tutoringOptions.length > 0
+      ? [
+          {
+            href: "#tutoring",
+            label: content.tutoringHeading ?? "Tutoring",
+          },
+        ]
+      : []),
     { href: "#why", label: `Why Hustle Learning` },
-    { href: "#who", label: "Who can join" },
-    { href: "#how", label: "How to enrol" },
+    ...(content.whoCanJoin && content.whoCanJoin.length > 0
+      ? [{ href: "#who", label: "Who can join" }]
+      : []),
+    ...(content.enrolSteps && content.enrolSteps.length > 0
+      ? [{ href: "#how", label: "How to enrol" }]
+      : []),
     { href: "#faqs", label: "FAQs" },
   ];
   const enrollHref =
@@ -170,7 +206,7 @@ function RichClassPage({
                         <span className="text-sm font-semibold text-text-secondary">
                           · {formatINR(course.yearlyPrice)}{" "}
                           <span className="font-medium text-text-muted">
-                            per year
+                            per academic year
                           </span>
                         </span>
                       </p>
@@ -188,13 +224,16 @@ function RichClassPage({
               })}
             </section>
 
-            <section aria-labelledby="subjects" className="mt-12 scroll-mt-24">
-              <h2
-                id="subjects"
-                className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]"
-              >
-                {group.label} Subjects
-              </h2>
+            <section
+              id="subjects"
+              aria-label={`${group.label} subjects`}
+              className="mt-12 scroll-mt-24"
+            >
+              {content.subjectsHeading && (
+                <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
+                  {content.subjectsHeading}
+                </h2>
+              )}
               {content.subjects.map((s) => (
                 <section key={s.name} className="mt-8">
                   <h3 className="text-lg font-bold text-text-primary sm:text-xl">
@@ -212,6 +251,134 @@ function RichClassPage({
               ))}
             </section>
 
+            {content.offerings && content.offerings.length > 0 && (
+              <section
+                id="offerings"
+                aria-label={content.offeringsHeading ?? "Offerings"}
+                className="mt-12 scroll-mt-24"
+              >
+                {content.offeringsHeading && (
+                  <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
+                    {content.offeringsHeading}
+                  </h2>
+                )}
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {content.offerings.map((o) => (
+                    <div
+                      key={o.title}
+                      className="rounded-md border border-border bg-surface p-4"
+                    >
+                      <p className="text-[15px] font-bold text-text-primary">
+                        {o.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-text-secondary">
+                        {o.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {content.materials && content.materials.length > 0 && (
+              <section
+                id="materials"
+                aria-label={content.materialsHeading ?? "Study materials"}
+                className="mt-12 scroll-mt-24"
+              >
+                {content.materialsHeading && (
+                  <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
+                    {content.materialsHeading}
+                  </h2>
+                )}
+                {content.materialsIntro?.map((para) => (
+                  <p
+                    key={para.slice(0, 24)}
+                    className="mt-3 text-[15px] leading-[1.7] text-text-secondary"
+                  >
+                    {para}
+                  </p>
+                ))}
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {content.materials.map((m) => (
+                    <div
+                      key={m.title}
+                      className="rounded-md border border-border bg-surface p-4"
+                    >
+                      <p className="text-[15px] font-bold text-text-primary">
+                        {m.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-text-secondary">
+                        {m.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {content.onlineBody && content.onlineBody.length > 0 && (
+              <section
+                id="online-classes"
+                aria-label={content.onlineHeading ?? "Online classes"}
+                className="mt-12 scroll-mt-24"
+              >
+                {content.onlineHeading && (
+                  <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
+                    {content.onlineHeading}
+                  </h2>
+                )}
+                {content.onlineBody.map((para) => (
+                  <p
+                    key={para.slice(0, 24)}
+                    className="mt-3 text-[15px] leading-[1.7] text-text-secondary"
+                  >
+                    {para}
+                  </p>
+                ))}
+                {content.onlineFocus && content.onlineFocus.length > 0 && (
+                  <ul className="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-[15px] leading-[1.7] text-text-secondary marker:text-text-muted">
+                    {content.onlineFocus.map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            )}
+
+            {content.tutoringOptions &&
+              content.tutoringOptions.length > 0 && (
+                <section
+                  id="tutoring"
+                  aria-label={content.tutoringHeading ?? "Tutoring"}
+                  className="mt-12 scroll-mt-24"
+                >
+                  {content.tutoringHeading && (
+                    <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
+                      {content.tutoringHeading}
+                    </h2>
+                  )}
+                  {content.tutoringBody?.map((para) => (
+                    <p
+                      key={para.slice(0, 24)}
+                      className="mt-3 text-[15px] leading-[1.7] text-text-secondary"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                  {content.tutoringOptions.map((t) => (
+                    <section key={t.title} className="mt-6">
+                      <h3 className="text-lg font-bold text-text-primary sm:text-xl">
+                        {t.title}
+                      </h3>
+                      <p className="mt-2 text-[15px] leading-[1.7] text-text-secondary">
+                        {t.body}
+                      </p>
+                    </section>
+                  ))}
+                </section>
+              )}
+
             <section aria-labelledby="why" className="mt-12 scroll-mt-24">
               <h2
                 id="why"
@@ -219,23 +386,32 @@ function RichClassPage({
               >
                 Why Choose Hustle Learning for {group.label}?
               </h2>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {content.whyPoints.map((w) => (
-                  <div
-                    key={w.title}
-                    className="rounded-md border border-border bg-surface p-4"
-                  >
-                    <p className="text-[15px] font-bold text-text-primary">
-                      {w.title}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-text-secondary">
-                      {w.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {content.whyPoints.every((w) => w.body) ? (
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {content.whyPoints.map((w) => (
+                    <div
+                      key={w.title}
+                      className="rounded-md border border-border bg-surface p-4"
+                    >
+                      <p className="text-[15px] font-bold text-text-primary">
+                        {w.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-text-secondary">
+                        {w.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <ul className="mt-3 flex list-disc flex-col gap-1.5 pl-5 text-[15px] leading-[1.7] text-text-secondary marker:text-text-muted">
+                  {content.whyPoints.map((w) => (
+                    <li key={w.title}>{w.title}</li>
+                  ))}
+                </ul>
+              )}
             </section>
 
+            {content.whoCanJoin && content.whoCanJoin.length > 0 && (
             <section aria-labelledby="who" className="mt-12 scroll-mt-24">
               <h2
                 id="who"
@@ -252,7 +428,9 @@ function RichClassPage({
                 ))}
               </ul>
             </section>
+            )}
 
+            {content.enrolSteps && content.enrolSteps.length > 0 && (
             <section aria-labelledby="how" className="mt-12 scroll-mt-24">
               <h2
                 id="how"
@@ -269,6 +447,7 @@ function RichClassPage({
                 ))}
               </ol>
             </section>
+            )}
 
             <section aria-labelledby="faqs" className="mt-12 scroll-mt-24">
               <h2
@@ -308,9 +487,11 @@ function RichClassPage({
                   {para}
                 </p>
               ))}
-              <p className="mt-4 text-base font-bold text-text-primary">
-                Hustle Learning – Learn Smart. Hustle Hard.
-              </p>
+              {content.closingTagline && (
+                <p className="mt-4 text-base font-bold text-text-primary">
+                  {content.closingTagline}
+                </p>
+              )}
             </section>
           </div>
         </div>
@@ -433,7 +614,7 @@ export default async function ClassCoursesRoute({
             <p className="mt-3 text-base leading-[1.6] text-text-secondary sm:text-lg">
               {group.description} Every batch is live, with small groups,
               doubt-solving and regular tests. ₹499/- per month or ₹5000/- per
-              year.
+              academic year.
             </p>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {group.courses.map((course) => (

@@ -153,7 +153,7 @@ export default function PricingPage() {
                     <span>
                       ₹5,000{" "}
                       <span className="text-sm font-medium text-text-muted">
-                        per academic session
+                        per academic year
                       </span>
                     </span>
                   </p>

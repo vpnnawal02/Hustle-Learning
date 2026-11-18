@@ -225,7 +225,7 @@ export const PRICING_FAQS: { question: string; answer: string }[] = [
   {
     question: "How much do online batch classes cost?",
     answer:
-      "Online batch classes cost ₹499 per month or ₹5,000 per session.",
+      "Online batch classes cost ₹499 per month or ₹5,000 per academic year.",
   },
   {
     question: "How much does personal home tutoring cost?",

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ThemeToggle from "../ThemeToggle";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
 import StudyMaterialMenu from "./StudyMaterialMenu";
@@ -184,7 +183,6 @@ export default function Navbar() {
             >
               Sign Up
             </Link>
-            <ThemeToggle />
           </div>
 
           {/* Mobile / tablet hamburger */}

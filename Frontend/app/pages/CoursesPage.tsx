@@ -44,16 +44,16 @@ const CLASS_SECTIONS = [
     id: "class-9-courses",
     heading: "Online Courses for Class 9",
     body: "Class 9 marks the beginning of secondary-level education. Hustle Learning's Class 9 courses cover Mathematics, Science, English, Hindi and Social Science, focusing on understanding concepts, developing problem-solving abilities and building a strong foundation for Class 10.",
-    courseHref: "/#hero-enquiry",
-    courseCta: "soon" as const,
+    courseHref: "/courses/class-9",
+    courseCta: "live" as const,
     materialHref: "/class-9",
   },
   {
     id: "class-10-courses",
     heading: "Online Courses for Class 10",
     body: "Class 10 is the board-examination year. Our courses support syllabus understanding, subject knowledge and systematic exam preparation across Mathematics, Science, English, Hindi and Social Science — with emphasis on conceptual clarity and regular learning.",
-    courseHref: "/#hero-enquiry",
-    courseCta: "soon" as const,
+    courseHref: "/courses/class-10",
+    courseCta: "live" as const,
     materialHref: "/class-10",
   },
 ];
@@ -152,7 +152,7 @@ const FAQS = [
   },
   {
     q: "How much do online courses at Hustle Learning cost?",
-    a: "Fees depend on the selected course and programme — currently ₹499/- per month or ₹5000/- per year for live batches. Check individual course details for pricing.",
+    a: "Fees depend on the selected course and programme — currently ₹499/- per month or ₹5000/- per academic year for live batches. Check individual course details for pricing.",
   },
   {
     q: "How can I enrol in a Hustle Learning course?",

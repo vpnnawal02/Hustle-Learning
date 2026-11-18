@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
+import ScrollChrome from "./components/ScrollChrome";
+import StudyThemeToggle from "./components/StudyThemeToggle";
 import JsonLd from "./components/seo/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
@@ -71,8 +73,10 @@ export const metadata: Metadata = {
 
 function ThemeInitScript() {
   // Runs before first paint to avoid theme flash.
-  // Default: light. Respect saved preference, else prefers-color-scheme.
-  const code = `(function(){try{var s=localStorage.getItem("hustle-theme");var t=s||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
+  // Dark theme is allowed ONLY on study routes (resources, materials,
+  // subjects, search, class study pages, JEE/NEET). Everywhere else the
+  // site stays light, regardless of any saved preference.
+  const code = `(function(){var t="light";try{var p=location.pathname;var study=/^\\/(resources|materials|subjects|search|jee|neet)(\\/|$)/.test(p)||/^\\/class-\\d+(\\/|$)/.test(p);if(study){var s=localStorage.getItem("hustle-theme");t=s||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}}catch(e){t="light";}document.documentElement.setAttribute("data-theme",t);})();`;
   return <script dangerouslySetInnerHTML={{ __html: code }} />;
 }
 
@@ -95,6 +99,8 @@ export default function RootLayout({
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <Navbar />
+        <ScrollChrome />
+        <StudyThemeToggle />
         {children}
       </body>
     </html>

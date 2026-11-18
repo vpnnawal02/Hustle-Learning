@@ -70,8 +70,10 @@ export const PRIMARY_LINKS: NavLink[] = [
 
 export const CONTACT = {
   label: "Talk to Our Experts",
-  phoneDisplay: "+91 XXXXX XXXXX",
-  telHref: "tel:+910000000000",
+  phoneDisplay: "+91 88519 48143",
+  telHref: "tel:+918851948143",
+  whatsappHref: "https://wa.me/918851948143",
+  email: "hustlelearning.info@gmail.com",
   pageHref: "/#hero-enquiry",
 } as const;
 

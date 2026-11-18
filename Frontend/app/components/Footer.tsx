@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT } from "./navbar/navbar-data";
 
 const CLASS_LINKS = [
   { href: "/class-6", label: "Class 6" },
@@ -12,6 +13,7 @@ const EXPLORE_LINKS = [
   { href: "/", label: "Home" },
   { href: "/resources", label: "Study Material" },
   { href: "/courses", label: "All Courses" },
+  { href: "/news", label: "News & Updates" },
   { href: "/enroll", label: "Enroll Now" },
   { href: "/classes", label: "One-on-One Classes" },
   { href: "/subscribe", label: "Subscribe" },
@@ -73,6 +75,37 @@ export default function Footer() {
             Study material, online classes, home tutors, and books for school
             students — structured preparation from Class 6 to Class 12.
           </p>
+          <ul
+            aria-label="Contact Hustle Learning"
+            className="mt-4 flex flex-col gap-1.5 text-sm"
+          >
+            <li>
+              <a
+                href={CONTACT.telHref}
+                className="font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+              >
+                Call: {CONTACT.phoneDisplay}
+              </a>
+            </li>
+            <li>
+              <a
+                href={CONTACT.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+              >
+                Chat on WhatsApp
+              </a>
+            </li>
+            <li>
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="font-medium break-all text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+              >
+                {CONTACT.email}
+              </a>
+            </li>
+          </ul>
         </div>
         <LinkColumn heading="Classes" links={CLASS_LINKS} />
         <LinkColumn heading="Explore" links={EXPLORE_LINKS} />

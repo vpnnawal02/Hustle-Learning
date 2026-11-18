@@ -17,6 +17,7 @@ import { publishedItems } from "@/lib/data/helpers";
 import { splitWorksheets } from "@/lib/content/worksheets";
 import { SITE_URL } from "@/lib/site";
 import { urls } from "@/lib/urls";
+import { NEWS_ARTICLES } from "@/app/components/news-articles";
 
 /**
  * Dynamic XML sitemap — published, content-bearing pages only.
@@ -39,6 +40,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   push("/courses", undefined, 0.6);
   push("/pricing", undefined, 0.7);
   push("/news", undefined, 0.6);
+  for (const article of NEWS_ARTICLES) {
+    push(`/news/${article.slug}`, article.dateISO, 0.7);
+  }
   push("/subscribe", undefined, 0.5);
 
   // Resource category hubs (only with published content).

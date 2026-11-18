@@ -48,7 +48,7 @@ export default function SubjectCourseCard({ course }: { course: ClassCourse }) {
           </p>
           <p className="text-sm font-semibold text-text-secondary">
             {formatINR(course.yearlyPrice)}{" "}
-            <span className="font-medium text-text-muted">per year</span>
+            <span className="font-medium text-text-muted">per academic year</span>
           </p>
         </div>
 

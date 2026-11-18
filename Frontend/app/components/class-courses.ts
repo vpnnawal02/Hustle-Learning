@@ -13,6 +13,14 @@ import class7Courses from "../assets/images/course-cards/Class 7 Courses.png";
 import class8Courses from "../assets/images/course-cards/Class 8 Courses.png";
 import class9Courses from "../assets/images/course-cards/Class 9 Courses.png";
 import class10Courses from "../assets/images/course-cards/Class 10 Courses.png";
+import class9Mathematics from "../assets/images/course-cards/Class 9/Class 9 Mathematics.png";
+import class9Science from "../assets/images/course-cards/Class 9/Class 9 Science.png";
+import class9Language from "../assets/images/course-cards/Class 9/Class 9 Language.png";
+import class9SocialScience from "../assets/images/course-cards/Class 9/Class 9 Social Science.png";
+import class10Mathematics from "../assets/images/course-cards/Class 10/Class 10 Mathematics.png";
+import class10Science from "../assets/images/course-cards/Class 10/Class 10 Science.png";
+import class10Language from "../assets/images/course-cards/Class 10/Class 10 Language.png";
+import class10SocialScience from "../assets/images/course-cards/Class 10/Class 10 Social Science.png";
 
 export interface ClassCourse {
   id: string;
@@ -156,6 +164,88 @@ export const CLASS_COURSE_GROUPS: ClassCourseGroup[] = [
       ),
     ],
   },
+  {
+    slug: "class-9",
+    label: "Class 9",
+    tagline: "Stronger concepts for secondary school",
+    description:
+      "Live online batches for Class 9 — Mathematics, Science, Language and Social Science with exam practice.",
+    courses: [
+      course(
+        "class-9-mathematics",
+        "class-9",
+        "Class 9",
+        "Mathematics",
+        class9Mathematics,
+        "Hustle Learning Class 9 Mathematics course artwork",
+      ),
+      course(
+        "class-9-science",
+        "class-9",
+        "Class 9",
+        "Science",
+        class9Science,
+        "Hustle Learning Class 9 Science course artwork",
+      ),
+      course(
+        "class-9-language",
+        "class-9",
+        "Class 9",
+        "Language",
+        class9Language,
+        "Hustle Learning Class 9 Language course artwork",
+      ),
+      course(
+        "class-9-social-science",
+        "class-9",
+        "Class 9",
+        "Social Science",
+        class9SocialScience,
+        "Hustle Learning Class 9 Social Science course artwork",
+      ),
+    ],
+  },
+  {
+    slug: "class-10",
+    label: "Class 10",
+    tagline: "Board-year preparation, done right",
+    description:
+      "Live online batches for Class 10 — Mathematics, Science, Language and Social Science with board exam practice.",
+    courses: [
+      course(
+        "class-10-mathematics",
+        "class-10",
+        "Class 10",
+        "Mathematics",
+        class10Mathematics,
+        "Hustle Learning Class 10 Mathematics course artwork",
+      ),
+      course(
+        "class-10-science",
+        "class-10",
+        "Class 10",
+        "Science",
+        class10Science,
+        "Hustle Learning Class 10 Science course artwork",
+      ),
+      course(
+        "class-10-language",
+        "class-10",
+        "Class 10",
+        "Language",
+        class10Language,
+        "Hustle Learning Class 10 Language course artwork",
+      ),
+      course(
+        "class-10-social-science",
+        "class-10",
+        "Class 10",
+        "Social Science",
+        class10SocialScience,
+        "Hustle Learning Class 10 Social Science course artwork",
+      ),
+    ],
+  },
 ];
 
 export interface ClassHubInfo {
@@ -241,7 +331,7 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Concept-Based Learning",
       "Live Online Batches",
     ],
-    status: "soon",
+    status: "live",
     image: class9Courses,
     imageAlt:
       "Class 9 Courses: complete CBSE preparation for a strong foundation in secondary education. Subjects: English, Hindi, Mathematics, Science, Social Science.",
@@ -258,7 +348,7 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Concept-Based Learning",
       "Live Online Batches",
     ],
-    status: "soon",
+    status: "live",
     image: class10Courses,
     imageAlt:
       "Class 10 Courses: complete board-year preparation with revision, sample papers and exam practice. Subjects: English, Hindi, Mathematics, Science, Social Science.",
