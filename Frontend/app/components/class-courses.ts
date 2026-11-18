@@ -8,6 +8,11 @@ import class7Maths from "../assets/images/course-cards/class 7/class 7 Maths.png
 import class8Language from "../assets/images/course-cards/class 8/class 8 Language.png";
 import class8MathsScience from "../assets/images/course-cards/class 8/class 8 maths and science.png";
 import class8SocialScience from "../assets/images/course-cards/class 8/class 8 social science.png";
+import class6Courses from "../assets/images/course-cards/Class 6 Courses.png";
+import class7Courses from "../assets/images/course-cards/Class 7 Courses.png";
+import class8Courses from "../assets/images/course-cards/Class 8 Courses.png";
+import class9Courses from "../assets/images/course-cards/Class 9 Courses.png";
+import class10Courses from "../assets/images/course-cards/Class 10 Courses.png";
 
 export interface ClassCourse {
   id: string;
@@ -162,8 +167,10 @@ export interface ClassHubInfo {
   subjects: string[];
   highlights: string[];
   status: "live" | "soon";
-  /** Card background + border (theme-aware CSS vars). */
-  tint: string;
+  /** Card artwork — title, subtitle and subjects are baked in. */
+  image: StaticImageData;
+  /** Alt text mirroring the copy baked into the artwork. */
+  imageAlt: string;
 }
 
 /**
@@ -184,7 +191,9 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Live Online Batches",
     ],
     status: "live",
-    tint: "border-[var(--c6-border)] bg-[var(--c6-surface)]",
+    image: class6Courses,
+    imageAlt:
+      "Class 6 Courses: strong CBSE foundations in core subjects for confident middle-school learning. Subjects: English, Hindi, Mathematics, Science, Social Science.",
   },
   {
     slug: "class-7",
@@ -199,7 +208,9 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Live Online Batches",
     ],
     status: "live",
-    tint: "border-[var(--c7-border)] bg-[var(--c7-surface)]",
+    image: class7Courses,
+    imageAlt:
+      "Class 7 Courses: deeper concepts, chapter tests and revision support for steady academic growth. Subjects: English, Hindi, Mathematics, Science, Social Science.",
   },
   {
     slug: "class-8",
@@ -214,7 +225,9 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Live Online Batches",
     ],
     status: "live",
-    tint: "border-[var(--c8-border)] bg-[var(--c8-surface)]",
+    image: class8Courses,
+    imageAlt:
+      "Class 8 Courses: board-oriented preparation with strong focus on Maths, Science and Social Science. Subjects: English, Hindi, Mathematics, Science, Social Science.",
   },
   {
     slug: "class-9",
@@ -229,7 +242,9 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Live Online Batches",
     ],
     status: "soon",
-    tint: "border-[var(--c9-border)] bg-[var(--c9-surface)]",
+    image: class9Courses,
+    imageAlt:
+      "Class 9 Courses: complete CBSE preparation for a strong foundation in secondary education. Subjects: English, Hindi, Mathematics, Science, Social Science.",
   },
   {
     slug: "class-10",
@@ -244,7 +259,9 @@ export const CLASS_HUB: ClassHubInfo[] = [
       "Live Online Batches",
     ],
     status: "soon",
-    tint: "border-[var(--c10-border)] bg-[var(--c10-surface)]",
+    image: class10Courses,
+    imageAlt:
+      "Class 10 Courses: complete board-year preparation with revision, sample papers and exam practice. Subjects: English, Hindi, Mathematics, Science, Social Science.",
   },
 ];
 

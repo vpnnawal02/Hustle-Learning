@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import ThemeToggle from "../ThemeToggle";
 import {
-  CLASSES_LINKS,
   CONTACT,
   MEGA_MENU,
   PRIMARY_LINKS,
@@ -195,35 +194,6 @@ export default function MobileMenu({ open, onNavigate }: Props) {
               </ul>
             </div>
           </div>
-        </Section>
-
-        {/* Classes accordion */}
-        <Section
-          id="mobile-classes"
-          title="Classes"
-          expanded={expanded === "classes"}
-          onToggle={() => toggle("classes")}
-        >
-          <ul className="flex flex-col gap-2.5">
-            {CLASSES_LINKS.map((link) => {
-              const linkActive = isActivePath(link.href);
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={onNavigate}
-                    aria-current={linkActive ? "page" : undefined}
-                    className={`block rounded-lg px-5 py-4 text-[15px] font-medium transition-colors hover:bg-surface-muted/60 active:bg-surface ${linkActive
-                      ? "bg-surface-muted/60 text-text-primary underline decoration-accent decoration-2 underline-offset-4"
-                      : "bg-surface-muted/60 text-text-secondary"
-                      }`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
         </Section>
 
         {PRIMARY_LINKS.filter((l) => l.label !== "Home").map((link) => {

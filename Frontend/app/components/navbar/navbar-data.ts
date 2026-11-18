@@ -61,11 +61,6 @@ export interface MegaMenu {
 
 export const MEGA_MENU = navigation as MegaMenu;
 
-export const CLASSES_LINKS: NavLink[] = [
-  { label: "Explore All Classes", href: "/classes" },
-  { label: "Browse Courses", href: "/courses" },
-];
-
 export const PRIMARY_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Courses", href: "/courses" },

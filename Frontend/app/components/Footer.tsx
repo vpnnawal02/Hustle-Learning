@@ -12,6 +12,7 @@ const EXPLORE_LINKS = [
   { href: "/", label: "Home" },
   { href: "/resources", label: "Study Material" },
   { href: "/courses", label: "All Courses" },
+  { href: "/enroll", label: "Enroll Now" },
   { href: "/classes", label: "One-on-One Classes" },
   { href: "/subscribe", label: "Subscribe" },
 ];

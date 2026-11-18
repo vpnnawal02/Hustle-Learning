@@ -117,6 +117,8 @@ export default async function ClassPage({
           <div className="min-w-0">
             <section
               aria-labelledby="subjects-heading"
+              id="subjects"
+              className="scroll-mt-24"
             >
               <h2
                 id="subjects-heading"

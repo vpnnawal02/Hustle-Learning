@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeToggle from "../ThemeToggle";
-import ClassesMenu from "./ClassesMenu";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
 import StudyMaterialMenu from "./StudyMaterialMenu";
@@ -12,7 +11,7 @@ import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
 import { CONTACT, SIGNUP_HREF } from "./navbar-data";
 import { ActiveBar, useIsActivePath } from "./useActivePath";
 
-type OpenMenu = "study" | "classes" | null;
+type OpenMenu = "study" | null;
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
@@ -20,7 +19,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const studyTriggerRef = useRef<HTMLButtonElement>(null);
-  const classesTriggerRef = useRef<HTMLButtonElement>(null);
 
   const closeDesktop = useCallback((restoreFocus = false) => {
     setOpenMenu(null);
@@ -47,7 +45,6 @@ export default function Navbar() {
     isActivePath("/jee") ||
     isActivePath("/neet") ||
     pathname.startsWith("/class-");
-  const isClasses = isActivePath("/classes");
 
   // Frosted at the very top, solid once content scrolls underneath.
   useEffect(() => {
@@ -69,7 +66,6 @@ export default function Navbar() {
       if (e.key === "Escape") {
         setOpenMenu(null);
         if (openMenu === "study") studyTriggerRef.current?.focus();
-        if (openMenu === "classes") classesTriggerRef.current?.focus();
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
@@ -130,13 +126,6 @@ export default function Navbar() {
               onClose={() => closeDesktop()}
               triggerRef={studyTriggerRef}
               routeActive={isStudy}
-            />
-            <ClassesMenu
-              open={openMenu === "classes"}
-              onOpen={() => setOpenMenu("classes")}
-              onClose={() => closeDesktop()}
-              triggerRef={classesTriggerRef}
-              routeActive={isClasses}
             />
             <Link
               href="/courses"

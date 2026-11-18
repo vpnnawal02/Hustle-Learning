@@ -1,49 +1,26 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { ClassHubInfo } from "./class-courses";
 
 /**
- * Main class card for /courses — minimal editorial style:
- * pastel tint per class, LIVE badge, big bold heading,
- * full-width equal subject pills, one-line highlights, amber CTA.
- * Course artwork images are used only on subject cards, never here.
+ * Main class card for /courses — artwork image on top (title,
+ * subtitle and subjects are baked into the artwork, so no text
+ * here repeats them) plus a single CTA below.
  */
 export default function ClassHubCard({ info }: { info: ClassHubInfo }) {
   const live = info.status === "live";
 
   return (
-    <article
-      className={`flex h-full min-w-0 flex-col rounded-lg border p-6 ${info.tint}`}
-    >
-      <h2 className="mt-2 text-2xl leading-tight font-bold text-balance text-text-primary">
-        {info.heading}
-      </h2>
-      <p className="mt-1.5 text-sm leading-relaxed text-text-secondary">
-        {info.subtitle}
-      </p>
-
-      <ul
-        aria-label={`${info.label} subjects`}
-        className="mt-3 flex flex-wrap gap-1.5"
-      >
-        {info.subjects.map((subject) => (
-          <li
-            key={subject}
-            className="rounded-full border border-border bg-surface/80 px-2.5 py-0.5 text-xs font-medium text-text-secondary"
-          >
-            {subject}
-          </li>
-        ))}
-      </ul>
-
-      <p
-        aria-label={`${info.label} highlights`}
-        className="mt-3 text-[13px] leading-relaxed text-text-muted"
-      >
-        {info.highlights.join("  •  ")}
-      </p>
-
-      <div className="mt-auto pt-4">
+    <article className="lift flex h-full min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-surface">
+      <Image
+        src={info.image}
+        alt={info.imageAlt}
+        quality={100}
+        sizes="(max-width: 768px) 78vw, (max-width: 1024px) 45vw, 430px"
+        className="h-auto w-full"
+      />
+      <div className="mt-auto p-4 sm:p-5">
         {live ? (
           <Link
             href={`/courses/${info.slug}`}

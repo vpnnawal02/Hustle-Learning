@@ -35,7 +35,7 @@ export function PlanCard({
         Cancel anytime
       </p>
       <Link
-        href="/#hero-enquiry"
+        href="/subscribe"
         aria-label={`${plan.ctaLabel} at ₹${plan.price} per month`}
         className="mt-5 inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
       >
