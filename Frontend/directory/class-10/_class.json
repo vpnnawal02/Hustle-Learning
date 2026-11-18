@@ -198,78 +198,186 @@
           "slug": "a-letter-to-god",
           "title": "A Letter to God",
           "number": 1,
-          "status": "draft"
+          "status": "published"
         },
         {
           "slug": "nelson-mandela-long-walk-to-freedom",
           "title": "Nelson Mandela: Long Walk to Freedom",
           "number": 2,
-          "status": "draft"
+          "status": "published"
         },
         {
-          "slug": "two-stories-about-flying",
-          "title": "Two Stories About Flying",
+          "slug": "his-first-flight",
+          "title": "His First Flight",
           "number": 3,
-          "status": "draft"
+          "status": "published"
+        },
+        {
+          "slug": "the-black-aeroplane",
+          "title": "The Black Aeroplane",
+          "number": 4,
+          "status": "published"
         },
         {
           "slug": "dust-of-snow",
           "title": "Dust of Snow",
-          "number": 4,
+          "number": 5,
           "status": "published"
         },
         {
           "slug": "fire-and-ice",
           "title": "Fire and Ice",
-          "number": 5,
+          "number": 6,
           "status": "published"
         },
         {
           "slug": "tiger-in-the-zoo",
           "title": "A Tiger in the Zoo",
-          "number": 6,
+          "number": 7,
           "status": "published"
         },
         {
           "slug": "how-to-tell-wild-animals",
           "title": "How to Tell Wild Animals",
-          "number": 7,
+          "number": 8,
           "status": "published"
         },
         {
           "slug": "the-ball-poem",
           "title": "The Ball Poem",
-          "number": 8,
+          "number": 9,
           "status": "published"
         },
         {
           "slug": "amanda",
           "title": "Amanda!",
-          "number": 9,
+          "number": 10,
           "status": "published"
         },
         {
           "slug": "fog",
           "title": "Fog",
-          "number": 10,
+          "number": 11,
           "status": "published"
         },
         {
           "slug": "the-tale-of-custard-the-dragon",
           "title": "The Tale of Custard the Dragon",
-          "number": 11,
+          "number": 12,
           "status": "published"
         },
         {
           "slug": "for-anne-gregory",
           "title": "For Anne Gregory",
-          "number": 12,
+          "number": 13,
           "status": "published"
         },
         {
           "slug": "the-trees",
           "title": "The Trees",
-          "number": 13,
+          "number": 14,
+          "status": "published"
+        },
+        {
+          "slug": "a-baker-from-goa",
+          "title": "A Baker from Goa (Glimpses of India)",
+          "number": 15,
+          "status": "published"
+        },
+        {
+          "slug": "coorg",
+          "title": "Coorg (Glimpses of India)",
+          "number": 16,
+          "status": "published"
+        },
+        {
+          "slug": "tea-from-assam",
+          "title": "Tea from Assam (Glimpses of India)",
+          "number": 17,
+          "status": "published"
+        },
+        {
+          "slug": "a-triumph-of-surgery",
+          "title": "A Triumph of Surgery",
+          "number": 18,
+          "status": "published"
+        },
+        {
+          "slug": "madam-rides-the-bus",
+          "title": "Madam Rides the Bus",
+          "number": 19,
+          "status": "published"
+        },
+        {
+          "slug": "mijbil-the-otter",
+          "title": "Mijbil the Otter",
+          "number": 20,
+          "status": "published"
+        },
+        {
+          "slug": "the-proposal",
+          "title": "The Proposal",
+          "number": 21,
+          "status": "published"
+        },
+        {
+          "slug": "the-thiefs-story",
+          "title": "The Thief's Story",
+          "number": 22,
+          "status": "published"
+        },
+        {
+          "slug": "a-midnight-visitor",
+          "title": "The Midnight Visitor",
+          "number": 23,
+          "status": "published"
+        },
+        {
+          "slug": "a-question-of-trust",
+          "title": "A Question of Trust",
+          "number": 24,
+          "status": "published"
+        },
+        {
+          "slug": "footprints-without-feet",
+          "title": "Footprints Without Feet",
+          "number": 25,
+          "status": "published"
+        },
+        {
+          "slug": "the-making-of-a-scientist",
+          "title": "The Making of a Scientist",
+          "number": 26,
+          "status": "published"
+        },
+        {
+          "slug": "the-necklace",
+          "title": "The Necklace",
+          "number": 27,
+          "status": "published"
+        },
+        {
+          "slug": "bholi",
+          "title": "Bholi",
+          "number": 28,
+          "status": "published"
+        },
+        {
+          "slug": "the-book-that-saved-the-earth",
+          "title": "The Book That Saved the Earth",
+          "number": 29,
+          "status": "published"
+        },
+        {
+          "slug": "from-the-diary-of-anne-frank",
+          "title": "From the Diary of Anne Frank",
+          "number": 30,
+          "status": "published"
+        },
+        {
+          "slug": "the-sermon-at-benaras",
+          "title": "The Sermon at Benaras",
+          "number": 31,
           "status": "published"
         }
       ]

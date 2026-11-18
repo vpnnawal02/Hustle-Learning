@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import CoursesPage from "../pages/CoursesPage";
 
 export const metadata: Metadata = {
-  title: "All Courses — Hustle Learning",
+  title: "All Courses — Live Batches for Class 6–10 | Hustle Learning",
   description:
-    "Hustle Learning batches for Classes 6–8, Class 9, Class 10, and Classes 11–12.",
+    "Live online batches for Class 6, 7, 8, 9 and 10. Subject-wise courses at ₹499/month or ₹5000/year.",
 };
 
 export default function CoursesRoute() {

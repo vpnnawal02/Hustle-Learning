@@ -40,6 +40,28 @@
   --res-pyq: #4f46e5;
   --res-worksheet: #ea580c;
   --res-formula: #16a34a;
+  /* Class-hub card pastels (light): card surface, border, soft
+     pill/chip fill, and ink used on both. Dark mappings below. */
+  --c6-surface: #fbefc3;
+  --c6-border: #e6cf7e;
+  --c6-soft: #f4df9c;
+  --c6-ink: #92400e;
+  --c7-surface: #e3d7fa;
+  --c7-border: #bfa8ea;
+  --c7-soft: #d2c2f4;
+  --c7-ink: #5b21b6;
+  --c8-surface: #c6ebd6;
+  --c8-border: #83cfa8;
+  --c8-soft: #abdfc0;
+  --c8-ink: #065f46;
+  --c9-surface: #c9ddf6;
+  --c9-border: #8ab6e8;
+  --c9-soft: #adcdf1;
+  --c9-ink: #1e40af;
+  --c10-surface: #f6c9d1;
+  --c10-border: #e598a5;
+  --c10-soft: #f0adb8;
+  --c10-ink: #9f1239;
   /* Single site-wide container width: every page and section
      aligns to the same edge. Inner copy keeps its own measure. */
   --container-wide: 1380px;
@@ -89,6 +111,28 @@
   --res-pyq: #a5b4fc;
   --res-worksheet: #fdba74;
   --res-formula: #86efac;
+  /* Class-hub card pastels (dark): deep tints so card and text
+     stay in the same theme — never mix light text on dark cards. */
+  --c6-surface: #241b06;
+  --c6-border: #5a4a1a;
+  --c6-soft: #3a2e0d;
+  --c6-ink: #fcd34d;
+  --c7-surface: #1b1730;
+  --c7-border: #4a3f6b;
+  --c7-soft: #2c2450;
+  --c7-ink: #c4b5fd;
+  --c8-surface: #0a2018;
+  --c8-border: #1f4a37;
+  --c8-soft: #14382a;
+  --c8-ink: #6ee7b7;
+  --c9-surface: #0a1b2e;
+  --c9-border: #274a6b;
+  --c9-soft: #173049;
+  --c9-ink: #93c5fd;
+  --c10-surface: #270e13;
+  --c10-border: #5b2730;
+  --c10-soft: #421a23;
+  --c10-ink: #fda4af;
 }
 
 @theme inline {

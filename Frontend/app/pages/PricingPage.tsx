@@ -101,6 +101,7 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+      <hr aria-hidden="true" className="mt-14 border-border" />
 
       {/* Monthly subscriptions */}
       <section aria-labelledby="plans-heading" id="plans" className="mt-14 scroll-mt-28">
@@ -120,6 +121,7 @@ export default function PricingPage() {
           </Reveal>
         </div>
       </section>
+      <hr aria-hidden="true" className="mt-14 border-border" />
 
       {/* Online batch classes */}
       <section aria-labelledby="batch-heading" id="batch-classes" className="mt-14 scroll-mt-28">
@@ -183,6 +185,7 @@ export default function PricingPage() {
           </div>
         </Reveal>
       </section>
+      <hr aria-hidden="true" className="mt-14 border-border" />
 
       {/* Personal tutoring */}
       <section aria-labelledby="tutoring-heading" id="tutoring" className="mt-14 scroll-mt-28">
@@ -254,6 +257,7 @@ export default function PricingPage() {
           </Reveal>
         </div>
       </section>
+      <hr aria-hidden="true" className="mt-14 border-border" />
 
       {/* Closing */}
       <div className="mt-14">
