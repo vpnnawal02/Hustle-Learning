@@ -51,10 +51,10 @@ export const HERO_SLIDES: HeroSlide[] = [
     tiles: [],
     badge: "Admissions Open",
     badgeBatch: "Classes 6–12 · All Subjects",
-    heading: "Complete Learning Support for Every Student.",
+    heading: "Everything Students Need to Learn, Grow & Succeed.",
     batchLabel: "New session batches",
     description:
-      "From free study resources and chapter-wise practice to affordable online classes and personal tutoring, Hustle Learning brings quality education and academic support together in one place.",
+      "From free NCERT resources and chapter-wise practice to online batch classes, personal tutors and quality study books, Hustle Learning brings every essential learning resource together in one place.",
     bullets: [
       "Free Study Materials & NCERT Solutions",
       "Interactive Practice & Drill Mode",

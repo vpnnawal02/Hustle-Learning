@@ -36,6 +36,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Core static pages.
   push("/", undefined, 1);
   push("/resources", undefined, 0.9);
+  push("/home-tuitions", undefined, 0.9);
+  push("/hire-a-tutor", undefined, 0.9);
+  push("/join-as-tutor", undefined, 0.9);
+  push("/join-as-tutor/register", undefined, 0.5);
+  push("/tutor-terms-and-conditions", undefined, 0.3);
   push("/classes", undefined, 0.6);
   push("/courses", undefined, 0.6);
   push("/pricing", undefined, 0.7);

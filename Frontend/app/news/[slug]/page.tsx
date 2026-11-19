@@ -297,7 +297,7 @@ export default async function NewsArticlePage({
               <h2 className="text-2xl leading-tight font-semibold text-balance text-text-primary sm:text-[28px]">
                 Frequently Asked Questions
               </h2>
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {faqs.map((f) => (
                   <details
                     key={f.q}

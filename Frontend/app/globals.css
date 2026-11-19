@@ -274,6 +274,21 @@ body {
   transform-origin: top center;
 }
 
+/* Mobile menu rows cascade in with a soft rise. */
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.menu-item-in {
+  animation: menu-item-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Hero carousel travels on a track (translateX); the global
    reduced-motion rule already neutralises it when requested. */
 

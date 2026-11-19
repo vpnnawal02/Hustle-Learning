@@ -15,6 +15,7 @@ import { validateEnquiry } from "./validation";
 
 interface Props {
   onBusyChange?: (busy: boolean) => void;
+  layout?: "horizontal" | "vertical";
 }
 
 type FieldErrors = { name?: string; phone?: string; classLevel?: string };
@@ -23,7 +24,8 @@ type FieldErrors = { name?: string; phone?: string; classLevel?: string };
  * Compact callback card for the hero: Name + Class + Phone in one row.
  * Reuses the same validation and lead pipeline as the full enquiry dialog.
  */
-export default function QuickEnquiryForm({ onBusyChange }: Props) {
+export default function QuickEnquiryForm({ onBusyChange, layout = "horizontal" }: Props) {
+  const vertical = layout === "vertical";
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [classLevel, setClassLevel] = useState("");
@@ -106,7 +108,18 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
     "pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-text-muted";
 
   return (
-    <div className="mt-6 rounded-md bg-transparent p-3 shadow-sm border-1 border-border sm:p-4 md:mt-6">
+    <div className="rounded-md bg-transparent p-2.5 border-1 border-[#E8ECF2] sm:p-3">
+
+      {vertical && notice?.kind !== "ok" && (
+        <div className="px-1 pt-1 pb-2">
+          <p className="text-base font-bold text-text-primary">
+            Request a free callback
+          </p>
+          <p className="mt-1 text-[13px] leading-snug text-text-secondary">
+            Our counsellor will call you back on WhatsApp.
+          </p>
+        </div>
+      )}
 
       {notice?.kind === "ok" ? (
         <div role="status" className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1 py-2">
@@ -131,9 +144,13 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
           onSubmit={handleSubmit}
           noValidate
           aria-label="Request a free callback"
-          className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-row"
+          className={
+            vertical
+              ? "flex flex-col gap-2"
+              : "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-row"
+          }
         >
-          <div className="relative lg:flex-1">
+          <div className={`relative ${vertical ? "" : "lg:flex-1"}`}>
             <User size={16} aria-hidden="true" className={iconCls} />
             <label htmlFor={`${uid}-name`} className="sr-only">
               Student name
@@ -152,7 +169,7 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
               className={fieldCls(!!errors.name)}
             />
           </div>
-          <div className="relative lg:w-44 lg:shrink-0">
+          <div className={`relative ${vertical ? "" : "lg:w-44 lg:shrink-0"}`}>
             <GraduationCap size={16} aria-hidden="true" className={iconCls} />
             <label htmlFor={`${uid}-class`} className="sr-only">
               Class
@@ -181,7 +198,7 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
               className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-text-muted"
             />
           </div>
-          <div className="relative lg:flex-1">
+          <div className={`relative ${vertical ? "" : "lg:flex-1"}`}>
             <Phone size={16} aria-hidden="true" className={iconCls} />
             <label htmlFor={`${uid}-phone`} className="sr-only">
               Phone number
@@ -204,7 +221,7 @@ export default function QuickEnquiryForm({ onBusyChange }: Props) {
           <button
             type="submit"
             disabled={sending}
-            className="group inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-md bg-accent px-7 text-sm font-bold text-on-accent transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_8px_24px_rgba(255,182,39,0.35)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            className={`group inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-7 text-sm font-bold text-on-accent transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_8px_24px_rgba(255,182,39,0.35)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${vertical ? "w-full" : "shrink-0"}`}
           >
             {sending ? "Submitting…" : "Submit"}
             {!sending && (

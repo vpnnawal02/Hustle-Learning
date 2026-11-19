@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import {
   CONTACT,
+  LOGIN_HREF,
   MEGA_MENU,
   PRIMARY_LINKS,
   SIGNUP_HREF,
 } from "./navbar-data";
 import { useIsActivePath } from "./useActivePath";
-import { ChevronDown, PhoneIcon } from "./icons";
+import { ChevronDown, ChevronRight, PhoneIcon } from "./icons";
 
 interface Props {
   open: boolean;
@@ -31,21 +32,30 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-b border-border">
+    <div className="overflow-hidden rounded-xl border border-border bg-surface">
       <button
         type="button"
         aria-expanded={expanded}
         aria-controls={id}
         onClick={onToggle}
-        className="flex min-h-16 w-full items-center justify-between gap-4 px-1 py-5 text-base font-semibold text-text-primary"
+        className={`flex w-full items-center justify-between gap-4 px-4 py-3.5 text-[15px] font-bold transition-colors ${
+          expanded ? "text-text-primary" : "text-text-primary"
+        }`}
       >
         {title}
-        <ChevronDown
-          className={`h-5 w-5 shrink-0 text-text-muted transition-transform ${expanded ? "rotate-180" : ""}`}
-        />
+        <span
+          aria-hidden="true"
+          className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
+            expanded ? "bg-brand-navy text-brand-white" : "bg-surface-muted text-text-muted"
+          }`}
+        >
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+          />
+        </span>
       </button>
       {expanded && (
-        <div id={id} className="pb-6">
+        <div id={id} className="border-t border-border px-3 pt-3 pb-3">
           {children}
         </div>
       )}
@@ -53,16 +63,16 @@ function Section({
   );
 }
 
-function MenuLink({
+function MenuRow({
   href,
   onNavigate,
   children,
-  accent = false,
+  delay = 0,
 }: {
   href: string;
   onNavigate: () => void;
   children: React.ReactNode;
-  accent?: boolean;
+  delay?: number;
 }) {
   const isActivePath = useIsActivePath();
   const active = isActivePath(href);
@@ -71,15 +81,21 @@ function MenuLink({
       href={href}
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
-      className={`block rounded px-3.5 py-3.5 text-[15px] font-medium transition-colors hover:bg-surface active:bg-surface ${
+      style={{ animationDelay: `${delay}ms` }}
+      className={`menu-item-in flex items-center justify-between gap-3 rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-colors active:bg-surface-muted ${
         active
-          ? "text-text-primary underline decoration-accent decoration-2 underline-offset-4"
-          : accent
-            ? "font-semibold text-accent"
-            : "text-text-secondary"
+          ? "bg-accent/15 text-text-primary"
+          : "text-text-secondary hover:bg-surface-muted hover:text-text-primary"
       }`}
     >
-      {children}
+      <span className="flex items-center gap-3">
+        <span
+          aria-hidden="true"
+          className={`h-1.5 w-1.5 rounded-full ${active ? "bg-accent" : "bg-border-strong"}`}
+        />
+        {children}
+      </span>
+      <ChevronRight className="h-4 w-4 shrink-0 text-text-muted" />
     </Link>
   );
 }
@@ -94,155 +110,159 @@ export default function MobileMenu({ open, onNavigate }: Props) {
   const toggle = (key: string) =>
     setExpanded((prev) => (prev === key ? null : key));
 
+  const links = PRIMARY_LINKS.filter((l) => l.label !== "Home");
+
   return (
     <div
       id="mobile-menu"
-      className="mobile-menu-drop absolute inset-x-0 top-full z-40 border-b border-border bg-surface min-[1200px]:hidden"
+      className="mobile-menu-drop absolute inset-x-3 top-[calc(100%+8px)] z-40 overflow-hidden rounded-2xl border border-border bg-surface min-[1200px]:hidden"
       style={{ boxShadow: "0 24px 48px rgba(20,33,61,0.16)" }}
     >
       <nav
         aria-label="Mobile"
-        className="mx-auto max-h-[calc(100dvh-81px)] w-full max-w-[var(--container-wide)] overflow-y-auto px-6 py-8 md:px-6"
+        className="max-h-[calc(100dvh-120px)] w-full overflow-y-auto px-3 py-3"
       >
-        {/* Home */}
-        <Link
-          href="/"
-          onClick={onNavigate}
-          aria-current={isActivePath("/") ? "page" : undefined}
-          className="flex min-h-16 items-center border-b border-border px-1 py-5 text-base font-semibold text-text-primary transition-colors hover:bg-surface-muted active:bg-surface-muted"
+        {/* Auth actions */}
+        <div
+          className="menu-item-in grid grid-cols-2 gap-2 px-1 pt-1"
+          style={{ animationDelay: "0ms" }}
         >
-          <span
-            className={
-              isActivePath("/")
-                ? "underline decoration-accent decoration-2 underline-offset-8"
-                : undefined
-            }
+          <Link
+            href={LOGIN_HREF}
+            onClick={onNavigate}
+            className="inline-flex h-11 items-center justify-center rounded-xl border border-border bg-surface px-4 text-sm font-bold text-text-primary transition-colors hover:border-text-muted"
           >
-            Home
-          </span>
-        </Link>
+            Login
+          </Link>
+          <Link
+            href={SIGNUP_HREF}
+            onClick={onNavigate}
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-accent px-4 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+          >
+            Sign Up
+          </Link>
+        </div>
 
-        {/* Study Material accordion: school, resources, exams */}
-        <Section
-          id="mobile-study"
-          title="Study Material"
-          expanded={expanded === "study"}
-          onToggle={() => toggle("study")}
-        >
-          <div className="flex flex-col gap-4">
-            <div>
-              <p className="px-1 text-sm font-bold text-text-primary">
-                {school.heading} · Classes 6–10
-              </p>
-              <ul className="mt-1.5">
-                {school.classes.map((c) => (
-                  <li key={c.slug}>
-                    <MenuLink href={c.href} onNavigate={onNavigate}>
-                      {c.label}
-                    </MenuLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="px-1 text-sm font-bold text-text-primary">
-                {resources.heading}
-              </p>
-              <ul className="mt-1.5">
-                {resources.links.map((link) => (
-                  <li key={link.slug}>
-                    <MenuLink href={link.href} onNavigate={onNavigate}>
-                      {link.label}
-                    </MenuLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="px-1 text-sm font-bold text-text-primary">
-                {exams.heading}
-              </p>
-              <ul className="mt-1.5 flex flex-col gap-2.5">
-                {exams.cards.map((exam) => (
-                  <li
-                    key={exam.slug}
-                    className="rounded-lg bg-surface-muted/60 px-3.5 py-3"
-                  >
-                    <MenuLink
-                      href={exam.href}
-                      onNavigate={onNavigate}
-                      accent
-                    >
-                      {exam.label}
-                    </MenuLink>
-                    <ul className="flex flex-wrap gap-1.5 px-3.5 pt-1 pb-1.5">
-                      {exam.subjects.map((s) => (
-                        <li key={s.slug}>
-                          <Link
-                            href={s.href}
-                            onClick={onNavigate}
-                            className="inline-flex h-10 items-center rounded border border-border bg-surface px-4 text-sm font-medium text-text-secondary"
-                          >
-                            {s.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Section>
-
-        {PRIMARY_LINKS.filter((l) => l.label !== "Home").map((link) => {
-          const linkActive = isActivePath(link.href);
-          return (
+        <div className="mt-2 flex flex-col gap-1">
+          {/* Home */}
+          <div className="menu-item-in" style={{ animationDelay: "40ms" }}>
             <Link
+              href="/"
+              onClick={onNavigate}
+              aria-current={isActivePath("/") ? "page" : undefined}
+              className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-colors active:bg-surface-muted ${
+                isActivePath("/")
+                  ? "bg-accent/15 text-text-primary"
+                  : "text-text-secondary hover:bg-surface-muted hover:text-text-primary"
+              }`}
+            >
+              <span className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className={`h-1.5 w-1.5 rounded-full ${isActivePath("/") ? "bg-accent" : "bg-border-strong"}`}
+                />
+                Home
+              </span>
+              <ChevronRight className="h-4 w-4 shrink-0 text-text-muted" />
+            </Link>
+          </div>
+
+          {/* Study Material accordion */}
+          <div className="menu-item-in" style={{ animationDelay: "80ms" }}>
+            <Section
+              id="mobile-study"
+              title="Study Material"
+              expanded={expanded === "study"}
+              onToggle={() => toggle("study")}
+            >
+              <div className="flex flex-col gap-3">
+                <div className="rounded-xl bg-surface-muted/60 p-3.5">
+                  <p className="text-[13px] font-bold text-text-primary">
+                    {school.heading} · Classes 6–10
+                  </p>
+                  <ul className="mt-2 grid grid-cols-2 gap-1.5">
+                    {school.classes.map((c) => (
+                      <li key={c.slug}>
+                        <Link
+                          href={c.href}
+                          onClick={onNavigate}
+                          className="flex h-10 items-center justify-center rounded-lg border border-border bg-surface px-2 text-sm font-semibold text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+                        >
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-xl bg-surface-muted/60 p-3.5">
+                  <p className="text-[13px] font-bold text-text-primary">
+                    {resources.heading}
+                  </p>
+                  <ul className="mt-2 flex flex-col">
+                    {resources.links.map((link) => (
+                      <li key={link.slug}>
+                        <Link
+                          href={link.href}
+                          onClick={onNavigate}
+                          className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {exams.cards.map((exam) => (
+                    <Link
+                      key={exam.slug}
+                      href={exam.href}
+                      onClick={onNavigate}
+                      className="rounded-xl bg-brand-navy px-4 py-3.5 transition-transform active:scale-[0.99]"
+                    >
+                      <span className="block text-sm font-bold text-brand-white">
+                        {exam.label}
+                      </span>
+                      <span className="mt-0.5 block text-[13px] text-brand-white/70">
+                        {exam.subjects.map((s) => s.label).join(" · ")}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </Section>
+          </div>
+
+          {links.map((link, i) => (
+            <MenuRow
               key={link.href}
               href={link.href}
-              onClick={onNavigate}
-              aria-current={linkActive ? "page" : undefined}
-              className="flex min-h-16 items-center border-b border-border px-1 py-5 text-base font-semibold text-text-primary transition-colors hover:bg-surface-muted active:bg-surface-muted"
+              onNavigate={onNavigate}
+              delay={120 + i * 40}
             >
-              <span
-                className={
-                  linkActive
-                    ? "underline decoration-accent decoration-2 underline-offset-8"
-                    : undefined
-                }
-              >
-                {link.label}
-              </span>
-            </Link>
-          );
-        })}
+              {link.label}
+            </MenuRow>
+          ))}
+        </div>
 
-        {/* Contact + signup inside mobile menu */}
-        <div className="flex flex-col gap-5 py-8">
+        {/* Contact */}
+        <div className="menu-item-in px-1 pt-2 pb-1" style={{ animationDelay: `${120 + links.length * 40}ms` }}>
           <a
             href={CONTACT.telHref}
-            className="flex items-center gap-5 rounded-lg border border-border bg-surface-muted/60 px-6 py-5"
+            className="flex items-center gap-4 rounded-xl border border-border bg-surface-muted/60 px-4 py-3.5"
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded bg-surface-subtle text-text-primary">
-              <PhoneIcon className="h-6 w-6" />
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-navy text-brand-white">
+              <PhoneIcon className="h-5 w-5" />
             </span>
             <span>
-              <span className="block text-base font-semibold text-text-primary">
+              <span className="block text-sm font-bold text-text-primary">
                 {CONTACT.label}
               </span>
-              <span className="mt-1 block text-[15px] font-medium text-text-secondary">
+              <span className="mt-0.5 block text-sm font-medium text-text-secondary">
                 {CONTACT.phoneDisplay}
               </span>
             </span>
           </a>
-          <Link
-            href={SIGNUP_HREF}
-            onClick={onNavigate}
-            className="inline-flex h-[52px] items-center justify-center rounded-lg bg-accent px-5 text-[15px] font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-          >
-            Sign Up
-          </Link>
         </div>
       </nav>
     </div>

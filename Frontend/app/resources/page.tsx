@@ -1,13 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Atom, Dna } from "lucide-react";
-import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import { PageTitle } from "@/app/components/typography";
+import { ArrowRight, Atom, Dna } from "lucide-react";
 import ResourceCards from "@/app/components/resources/ResourceCards";
 import { ClassSelector } from "@/app/components/resources/Selectors";
 import { ResourceIcon } from "@/app/components/resources/icons";
 import { resourceTint } from "@/app/components/resources/resource-tints";
 import { getClasses, getResourceCategories } from "@/lib/data/school";
+import booksImg from "../assets/images/hero-section-images/books.png";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { urls } from "@/lib/urls";
 
@@ -26,16 +26,53 @@ export default async function ResourcesHubPage() {
 
   return (
     <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
-      <Breadcrumbs
-
-        items={[{ label: "Home", href: "/" }, { label: "Study Material" }]}
-      />
-      <h1 className="text-4xl font-bold text-text-primary pt-5">
-        Everything you need to prepare smarter.
-      </h1>
-      <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-md">
-        Find everything you need to excel in your school exams with free and structured CBSE study material for Classes 6 to 10. Access NCERT solutions, chapter-wise notes, important questions, sample papers, previous year questions and practice worksheets — all organised by class, subject and chapter.
-      </p>
+      <section
+        aria-labelledby="resources-heading"
+        className="rounded-md bg-amber-100 px-5 py-8 sm:px-8 sm:py-10"
+      >
+        <div className="grid items-center gap-8 md:grid-cols-2">
+          <div>
+            <h1
+              id="resources-heading"
+              className="max-w-[24ch] text-3xl leading-[1.1] text-balance text-[#141B2D] sm:text-4xl lg:text-[44px]"
+            >
+              Everything you need to prepare smarter.
+            </h1>
+            <p className="mt-4 max-w-[60ch] text-base leading-[1.6] text-[#4A5568]">
+              Find everything you need to excel in your school exams with free
+              and structured CBSE study material for Classes 6 to 10. Access
+              NCERT solutions, chapter-wise notes, important questions, sample
+              papers, previous year questions and practice worksheets — all
+              organised by class, subject and chapter.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/search"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-7 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+              >
+                Search chapters
+                <ArrowRight size={17} aria-hidden="true" />
+              </Link>
+              <Link
+                href="/courses"
+                className="inline-flex h-12 items-center justify-center rounded-md border border-[#141B2D]/25 px-7 text-sm font-bold text-[#141B2D] transition-colors hover:border-[#141B2D]"
+              >
+                Explore courses
+              </Link>
+            </div>
+          </div>
+          <div className="relative mx-auto hidden h-52 w-full max-w-[420px] sm:h-64 md:block">
+            <Image
+              src={booksImg}
+              alt="Hustle Learning study books for Classes 6 to 10"
+              fill
+              sizes="420px"
+              priority
+              className="object-contain drop-shadow-xl"
+            />
+          </div>
+        </div>
+      </section>
 
       <h2 className="mt-10 text-2xl text-text-primary">
         School Study Material · Classes 6–10

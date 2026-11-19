@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, BellRing } from "lucide-react";
+import { ArrowRight, BellRing, Search, X } from "lucide-react";
 import NewsCard, { CategoryPill, NewsMeta } from "@/app/components/NewsCard";
 import {
   NEWS_ARTICLES,
@@ -104,15 +104,20 @@ function SecondaryCard({ article }: { article: NewsArticle }) {
 export default function NewsExplorer() {
   const [category, setCategory] = useState<"All" | NewsCategory>("All");
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const [query, setQuery] = useState("");
   const counts = useMemo(() => categoryCounts(), []);
 
-  const filtered = useMemo(
-    () =>
-      category === "All"
-        ? NEWS_ARTICLES
-        : NEWS_ARTICLES.filter((a) => a.category === category),
-    [category],
-  );
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return NEWS_ARTICLES.filter((a) => {
+      if (category !== "All" && a.category !== category) return false;
+      if (!q) return true;
+      return [a.title, a.summary, a.category, a.primaryKeyword]
+        .join(" ")
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [category, query]);
 
   const featured = useMemo(() => NEWS_ARTICLES.slice(0, 3), []);
   const popular = useMemo(
@@ -134,9 +139,48 @@ export default function NewsExplorer() {
     setVisible(PAGE_SIZE);
   };
 
+  const onQuery = (v: string) => {
+    setQuery(v);
+    setVisible(PAGE_SIZE);
+  };
+
   return (
     <>
-      {category === "All" && dateSheet.length === 3 && (
+      <form
+        role="search"
+        aria-label="Search news stories"
+        onSubmit={(e) => e.preventDefault()}
+        className="relative mt-8 w-full"
+      >
+        <Search
+          size={17}
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-text-muted"
+        />
+        <label htmlFor="news-search" className="sr-only">
+          Search news stories
+        </label>
+        <input
+          id="news-search"
+          type="search"
+          value={query}
+          onChange={(e) => onQuery(e.target.value)}
+          placeholder="Search date sheets, sample papers, Class 10…"
+          autoComplete="off"
+          className="h-12 w-full rounded-md border border-border bg-surface pr-10 pl-10 text-sm text-text-primary shadow-[0_1px_4px_rgba(20,33,61,0.08)] placeholder:text-text-muted/60 transition-colors focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none"
+        />
+        {query && (
+          <button
+            type="button"
+            onClick={() => onQuery("")}
+            aria-label="Clear search"
+            className="absolute top-1/2 right-2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-surface-muted hover:text-text-primary"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        )}
+      </form>
+      {category === "All" && !query.trim() && dateSheet.length === 3 && (
         <div className="mt-8 rounded-lg border border-accent/60 bg-accent/10 p-5 sm:p-6">
           <p className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-on-accent uppercase">
             Highest priority · Board Exam 2027
@@ -172,7 +216,7 @@ export default function NewsExplorer() {
         </div>
       )}
 
-      {category === "All" && (
+      {category === "All" && !query.trim() && (
         <div className="mt-8 grid gap-6">
           <FeaturedHero article={featured[0]} />
           <div className="grid gap-6 md:grid-cols-2">
@@ -223,13 +267,35 @@ export default function NewsExplorer() {
             Showing {shown.length} of {filtered.length}{" "}
             {filtered.length === 1 ? "story" : "stories"}
             {category !== "All" && ` in ${category}`}
+            {query.trim() && ` matching “${query.trim()}”`}
           </p>
 
-          <div className="mt-4 grid gap-6 sm:grid-cols-2">
-            {shown.map((a) => (
-              <NewsCard key={a.id} article={a} />
-            ))}
-          </div>
+          {filtered.length === 0 ? (
+            <div className="mt-4 rounded-md border border-border bg-surface p-6 text-center">
+              <p className="text-[15px] font-bold text-text-primary">
+                No stories match “{query.trim()}”
+              </p>
+              <p className="mt-1 text-sm text-text-secondary">
+                Try a different keyword or browse a category instead.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  onQuery("");
+                  pick("All");
+                }}
+                className="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-border bg-surface px-6 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted"
+              >
+                Clear search & filters
+              </button>
+            </div>
+          ) : (
+            <div className="mt-4 grid gap-6 sm:grid-cols-2">
+              {shown.map((a) => (
+                <NewsCard key={a.id} article={a} />
+              ))}
+            </div>
+          )}
 
           {visible < filtered.length && (
             <div className="mt-8 text-center">

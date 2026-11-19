@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { MEGA_MENU } from "./navbar-data";
 import { ActiveBar, useIsActivePath } from "./useActivePath";
 import { ChevronDown } from "./icons";
@@ -52,11 +52,44 @@ export default function StudyMaterialMenu({
     }
   };
 
+  const closeTimer = useRef<number | null>(null);
+
+  // Close shortly after the cursor leaves, so moving away dismisses the
+  // menu — but traversing the gap between trigger and panel doesn't.
+  const scheduleClose = useCallback(() => {
+    if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => onClose(false), 150);
+  }, [onClose]);
+
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
+    },
+    [],
+  );
+
   return (
     <div
       className="relative"
       data-dropdown="study-material"
-      onMouseEnter={onOpen}
+      onMouseEnter={() => {
+        cancelClose();
+        onOpen();
+      }}
+      onMouseLeave={scheduleClose}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          cancelClose();
+          onClose(false);
+        }
+      }}
     >
       <button
         ref={triggerRef}
@@ -66,7 +99,7 @@ export default function StudyMaterialMenu({
         aria-controls="study-material-panel"
         onClick={() => (open ? onClose(false) : onOpen())}
         onKeyDown={onTriggerKeyDown}
-        className={`relative flex h-12 items-center gap-1.5 rounded px-3 text-[15px] font-medium whitespace-nowrap transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${open
+        className={`relative flex h-10 items-center gap-1.5 rounded px-2.5 text-sm font-medium whitespace-nowrap transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${open
           ? "bg-surface-muted text-text-primary"
           : routeActive
             ? "text-text-primary"
@@ -75,7 +108,7 @@ export default function StudyMaterialMenu({
       >
         Study Material
         <ChevronDown
-          className={`h-5 w-5 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
         />
         {routeActive && !open && <ActiveBar />}
       </button>

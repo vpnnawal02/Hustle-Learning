@@ -7,7 +7,7 @@ import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
 import StudyMaterialMenu from "./StudyMaterialMenu";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
-import { CONTACT, SIGNUP_HREF } from "./navbar-data";
+import { CONTACT, LOGIN_HREF, SIGNUP_HREF } from "./navbar-data";
 import { ActiveBar, useIsActivePath } from "./useActivePath";
 
 type OpenMenu = "study" | null;
@@ -35,6 +35,7 @@ export default function Navbar() {
   const pathname = usePathname() ?? "/";
   const isHome = isActivePath("/");
   const isCourses = isActivePath("/courses");
+  const isHomeTutor = isActivePath("/home-tuitions");
   const isNews = isActivePath("/news");
   const isPricing = isActivePath("/pricing");
   // Study section covers the whole resource platform: hub, class pages,
@@ -97,9 +98,9 @@ export default function Navbar() {
     <>
       <header
         ref={navRef}
-        className={`fixed inset-x-0 top-0 z-50 border-b border-border transition-colors ${scrolled
-          ? "bg-surface shadow-[0_8px_24px_rgba(20,33,61,0.08)]"
-          : "bg-surface/80 backdrop-blur-md backdrop-saturate-150"
+        className={`fixed inset-x-0 top-0 z-50 border-b border-border backdrop-blur-xl backdrop-saturate-150 transition-colors ${scrolled
+          ? "bg-surface/85 shadow-[0_8px_24px_rgba(20,33,61,0.08)]"
+          : "bg-surface/70"
           }`}
       >
         <div className="mx-auto flex h-20 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1280px]:gap-10">
@@ -113,7 +114,7 @@ export default function Navbar() {
             <Link
               href="/"
               aria-current={isHome ? "page" : undefined}
-              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isHome ? "text-text-primary" : "text-text-secondary"
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isHome ? "text-text-primary" : "text-text-secondary"
                 }`}
             >
               Home
@@ -129,16 +130,25 @@ export default function Navbar() {
             <Link
               href="/courses"
               aria-current={isCourses ? "page" : undefined}
-              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isCourses ? "text-text-primary" : "text-text-secondary"
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isCourses ? "text-text-primary" : "text-text-secondary"
                 }`}
             >
               Courses
               {isCourses && <ActiveBar />}
             </Link>
             <Link
+              href="/home-tuitions"
+              aria-current={isHomeTutor ? "page" : undefined}
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isHomeTutor ? "text-text-primary" : "text-text-secondary"
+                }`}
+            >
+              Home Tutor
+              {isHomeTutor && <ActiveBar />}
+            </Link>
+            <Link
               href="/news"
               aria-current={isNews ? "page" : undefined}
-              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isNews ? "text-text-primary" : "text-text-secondary"
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isNews ? "text-text-primary" : "text-text-secondary"
                 }`}
             >
               News
@@ -147,7 +157,7 @@ export default function Navbar() {
             <Link
               href="/pricing"
               aria-current={isPricing ? "page" : undefined}
-              className={`relative flex h-12 shrink-0 items-center rounded px-3 text-[15px] font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isPricing ? "text-text-primary" : "text-text-secondary"
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isPricing ? "text-text-primary" : "text-text-secondary"
                 }`}
             >
               Pricing
@@ -156,33 +166,42 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop right cluster */}
-          <div className="hidden shrink-0 items-center gap-4 min-[1200px]:flex min-[1280px]:gap-6">
+          <div className="hidden shrink-0 items-center gap-4 min-[1200px]:flex min-[1280px]:gap-5">
             <a
               href={CONTACT.telHref}
               title={`${CONTACT.label} — ${CONTACT.phoneDisplay}`}
-              className="flex items-center gap-2.5 rounded px-3 py-1.5 text-left transition-colors hover:bg-surface-muted"
+              className="flex items-center gap-2 rounded px-2 py-1 text-left transition-colors hover:bg-surface-muted"
             >
               <span
                 aria-hidden="true"
-                className="flex h-11 w-11 items-center justify-center rounded bg-surface-muted text-text-primary"
+                className="flex h-9 w-9 items-center justify-center rounded bg-surface-muted text-text-primary"
               >
-                <PhoneIcon className="h-5 w-5" />
+                <PhoneIcon className="h-4 w-4" />
               </span>
               <span className="leading-tight">
-                <span className="block whitespace-nowrap text-sm font-semibold text-text-primary">
+                <span className="block whitespace-nowrap text-[13px] font-semibold text-text-primary">
                   {CONTACT.label}
                 </span>
-                <span className="block whitespace-nowrap text-[13px] font-medium text-text-secondary">
+                <span className="block whitespace-nowrap text-xs font-medium text-text-secondary">
                   {CONTACT.phoneDisplay}
                 </span>
               </span>
             </a>
-            <Link
-              href={SIGNUP_HREF}
-              className="inline-flex h-12 shrink-0 items-center justify-center rounded bg-accent px-6 text-[15px] font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-            >
-              Sign Up
-            </Link>
+            <span aria-hidden="true" className="h-8 w-px bg-border" />
+            <span className="flex items-center gap-2">
+              <Link
+                href={LOGIN_HREF}
+                className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-brand-navy px-5 text-sm font-bold text-brand-white transition-colors hover:bg-navy-700 active:bg-[#0e1828]"
+              >
+                Login
+              </Link>
+              <Link
+                href={SIGNUP_HREF}
+                className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-accent px-6 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+              >
+                Sign Up
+              </Link>
+            </span>
           </div>
 
           {/* Mobile / tablet hamburger */}

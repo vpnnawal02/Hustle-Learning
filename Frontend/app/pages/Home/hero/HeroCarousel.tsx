@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { BookOpen, ShieldCheck, Users, Wallet } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import EnquiryForm from "./EnquiryForm";
@@ -72,25 +71,27 @@ export default function HeroCarousel() {
       className="relative mx-auto w-full max-w-[var(--container-wide)] scroll-mt-24 border-b border-border px-4 py-5 md:flex md:flex-col md:px-6 md:py-10 xl:min-h-[80svh] xl:justify-center"
     >
 
-      {/* ---- Top row: headline left, proof right (reference layout).
-          Mobile order: header → subtext → slider → proof → CTA → trust. ---- */}
-      <div className="flex flex-col md:grid md:grid-cols-12 md:items-end md:gap-x-6 md:gap-y-0">
-        <div className="contents md:flex md:flex-col md:col-span-7">
-
-          <div className="hero-enter hero-enter-copy max-md:order-1">
+      {/* ---- Top row: headline left, vertical enquiry form right.
+           Mobile order: header → slider → form → trust. ---- */}
+      <div className="flex flex-col md:grid md:grid-cols-12 md:items-stretch md:gap-x-6 md:gap-y-0">
+        <div className="hero-enter hero-enter-copy max-md:order-1 md:col-span-7 md:flex md:flex-col md:justify-between">
           <h1 className="mt-4 max-w-[20ch] text-4xl leading-[1.15] font-bold text-balance text-text-primary sm:text-5xl md:mt-3 md:text-4xl lg:text-5xl">
-            Complete <span className="hero-keyword">Learning</span> Support
-            for Every Student.
+            Everything Students Need to{" "}
+            <span className="hero-keyword">Learn</span>, Grow & Succeed.
           </h1>
 
-          <p className="mt-4 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg md:mt-3 md:text-[15px] lg:text-base pb-5">
+          <p className="mt-4 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg md:mt-3 md:text-[15px] lg:text-base">
             {LEAD_SLIDE.description}
           </p>
-          </div>
+          <p className="mt-3 max-w-[52ch] text-lg leading-snug font-bold text-text-primary sm:text-xl md:pb-5">
+            Better learning. Personalised guidance. Affordable education.
+          </p>
+        </div>
 
-          <div className="max-md:order-4">
+        {/* Enquiry form column */}
+        <div className="hero-enter hero-enter-form md:col-span-5 max-md:order-3 max-md:mt-8">
           <div className="hidden md:block">
-          <QuickEnquiryForm onBusyChange={setFormBusy} />
+            <QuickEnquiryForm layout="vertical" onBusyChange={setFormBusy} />
           </div>
           <button
             type="button"
@@ -100,48 +101,6 @@ export default function HeroCarousel() {
           >
             {LEAD_SLIDE.ctaLabel}
           </button>
-          </div>
-        </div>
-
-        {/* Proof column */}
-        <div className="hero-enter hero-enter-form md:col-span-5 max-md:order-3 max-md:mt-8">
-          <div className="flex items-center gap-3">
-            <div className="flex -space-x-2.5" aria-hidden="true">
-              {HERO_SLIDES.slice(0, 4).map((s) => (
-                <span
-                  key={s.id}
-                  className="relative block h-9 w-9 overflow-hidden rounded-full ring-2 ring-background md:h-8 md:w-8"
-                >
-                  <Image
-                    src={s.image}
-                    alt=""
-                    fill
-                    sizes="36px"
-                    className="object-cover"
-                  />
-                </span>
-              ))}
-              <span
-                aria-hidden="true"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-navy text-[11px] font-bold text-brand-white ring-2 ring-background md:h-8 md:w-8"
-              >
-                +
-              </span>
-            </div>
-            <p className="text-[15px] leading-snug font-medium text-text-secondary">
-              <span aria-hidden="true" className="font-bold text-text-primary">
-                ★★★★★{" "}
-              </span>
-              Loved by students
-              <br />
-              and parents across Classes 6–12
-            </p>
-          </div>
-          <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-text-secondary md:mt-2 md:text-[14ppx]">
-            Notes, live online classes, personal home tutors, and books —
-            expert guidance matched to your syllabus, at prices families can
-            afford.
-          </p>
         </div>
 
         {/* ---- Offering cards: static 4-up grid on large screens, stepped auto-rail on smaller screens ---- */}

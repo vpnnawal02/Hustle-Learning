@@ -456,7 +456,7 @@ function RichClassPage({
               >
                 Frequently Asked Questions – {group.label} Online Courses
               </h2>
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {content.faqs.map((f) => (
                   <details
                     key={f.q}

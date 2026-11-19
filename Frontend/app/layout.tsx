@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
+import RouteScrollTop from "./components/RouteScrollTop";
 import ScrollChrome from "./components/ScrollChrome";
 import StudyThemeToggle from "./components/StudyThemeToggle";
 import JsonLd from "./components/seo/JsonLd";
@@ -99,6 +100,7 @@ export default function RootLayout({
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <Navbar />
+        <RouteScrollTop />
         <ScrollChrome />
         <StudyThemeToggle />
         {children}

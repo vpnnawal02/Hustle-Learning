@@ -24,6 +24,7 @@ import {
 import JsonLd from "./seo/JsonLd";
 import { faqJsonLd } from "@/lib/seo";
 import { CONTACT } from "./navbar/navbar-data";
+import { SectionHeading } from "./typography";
 
 type FaqCategory = "General" | "Classes" | "Subscription" | "Books";
 
@@ -167,29 +168,29 @@ export default function HomeFaq() {
   return (
     <section
       aria-labelledby="home-faq-heading"
-      className="mx-auto w-full max-w-[768px] border-b border-border px-4 py-10 md:px-6 md:py-14"
+      className="mx-auto w-full max-w-[var(--container-wide)] border-b border-border px-4 py-10 md:px-6 md:py-14"
     >
       <JsonLd
         data={faqJsonLd(
           FAQS.map(({ question, answer }) => ({ question, answer })),
         )}
       />
-      <h2
-        id="home-faq-heading"
-        className="max-w-[24ch] text-4xl leading-[1.05] text-balance text-text-primary sm:text-5xl"
-      >
-        Frequently asked questions
-      </h2>
-      <p className="mt-3 max-w-[52ch] text-[15px] leading-[1.6] text-text-secondary">
-        Find answers to the most common questions about classes,
-        subscriptions, books and more. Still stuck?{" "}
-        <a
-          href={CONTACT.telHref}
-          className="font-semibold text-text-primary underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
-        >
-          Talk to our experts
-        </a>
-      </p>
+      <SectionHeading
+        titleId="home-faq-heading"
+        title="Frequently asked questions"
+        description={
+          <>
+            Find answers to the most common questions about classes,
+            subscriptions, books and more. Still stuck?{" "}
+            <a
+              href={CONTACT.telHref}
+              className="font-semibold text-text-primary underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
+            >
+              Talk to our experts
+            </a>
+          </>
+        }
+      />
 
       <div
         role="tablist"
@@ -214,32 +215,27 @@ export default function HomeFaq() {
         ))}
       </div>
 
-      <div key={active} className="mt-8 divide-y divide-border">
+      <div key={active} className="mt-8 grid gap-3 sm:grid-cols-2">
         {visible.map((faq) => (
-          <div key={faq.question} className="flex gap-3 py-4">
-            <span
-              aria-hidden="true"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-surface text-text-secondary"
-            >
-              <faq.icon className="h-[18px] w-[18px]" strokeWidth={2} />
-            </span>
-            <details className="group min-w-0 flex-1">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-text-primary [&::-webkit-details-marker]:hidden">
-                {faq.question}
-                <ChevronDown
-                  aria-hidden="true"
-                  className="h-4 w-4 shrink-0 text-text-muted transition-transform duration-200 group-open:rotate-180"
-                />
-              </summary>
-              <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-out group-open:grid-rows-[1fr]">
-                <div className="overflow-hidden">
-                  <p className="pt-2 text-sm leading-[1.65] text-text-secondary">
-                    {faq.answer}
-                  </p>
-                </div>
+          <details
+            key={faq.question}
+            className="group rounded-md border border-border bg-surface px-4 py-3"
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-text-primary [&::-webkit-details-marker]:hidden">
+              {faq.question}
+              <ChevronDown
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 text-text-muted transition-transform duration-200 group-open:rotate-180"
+              />
+            </summary>
+            <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-out group-open:grid-rows-[1fr]">
+              <div className="overflow-hidden">
+                <p className="pt-2 text-sm leading-[1.65] text-text-secondary">
+                  {faq.answer}
+                </p>
               </div>
-            </details>
-          </div>
+            </div>
+          </details>
         ))}
       </div>
     </section>

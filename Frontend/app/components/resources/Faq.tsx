@@ -27,7 +27,7 @@ export default function Faq({
       >
         {heading}
       </h2>
-      <div className="mt-5 flex flex-col gap-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {faqs.map((faq, i) => (
           <details
             key={i}

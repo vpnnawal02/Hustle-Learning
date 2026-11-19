@@ -1,11 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import Footer from "../components/Footer";
 import ClassHubCard from "../components/ClassHubCard";
 import JsonLd from "../components/seo/JsonLd";
-import { PageTitle } from "../components/typography";
 import { CLASS_HUB } from "../components/class-courses";
 import { faqJsonLd } from "@/lib/seo";
+import liveClassesImg from "../assets/images/hero-section-images/live-classes.png";
 
 const ON_THIS_PAGE = [
   { href: "#by-class", label: "Explore by class" },
@@ -173,18 +174,58 @@ export default function CoursesPage() {
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
       {faqSchema && <JsonLd data={faqSchema} />}
       <main className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
+        <section
+          aria-labelledby="courses-heading"
+          className="rounded-md bg-brand-navy px-5 py-8 sm:px-8 sm:py-10"
+        >
+          <div className="grid items-center gap-8 md:grid-cols-2">
+            <div>
+              <h1
+                id="courses-heading"
+                className="max-w-[24ch] text-3xl leading-[1.1] text-balance text-brand-white sm:text-4xl lg:text-[44px]"
+              >
+                Online Courses for CBSE Students – Classes 6 to 10
+              </h1>
+              <p className="mt-3 max-w-[30ch] text-xl leading-snug font-bold text-brand-white/85 sm:text-2xl">
+                Small batches. Real teachers. Affordable fees.
+              </p>
+              <p className="mt-4 max-w-[60ch] text-base leading-[1.6] text-brand-white/75">
+                Explore online courses for CBSE students at Hustle Learning,
+                designed to make school learning more structured, engaging and
+                effective. Our class-wise courses help students understand
+                subjects, strengthen fundamentals and progress confidently
+                through school.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/enroll"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-7 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+                >
+                  Enrol now
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex h-12 items-center justify-center rounded-md border border-white/30 px-7 text-sm font-bold text-brand-white transition-colors hover:border-brand-white hover:bg-white/10"
+                >
+                  View pricing
+                </Link>
+              </div>
+            </div>
+            <div className="relative mx-auto hidden h-52 w-full max-w-[420px] sm:h-64 md:block">
+              <Image
+                src={liveClassesImg}
+                alt="Teacher taking a live online class for school students"
+                fill
+                sizes="420px"
+                priority
+                className="rounded-md object-cover object-center"
+              />
+            </div>
+          </div>
+        </section>
+        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
           <div className="min-w-0">
-            <PageTitle className="max-w-[28ch]">
-              Online Courses for CBSE Students – Classes 6 to 10
-            </PageTitle>
-            <p className="mt-4 text-base leading-[1.7] text-text-secondary sm:text-lg">
-              Explore online courses for CBSE students at Hustle Learning,
-              designed to make school learning more structured, engaging and
-              effective. Our class-wise courses help students understand
-              subjects, strengthen fundamentals and progress confidently
-              through school.
-            </p>
             <div className="no-scrollbar -mx-4 mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-4 px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 xl:grid-cols-3">
               {CLASS_HUB.map((info) => (
                 <div
@@ -358,7 +399,7 @@ export default function CoursesPage() {
                 >
                   Frequently Asked Questions
                 </h2>
-                <div className="mt-4 flex flex-col gap-3">
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {FAQS.map((f) => (
                     <details
                       key={f.q}

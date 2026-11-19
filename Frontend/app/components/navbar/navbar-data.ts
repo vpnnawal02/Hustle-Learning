@@ -64,6 +64,7 @@ export const MEGA_MENU = navigation as MegaMenu;
 export const PRIMARY_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Courses", href: "/courses" },
+  { label: "Home Tutor", href: "/home-tuitions" },
   { label: "Pricing", href: "/pricing" },
   { label: "News", href: "/news" },
 ];
@@ -77,4 +78,5 @@ export const CONTACT = {
   pageHref: "/#hero-enquiry",
 } as const;
 
-export const SIGNUP_HREF = "/subscribe";
+export const LOGIN_HREF = "/login";
+export const SIGNUP_HREF = "/login?tab=register";
