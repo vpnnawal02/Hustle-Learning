@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
-import Footer from "../components/Footer";
 import ClassHubCard from "../components/ClassHubCard";
 import JsonLd from "../components/seo/JsonLd";
 import { CLASS_HUB } from "../components/class-courses";
@@ -494,7 +493,6 @@ export default function CoursesPage() {
           </aside>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

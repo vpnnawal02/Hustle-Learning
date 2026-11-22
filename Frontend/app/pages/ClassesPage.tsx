@@ -1,45 +1,15 @@
-import Link from "next/link";
-import Footer from "../components/Footer";
-import { PageTitle } from "../components/typography";
-import TutoringCard from "../components/TutoringCard";
-import { TUTORING_OPTIONS } from "../components/tutoring";
+import OneOnOneClasses from "./Home/OneOnOneClasses";
 
+/**
+ * /classes renders the same Personalised Learning section as the home
+ * page — a single shared component, so the two can never drift apart.
+ */
 export default function ClassesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-text-primary">
-      <main className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
-        <PageTitle className="max-w-[22ch]">
-          Personalised Learning
-        </PageTitle>
-        <p className="mt-3 max-w-[30ch] text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
-          One Student. One Teacher. Undivided Attention.
-        </p>
-        <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
-          Get personalised academic support with one-on-one classes tailored
-          to your learning needs. Choose online or offline classes, clear your
-          doubts, strengthen concepts, and learn at your own pace.
-        </p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {TUTORING_OPTIONS.map((option) => (
-            <TutoringCard
-              key={option.id}
-              option={option}
-              ctaHref="/#hero-enquiry"
-            />
-          ))}
-        </div>
-        <p className="mt-8 text-base text-text-secondary">
-          Not sure which option fits?{" "}
-          <Link
-            href="/#hero-enquiry"
-            className="font-semibold text-text-primary underline underline-offset-2"
-          >
-            Request a callback
-          </Link>{" "}
-          and our counsellor will help you choose.
-        </p>
+      <main className="flex flex-1 flex-col">
+        <OneOnOneClasses />
       </main>
-      <Footer />
     </div>
   );
 }

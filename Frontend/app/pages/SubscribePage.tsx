@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Footer from "../components/Footer";
 import { PageTitle } from "../components/typography";
 
 export default function SubscribePage() {
@@ -34,7 +33,6 @@ export default function SubscribePage() {
           </Link>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

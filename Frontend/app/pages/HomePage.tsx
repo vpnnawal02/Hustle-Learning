@@ -1,5 +1,4 @@
 import CtaBand from "../components/CtaBand";
-import Footer from "../components/Footer";
 import HomeFaq from "../components/HomeFaq";
 import SubscriptionPlans from "./Home/SubscriptionPlans";
 import { HeroCarousel } from "./Home/hero";
@@ -21,7 +20,6 @@ export default function HomePage() {
         <HomeFaq />
         <CtaBand />
       </main>
-      <Footer />
     </div>
   );
 }

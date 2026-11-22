@@ -120,7 +120,7 @@ export default function StudyMaterialMenu({
           role="menu"
           aria-label="Study Material"
           onKeyDown={onPanelKeyDown}
-          className="absolute top-[calc(100%+16px)] left-1/2 z-50 max-h-[calc(100dvh-7rem)] w-[880px] max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto rounded-xl border border-border bg-surface"
+          className="absolute top-[calc(100%+24px)] left-1/2 z-50 max-h-[calc(100dvh-7rem)] w-[880px] max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto rounded-xl border border-border bg-surface"
           style={{ boxShadow: "0 12px 32px rgba(20,33,61,0.12)" }}
         >
           <div className="grid grid-cols-[1fr_1fr_1.2fr] gap-0">

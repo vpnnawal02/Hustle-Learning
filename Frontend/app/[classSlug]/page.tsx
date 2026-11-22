@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import Footer from "@/app/components/Footer";
 import { PageTitle } from "@/app/components/typography";
 import { ResourceIcon } from "@/app/components/resources/icons";
 import { resourceTint } from "@/app/components/resources/resource-tints";
@@ -174,7 +173,6 @@ export default async function ClassPage({
       </div>
 
       <div className="pb-16 lg:pb-0">
-        <Footer />
       </div>
       <MobileBar classSlug={cls.slug} />
     </div>

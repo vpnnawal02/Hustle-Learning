@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Footer from "@/app/components/Footer";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
 import { PageTitle } from "@/app/components/typography";
 import SubjectCourseCard from "@/app/components/SubjectCourseCard";
@@ -624,7 +623,6 @@ export default async function ClassCoursesRoute({
           </>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

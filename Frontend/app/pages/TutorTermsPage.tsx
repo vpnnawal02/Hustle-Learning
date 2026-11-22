@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Footer from "../components/Footer";
 import Breadcrumbs from "../components/layout/Breadcrumbs";
 import { PageTitle } from "../components/typography";
 
@@ -378,7 +377,6 @@ export default function TutorTermsPage() {
           .
         </p>
       </main>
-      <Footer />
     </div>
   );
 }

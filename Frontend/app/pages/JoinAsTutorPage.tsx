@@ -23,7 +23,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Reveal from "../components/Reveal";
-import Footer from "../components/Footer";
 import { SectionHeading } from "../components/typography";
 import JoinSteps from "./join-as-tutor/JoinSteps";
 import heroImg from "../assets/images/personal-home-tutor.png";
@@ -839,7 +838,6 @@ export default function JoinAsTutorPage() {
         </section>
 
       </main>
-      <Footer />
     </div>
   );
 }

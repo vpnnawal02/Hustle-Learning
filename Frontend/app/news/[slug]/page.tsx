@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import Breadcrumbs from "@/app/components/layout/Breadcrumbs";
-import Footer from "@/app/components/Footer";
 import NewsCard, { CategoryPill } from "@/app/components/NewsCard";
 import JsonLd from "@/app/components/seo/JsonLd";
 import { PageTitle } from "@/app/components/typography";
@@ -338,7 +337,6 @@ export default async function NewsArticlePage({
           </aside>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

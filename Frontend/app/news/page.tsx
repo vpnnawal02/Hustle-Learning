@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import Footer from "../components/Footer";
 import JsonLd from "../components/seo/JsonLd";
 import { breadcrumbJsonLd, buildMetadata, canonical } from "@/lib/seo";
 import NewsExplorer from "./NewsExplorer";
@@ -59,7 +58,6 @@ export default function NewsPage() {
         </section>
         <NewsExplorer />
       </main>
-      <Footer />
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function DrillQuestionPreview() {
   const isCorrect = selected === CORRECT_INDEX;
 
   return (
-    <div className="rounded-lg border border-border bg-surface p-4 sm:p-5">
+    <div className="rounded-lg border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(20,33,61,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="inline-flex items-center rounded-full bg-accent/15 px-3 py-1 text-[11px] font-bold tracking-[0.1em] text-text-primary uppercase">
           Sample question

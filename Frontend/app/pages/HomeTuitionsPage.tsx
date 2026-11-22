@@ -16,7 +16,6 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Reveal from "../components/Reveal";
-import Footer from "../components/Footer";
 import CtaBand from "../components/CtaBand";
 import { SectionHeading } from "../components/typography";
 import AreasSearch, { type TuitionRegion } from "./home-tuitions/AreasSearch";
@@ -974,7 +973,6 @@ export default function HomeTuitionsPage() {
 
         <CtaBand />
       </main>
-      <Footer />
     </div>
   );
 }

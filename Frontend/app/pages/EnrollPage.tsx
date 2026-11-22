@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import Footer from "../components/Footer";
 import Breadcrumbs from "../components/layout/Breadcrumbs";
 import { PageTitle } from "../components/typography";
 import {
@@ -382,7 +381,6 @@ export default function EnrollPage() {
           </aside>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -6,11 +6,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
 import StudyMaterialMenu from "./StudyMaterialMenu";
+import MoreMenu from "./MoreMenu";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
-import { CONTACT, LOGIN_HREF, SIGNUP_HREF } from "./navbar-data";
+import { CONTACT, LOGIN_HREF, MORE_MENU, SIGNUP_HREF } from "./navbar-data";
 import { ActiveBar, useIsActivePath } from "./useActivePath";
 
-type OpenMenu = "study" | null;
+type OpenMenu = "study" | "more" | null;
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const studyTriggerRef = useRef<HTMLButtonElement>(null);
+  const moreTriggerRef = useRef<HTMLButtonElement>(null);
 
   const closeDesktop = useCallback((restoreFocus = false) => {
     setOpenMenu(null);
@@ -35,8 +37,7 @@ export default function Navbar() {
   const pathname = usePathname() ?? "/";
   const isHome = isActivePath("/");
   const isCourses = isActivePath("/courses");
-  const isHomeTutor = isActivePath("/home-tuitions");
-  const isNews = isActivePath("/news");
+  const isDrillMode = isActivePath("/drill-mode");
   const isPricing = isActivePath("/pricing");
   // Study section covers the whole resource platform: hub, class pages,
   // subject/resource/chapter pages, and the JEE/NEET tracks.
@@ -45,6 +46,10 @@ export default function Navbar() {
     isActivePath("/jee") ||
     isActivePath("/neet") ||
     pathname.startsWith("/class-");
+  // "More" is active when the current route is one of its grouped links.
+  const isMore = MORE_MENU.some((group) =>
+    group.links.some((link) => isActivePath(link.href)),
+  );
 
   // Frosted at the very top, solid once content scrolls underneath.
   useEffect(() => {
@@ -66,6 +71,7 @@ export default function Navbar() {
       if (e.key === "Escape") {
         setOpenMenu(null);
         if (openMenu === "study") studyTriggerRef.current?.focus();
+        if (openMenu === "more") moreTriggerRef.current?.focus();
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
@@ -137,22 +143,13 @@ export default function Navbar() {
               {isCourses && <ActiveBar />}
             </Link>
             <Link
-              href="/home-tuitions"
-              aria-current={isHomeTutor ? "page" : undefined}
-              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isHomeTutor ? "text-text-primary" : "text-text-secondary"
+              href="/drill-mode"
+              aria-current={isDrillMode ? "page" : undefined}
+              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isDrillMode ? "text-text-primary" : "text-text-secondary"
                 }`}
             >
-              Home Tutor
-              {isHomeTutor && <ActiveBar />}
-            </Link>
-            <Link
-              href="/news"
-              aria-current={isNews ? "page" : undefined}
-              className={`relative flex h-10 shrink-0 items-center rounded px-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-text-primary active:bg-surface-subtle ${isNews ? "text-text-primary" : "text-text-secondary"
-                }`}
-            >
-              News
-              {isNews && <ActiveBar />}
+              Drill Mode
+              {isDrillMode && <ActiveBar />}
             </Link>
             <Link
               href="/pricing"
@@ -163,6 +160,13 @@ export default function Navbar() {
               Pricing
               {isPricing && <ActiveBar />}
             </Link>
+            <MoreMenu
+              open={openMenu === "more"}
+              onOpen={() => setOpenMenu("more")}
+              onClose={() => closeDesktop()}
+              triggerRef={moreTriggerRef}
+              routeActive={isMore}
+            />
           </nav>
 
           {/* Desktop right cluster */}

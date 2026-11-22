@@ -6,6 +6,7 @@ import {
   CONTACT,
   LOGIN_HREF,
   MEGA_MENU,
+  MORE_MENU,
   PRIMARY_LINKS,
   SIGNUP_HREF,
 } from "./navbar-data";
@@ -243,6 +244,45 @@ export default function MobileMenu({ open, onNavigate }: Props) {
               {link.label}
             </MenuRow>
           ))}
+
+          {/* More accordion — every other top-level page, grouped */}
+          <div
+            className="menu-item-in"
+            style={{ animationDelay: `${120 + links.length * 40}ms` }}
+          >
+            <Section
+              id="mobile-more"
+              title="More"
+              expanded={expanded === "more"}
+              onToggle={() => toggle("more")}
+            >
+              <div className="flex flex-col gap-3">
+                {MORE_MENU.map((group) => (
+                  <div
+                    key={group.heading}
+                    className="rounded-xl bg-surface-muted/60 p-3.5"
+                  >
+                    <p className="text-[13px] font-bold text-text-primary">
+                      {group.heading}
+                    </p>
+                    <ul className="mt-1 flex flex-col">
+                      {group.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={onNavigate}
+                            className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </Section>
+          </div>
         </div>
 
         {/* Contact */}

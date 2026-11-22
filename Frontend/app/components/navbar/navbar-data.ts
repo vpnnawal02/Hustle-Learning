@@ -64,9 +64,51 @@ export const MEGA_MENU = navigation as MegaMenu;
 export const PRIMARY_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Courses", href: "/courses" },
-  { label: "Home Tutor", href: "/home-tuitions" },
+  { label: "Drill Mode", href: "/drill-mode" },
   { label: "Pricing", href: "/pricing" },
-  { label: "News", href: "/news" },
+];
+
+export interface MoreMenuGroup {
+  heading: string;
+  links: NavLink[];
+}
+
+/**
+ * "More" dropdown — every top-level page that is not a primary nav link,
+ * grouped by purpose. All hrefs resolve to real routes — no dead links.
+ */
+export const MORE_MENU: MoreMenuGroup[] = [
+  {
+    heading: "Courses & Practice",
+    links: [
+      { label: "One-on-One Classes", href: "/classes" },
+      { label: "Enroll Now", href: "/enroll" },
+    ],
+  },
+  {
+    heading: "Tutoring",
+    links: [
+      { label: "Home Tuitions", href: "/home-tuitions" },
+      { label: "Hire a Tutor", href: "/hire-a-tutor" },
+      { label: "Join as a Tutor", href: "/join-as-tutor" },
+    ],
+  },
+  {
+    heading: "Plans & Account",
+    links: [
+      { label: "Subscribe", href: "/subscribe" },
+      { label: "Login", href: "/login" },
+    ],
+  },
+  {
+    heading: "Explore",
+    links: [
+      { label: "News & Updates", href: "/news" },
+      { label: "Search", href: "/search" },
+      { label: "Terms of Use", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+    ],
+  },
 ];
 
 export const CONTACT = {

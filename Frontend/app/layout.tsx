@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/Footer";
 import RouteScrollTop from "./components/RouteScrollTop";
 import ScrollChrome from "./components/ScrollChrome";
 import StudyThemeToggle from "./components/StudyThemeToggle";
@@ -104,6 +105,7 @@ export default function RootLayout({
         <ScrollChrome />
         <StudyThemeToggle />
         {children}
+        <Footer />
       </body>
     </html>
   );

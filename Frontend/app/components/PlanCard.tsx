@@ -13,19 +13,19 @@ import type { PlanFeature, SubscriptionPlan } from "./subscription";
 export function PlanCard({ plan }: { plan: SubscriptionPlan }) {
   return (
     <article className="flex h-full flex-col rounded-md border border-border bg-surface p-5 transition-colors duration-200 hover:border-text-muted sm:p-6">
-      <h3 className="text-xl leading-tight font-extrabold tracking-tight text-text-primary">
+      <h3 className="text-center text-xl leading-tight font-extrabold tracking-tight text-text-primary">
         {plan.name}{" "}
         <span className="text-sm leading-snug font-bold text-text-secondary">
           ({plan.audience})
         </span>
       </h3>
-      <p className="mt-3 flex items-baseline gap-1.5">
+      <p className="mt-3 flex items-baseline justify-center gap-1.5">
         <span className="text-4xl font-extrabold tracking-tight text-text-primary">
           ₹{plan.price}
         </span>
         <span className="text-sm font-semibold text-text-secondary">/ month</span>
       </p>
-      <p className="mt-1.5 text-[13px] font-medium text-text-secondary">
+      <p className="mt-1.5 text-center text-[13px] font-medium text-text-secondary">
         {plan.billingLabel} · Cancel anytime
       </p>
       <p className="mt-6 text-xs font-bold tracking-[0.1em] text-text-muted uppercase">

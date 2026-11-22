@@ -10,7 +10,6 @@ import HowToSteps from "@/app/components/resources/HowToSteps";
 import ResourceCards from "@/app/components/resources/ResourceCards";
 import { ResourceIcon } from "@/app/components/resources/icons";
 import CtaBand from "@/app/components/CtaBand";
-import Footer from "@/app/components/Footer";
 import { resourceTint } from "@/app/components/resources/resource-tints";
 import {
   getClasses,
@@ -202,7 +201,6 @@ export default async function ResourceHubPage({
       </div>
 
       <CtaBand />
-      <Footer />
     </>
   );
 }
