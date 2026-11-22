@@ -9,7 +9,7 @@ export default function SubscribePage() {
         <PageTitle>
           Subscription
         </PageTitle>
-        <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">
+        <p className="mt-3 text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
           Subscribe to Hustle Learning
         </p>
         <p className="mt-4 max-w-[60ch] text-base leading-[1.6] text-text-secondary sm:text-lg">
@@ -19,12 +19,20 @@ export default function SubscribePage() {
           counsellor will call you back on WhatsApp with the plan that fits
           your class and subjects.
         </p>
-        <Link
-          href="/#hero-enquiry"
-          className="mt-6 inline-flex h-12 items-center justify-center rounded bg-accent px-6 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-        >
-          Request a callback
-        </Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/#hero-enquiry"
+            className="inline-flex h-12 items-center justify-center rounded bg-accent px-6 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+          >
+            Request a callback
+          </Link>
+          <Link
+            href="/drill-mode"
+            className="inline-flex h-12 items-center justify-center rounded border border-border px-6 text-sm font-semibold text-text-primary transition-colors hover:border-accent hover:bg-surface-muted"
+          >
+            Explore Drill Mode
+          </Link>
+        </div>
       </main>
       <Footer />
     </div>

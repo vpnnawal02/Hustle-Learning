@@ -83,7 +83,7 @@ export default function HeroCarousel() {
           <p className="mt-4 max-w-[62ch] text-base leading-[1.6] text-text-secondary sm:text-lg md:mt-3 md:text-[15px] lg:text-base">
             {LEAD_SLIDE.description}
           </p>
-          <p className="mt-3 max-w-[52ch] text-lg leading-snug font-bold text-text-primary sm:text-xl md:pb-5">
+          <p className="mt-3 max-w-[52ch] text-xl leading-snug font-bold text-text-primary sm:text-2xl md:pb-5">
             Better learning. Personalised guidance. Affordable education.
           </p>
         </div>
@@ -112,7 +112,6 @@ export default function HeroCarousel() {
                 card={c}
                 onEnquire={openEnquiry}
                 priority={i === 0}
-                className="xl:aspect-[4/3]"
               />
             ))}
           </div>

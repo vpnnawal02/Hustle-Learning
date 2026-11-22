@@ -25,6 +25,7 @@ const EXPLORE_LINKS = [
   { href: "/", label: "Home" },
   { href: "/courses", label: "All Courses" },
   { href: "/resources", label: "Study Material" },
+  { href: "/drill-mode", label: "Drill Mode" },
   { href: "/news", label: "News & Updates" },
   { href: "/search", label: "Search Resources" },
   { href: "/enroll", label: "Enroll Now" },

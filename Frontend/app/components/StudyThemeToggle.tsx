@@ -1,10 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 
 type Theme = "light" | "dark";
+
+const THEME_EVENT = "hustle-theme-change";
 
 /**
  * Theme control that exists ONLY on study routes (resources, materials,
@@ -21,14 +23,32 @@ export function isStudyRoute(pathname: string): boolean {
   ) || /^\/class-\d+(\/|$)/.test(pathname);
 }
 
-function readTheme(): Theme {
+function subscribe(onChange: () => void) {
+  window.addEventListener(THEME_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(THEME_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function getTheme(): Theme {
   return document.documentElement.getAttribute("data-theme") === "dark"
     ? "dark"
     : "light";
 }
 
-function applyTheme(theme: Theme) {
+function getServerTheme(): Theme {
+  return "light";
+}
+
+function setDomTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
+  window.dispatchEvent(new Event(THEME_EVENT));
+}
+
+function applyTheme(theme: Theme) {
+  setDomTheme(theme);
   try {
     localStorage.setItem("hustle-theme", theme);
   } catch {
@@ -36,27 +56,27 @@ function applyTheme(theme: Theme) {
   }
 }
 
+function readSavedTheme(): Theme {
+  try {
+    const saved = localStorage.getItem("hustle-theme");
+    if (saved === "dark" || saved === "light") return saved;
+  } catch {
+    // Ignore storage errors (private mode, etc.)
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
 export default function StudyThemeToggle() {
   const pathname = usePathname() ?? "/";
   const studying = isStudyRoute(pathname);
-  const [theme, setTheme] = useState<Theme>("light");
+  const theme = useSyncExternalStore(subscribe, getTheme, getServerTheme);
 
   // Enforce theme scope on every navigation.
   useEffect(() => {
-    if (!isStudyRoute(pathname)) {
-      document.documentElement.setAttribute("data-theme", "light");
-      setTheme("light");
-      return;
-    }
-    let saved: Theme = "light";
-    try {
-      saved = localStorage.getItem("hustle-theme") === "dark" ? "dark" : "light";
-    } catch {
-      // Ignore storage errors.
-    }
-    document.documentElement.setAttribute("data-theme", saved);
-    setTheme(saved);
-  }, [pathname]);
+    setDomTheme(studying ? readSavedTheme() : "light");
+  }, [pathname, studying]);
 
   if (!studying) return null;
 
@@ -65,11 +85,7 @@ export default function StudyThemeToggle() {
   return (
     <button
       type="button"
-      onClick={() => {
-        const next: Theme = readTheme() === "dark" ? "light" : "dark";
-        applyTheme(next);
-        setTheme(next);
-      }}
+      onClick={() => applyTheme(isDark ? "light" : "dark")}
       aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
       title={`Switch to ${isDark ? "light" : "dark"} theme`}
       aria-pressed={isDark}

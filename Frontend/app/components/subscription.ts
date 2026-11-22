@@ -4,12 +4,17 @@ import { BookOpen, Target, TrendingUp } from "lucide-react";
 export interface PlanFeature {
   title: string;
   description: string;
+  /** When present, the row links out instead of expanding a dropdown. */
+  href?: string;
+  /** Marks the lead feature — rendered with a pastel amber highlight. */
+  highlight?: boolean;
 }
 
 export interface SubscriptionPlan {
   id: string;
   name: string;
-  description: string;
+  /** Shown in brackets beside the name, e.g. "Classes 6–10". */
+  audience: string;
   price: number;
   billingLabel: string;
   ctaLabel: string;
@@ -27,108 +32,86 @@ export interface SubscriptionPlan {
  * flow ("/#hero-enquiry"). When a real checkout lands, pass
  * plan.id + plan.price to it from here.
  */
-export const PLANS: SubscriptionPlan[] = [
-  {
-    id: "practice-plus",
-    name: "Practice Plus",
-    description: "Build consistency. Practise more. Track your progress.",
-    price: 99,
-    billingLabel: "Billed monthly",
-    ctaLabel: "Get Practice Plus",
-    features: [
-      {
-        title: "Extended Question Banks",
-        description:
-          "Chapter-wise MCQs, assertion-reason, short and long-answer questions.",
-      },
-      {
-        title: "Weekly Assessments",
-        description:
-          "Regular chapter-wise tests based on CBSE examination patterns.",
-      },
-      {
-        title: "Detailed Test Reports",
-        description:
-          "Review marks, accuracy and performance after every test.",
-      },
-      {
-        title: "Important Questions",
-        description:
-          "Curated questions covering key concepts and exam-relevant topics.",
-      },
-      {
-        title: "Step-by-Step Solutions",
-        description:
-          "Understand answers with explanations and worked solutions.",
-      },
-      {
-        title: "Performance History",
-        description:
-          "Keep track of completed tests and monitor your progress over time.",
-      },
-    ],
-  },
-  {
-    id: "complete-learning",
-    name: "Complete Learning",
-    description:
-      "A more structured learning experience, built around your academic needs.",
-    price: 249,
-    billingLabel: "Billed monthly",
-    ctaLabel: "Get Complete Learning",
-    features: [
-      {
-        title: "Daily Practice Problems (DPPs)",
-        description:
-          "Daily question sets to develop regular problem-solving habits.",
-      },
-      {
-        title: "School-Specific Worksheets",
-        description:
-          "Practice worksheets tailored to your school's syllabus and academic requirements.",
-      },
-      {
-        title: "Personalised Practice Plans",
-        description:
-          "Focused practice recommendations based on your learning needs and performance.",
-      },
-      {
-        title: "Exam Preparation Worksheets",
-        description:
-          "Structured revision exercises for periodic tests, term examinations and final exams.",
-      },
-      {
-        title: "Advanced Practice Sets",
-        description:
-          "Additional challenging questions to strengthen conceptual understanding and application.",
-      },
-    ],
-  },
-];
-
-export interface ComparisonRow {
-  feature: string;
-  plus: boolean;
-  complete: boolean;
+/**
+ * Every tier includes the same six features — only the monthly price
+ * varies by class group. The wording of each feature is tailored to the
+ * tier so each plan reads as its own preparation track.
+ */
+function tierFeatures(copy: {
+  bank: string;
+  assignments: string;
+  pyqs: string;
+  papers: string;
+  history: string;
+}): PlanFeature[] {
+  return [
+    {
+      title: "Drill Mode",
+      description:
+        "Timer-based MCQ practice with instant feedback and accuracy tracking.",
+      href: "/drill-mode",
+      highlight: true,
+    },
+    { title: "Extended Question Bank", description: copy.bank },
+    { title: "Weekly Assignments", description: copy.assignments },
+    { title: "PYQs", description: copy.pyqs },
+    { title: "Sample Papers (with solutions)", description: copy.papers },
+    { title: "Performance History", description: copy.history },
+  ];
 }
 
-export const COMPARISON_ROWS: ComparisonRow[] = [
-  { feature: "Extended Question Banks", plus: true, complete: true },
-  { feature: "Weekly Tests", plus: true, complete: true },
-  { feature: "Test Report Cards", plus: true, complete: true },
-  { feature: "Important Questions", plus: true, complete: true },
-  { feature: "Detailed Answer Explanations", plus: true, complete: true },
-  { feature: "Progress Tracking", plus: true, complete: true },
-  { feature: "Revision Practice", plus: true, complete: true },
-  { feature: "Daily Practice Problems", plus: false, complete: true },
-  { feature: "School-oriented Worksheets", plus: false, complete: true },
-  { feature: "Advanced Revision Worksheets", plus: false, complete: true },
+export const PLANS: SubscriptionPlan[] = [
   {
-    feature: "Personalised Learning Recommendations",
-    plus: false,
-    complete: true,
+    id: "foundation",
+    name: "Foundation",
+    audience: "Classes 6–10",
+    price: 99,
+    billingLabel: "Billed monthly",
+    ctaLabel: "Subscribe",
+    features: tierFeatures({
+      bank: "Chapter-wise questions mapped to NCERT, with solved examples.",
+      assignments:
+        "Short weekly assignments that build consistent study habits.",
+      pyqs: "Previous year board questions to understand exam patterns.",
+      papers: "Exam-style sample papers with step-by-step solutions.",
+      history: "Keep track of completed practice and watch progress grow.",
+    }),
   },
-  { feature: "Enhanced Performance Insights", plus: false, complete: true },
+  {
+    id: "advanced",
+    name: "Advanced",
+    audience: "Classes 11–12",
+    price: 129,
+    billingLabel: "Billed monthly",
+    ctaLabel: "Subscribe",
+    features: tierFeatures({
+      bank: "Chapter-wise questions mapped to the senior secondary syllabus, with solved examples.",
+      assignments:
+        "Weekly assignments paced for Classes 11–12 and board preparation.",
+      pyqs: "Previous year board questions for senior secondary topics.",
+      papers:
+        "Full-length sample papers for board-style preparation, with solutions.",
+      history:
+        "Keep track of completed practice and monitor progress through Classes 11–12.",
+    }),
+  },
+  {
+    id: "aspirant",
+    name: "Aspirant",
+    audience: "JEE & NEET",
+    price: 149,
+    billingLabel: "Billed monthly",
+    ctaLabel: "Subscribe",
+    features: tierFeatures({
+      bank: "Chapter-wise questions mapped to the JEE & NEET syllabi, with solved examples.",
+      assignments:
+        "Weekly assignments modelled on entrance-exam question styles.",
+      pyqs: "Previous year JEE and NEET questions for exam-style practice.",
+      papers: "Timed practice papers in JEE & NEET format, with solutions.",
+      history:
+        "Keep track of completed practice and monitor exam readiness over time.",
+    }),
+  },
 ];
 
 export interface ValueProp {
@@ -159,28 +142,29 @@ export const VALUE_PROPS: ValueProp[] = [
 ];
 
 export const SUBSCRIPTION_TERMS: string[] = [
-  "Both plans are monthly subscriptions — ₹99/month and ₹249/month.",
+  "Three monthly tiers — Foundation (Classes 6–10) at ₹99/month, Advanced (Classes 11–12) at ₹129/month, and Aspirant (JEE & NEET) at ₹149/month.",
+  "Every tier includes the same six features — only the price varies.",
   "Subscriptions can be cancelled anytime.",
   "Subscription payments are non-refundable.",
-  "Access covers the digital learning resources included in the selected plan.",
-  "Live online classes are not included in either subscription.",
+  "Access covers the digital learning resources included in the subscription.",
+  "Live online classes are not included in subscriptions.",
   "Physical books are available for separate purchase and are not included.",
 ];
 
 export const SUBSCRIPTION_FAQS: { question: string; answer: string }[] = [
   {
-    question: "What is the difference between Practice Plus and Complete Learning?",
+    question: "What subscription plans are available?",
     answer:
-      "Practice Plus provides extended question banks, weekly tests, test report cards and additional practice resources. Complete Learning includes everything in Practice Plus, along with daily practice problems, school-oriented worksheets, advanced revision resources and enhanced learning features.",
+      "Three monthly tiers: Foundation (Classes 6–10) at ₹99 per month, Advanced (Classes 11–12) at ₹129 per month, and Aspirant (JEE & NEET) at ₹149 per month.",
+  },
+  {
+    question: "Do all plans include the same features?",
+    answer:
+      "Yes. Every tier includes Drill Mode, Extended Question Bank, Weekly Assignments, PYQs, Sample Papers with solutions, and Performance History.",
   },
   {
     question: "Are these subscriptions billed monthly?",
-    answer:
-      "Yes. Practice Plus costs ₹99 per month, while Complete Learning costs ₹249 per month.",
-  },
-  {
-    question: "Can I cancel my subscription anytime?",
-    answer: "Yes. You can cancel your subscription at any time.",
+    answer: "Yes. All three tiers are billed monthly and can be cancelled anytime.",
   },
   {
     question: "Can I get a refund after purchasing a subscription?",
@@ -197,7 +181,7 @@ export const SUBSCRIPTION_FAQS: { question: string; answer: string }[] = [
   {
     question: "Which plan should I choose?",
     answer:
-      "Choose Practice Plus if you primarily need additional questions, regular assessments and performance tracking. Choose Complete Learning if you also want structured daily practice and school-oriented worksheets.",
+      "Choose the tier that matches the student's level: Foundation for Classes 6–10, Advanced for Classes 11–12, or Aspirant for JEE & NEET. The included features are identical across tiers.",
   },
 ];
 
@@ -210,12 +194,12 @@ export const PRICING_FAQS: { question: string; answer: string }[] = [
   {
     question: "What are the available subscription plans?",
     answer:
-      "Practice Plus costs ₹99 per month, while Complete Learning costs ₹249 per month.",
+      "Foundation (Classes 6–10) costs ₹99 per month, Advanced (Classes 11–12) costs ₹129 per month, and Aspirant (JEE & NEET) costs ₹149 per month. All three include the same features.",
   },
   {
-    question: "What is the difference between the two subscription plans?",
+    question: "What is the difference between the subscription plans?",
     answer:
-      "Practice Plus provides extended question banks, weekly assessments, detailed test reports, important questions, step-by-step solutions and performance history. Complete Learning includes everything in Practice Plus, along with DPPs, school-specific worksheets, personalised practice plans, exam preparation worksheets and advanced practice sets.",
+      "Only the price and the class group differ. Every tier includes Drill Mode, Extended Question Bank, Weekly Assignments, PYQs, Sample Papers with solutions, and Performance History.",
   },
   {
     question: "Are online batch classes included in subscriptions?",

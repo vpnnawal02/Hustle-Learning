@@ -119,25 +119,25 @@ const STATS = [
  * competitive-level promises.
  */
 const PILLARS = [  {
-    eyebrow: "Learn without limits.",
+    heading: "Learn without limits.",
     icon: BookIcon,
-    title: "Free Resources",
+    subheading: "Free Resources",
     text: "Notes, NCERT Solutions, Worksheets, Important Questions, Sample Papers and PYQs — free for every chapter.",
     cta: { label: "Explore Resources", href: "/resources" },
     featured: true,
   },
   {
-    eyebrow: "Subscription Plans",
+    heading: "Subscription Plans",
     icon: TargetIcon,
-    title: "Take your preparation further.",
+    subheading: "Take your preparation further.",
     text: "Extended question banks with solved examples, exam-focused explanations, daily practice problems and weekly tests.",
     cta: { label: "View Plans", href: "/subscribe" },
     featured: false,
   },
   {
-    eyebrow: "Online Batch Classes",
+    heading: "Online Batch Classes",
     icon: ChartIcon,
-    title: "Easy on pockets, Heavy on learning.",
+    subheading: "Easy on pockets, Heavy on learning.",
     text: "Batches for Classes 6–8, 9, 10 and 11–12 with structured syllabus coverage, revision and board exam preparation.",
     cta: { label: "Explore Batches", href: "/courses" },
     featured: false,
@@ -253,29 +253,31 @@ export default function WhoWeAre() {
         {/* Three pillars — Free Resources leads on the warm wash. */}
         <div className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3">
           {PILLARS.map((p, i) => (
-            <Reveal key={p.eyebrow} delay={i * 100} className="h-full">
+            <Reveal key={p.heading} delay={i * 100} className="h-full">
               <article
                 className={`lift group flex h-full flex-col rounded border p-6 sm:p-7 ${p.featured
                   ? "border-transparent bg-accent/[0.08]"
                   : "border-border bg-surface"
                   }`}
               >
-                <p.icon
-                  aria-hidden="true"
-                  className="h-9 w-9 text-accent transition-transform duration-200 group-hover:scale-110"
-                />
-                <p className="mt-4 text-xs font-semibold tracking-[1.2px] text-text-muted uppercase">
-                  {p.eyebrow}
+                <div className="flex items-center gap-3">
+                  <p.icon
+                    aria-hidden="true"
+                    className="h-9 w-9 shrink-0 text-accent transition-transform duration-200 group-hover:scale-110"
+                  />
+                  <h3 className="text-[22px] leading-tight font-extrabold tracking-tight text-text-primary">
+                    {p.heading}
+                  </h3>
+                </div>
+                <p className="mt-2 text-lg leading-snug font-bold text-text-primary">
+                  {p.subheading}
                 </p>
-                <h3 className="mt-1.5 text-[22px] font-extrabold tracking-tight text-text-primary">
-                  {p.title}
-                </h3>
                 <p className="mt-2 text-[15px] leading-[1.65] text-text-secondary">
                   {p.text}
                 </p>
                 <Link
                   href={p.cta.href}
-                  aria-label={`${p.cta.label} — ${p.eyebrow}`}
+                  aria-label={`${p.cta.label} — ${p.heading}`}
                   className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-text-primary transition-all hover:gap-2.5"
                 >
                   {p.cta.label}

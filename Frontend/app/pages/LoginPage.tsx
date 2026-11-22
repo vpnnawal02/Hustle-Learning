@@ -302,7 +302,7 @@ export default function LoginPage() {
                 />
               </span>
             </div>
-            <p className="mt-8 text-xl leading-snug font-bold text-brand-white">
+            <p className="mt-8 text-xl leading-snug font-bold text-brand-white sm:text-2xl">
               Learn Smart. Hustle Hard.
             </p>
           </div>

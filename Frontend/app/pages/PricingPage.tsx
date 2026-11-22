@@ -54,8 +54,6 @@ function CheckList({ items, iconClassName = "text-brand-navy" }: { items: string
 }
 
 export default function PricingPage() {
-  const [plus, complete] = PLANS;
-
   return (
     <div className="mx-auto w-full max-w-[var(--container-wide)] flex-1 px-4 py-10 md:px-6 md:py-14">
       {/* Hero */}
@@ -112,13 +110,12 @@ export default function PricingPage() {
             description="Access additional learning resources, structured practice materials and assessments to strengthen your preparation."
           />
         </Reveal>
-        <div className="mx-auto mt-8 grid max-w-[880px] gap-6 md:grid-cols-2">
-          <Reveal className="h-full">
-            <PlanCard plan={plus} variant="plus" />
-          </Reveal>
-          <Reveal delay={100} className="h-full">
-            <PlanCard plan={complete} variant="complete" plusName={plus.name} />
-          </Reveal>
+        <div className="mx-auto mt-8 grid max-w-[1120px] gap-5 md:grid-cols-3">
+          {PLANS.map((plan, i) => (
+            <Reveal key={plan.id} delay={i * 80} className="h-full">
+              <PlanCard plan={plan} />
+            </Reveal>
+          ))}
         </div>
       </section>
       <hr aria-hidden="true" className="mt-14 border-border" />

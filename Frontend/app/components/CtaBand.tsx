@@ -12,7 +12,7 @@ export default function CtaBand() {
           >
             Learn Smart. Hustle Hard.
           </h2>
-          <p className="mt-2 max-w-[24ch] text-xl leading-snug font-bold text-brand-white/85">
+          <p className="mt-2 max-w-[24ch] text-xl leading-snug font-bold text-brand-white/85 sm:text-2xl">
             Not sure where to begin? Talk to us first.
           </p>
           <p className="mt-2 max-w-[58ch] text-[15px] leading-[1.6] text-brand-white/75">

@@ -608,7 +608,7 @@ export default async function ClassCoursesRoute({
             <PageTitle className="mt-3 max-w-[24ch]">
               {group.label} Courses
             </PageTitle>
-            <p className="mt-3 text-xl leading-snug font-bold text-text-secondary">
+            <p className="mt-3 text-xl leading-snug font-bold text-text-secondary sm:text-2xl">
               {group.tagline}
             </p>
             <p className="mt-3 text-base leading-[1.6] text-text-secondary sm:text-lg">

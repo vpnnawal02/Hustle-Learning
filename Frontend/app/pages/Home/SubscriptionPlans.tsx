@@ -4,7 +4,6 @@ import { SectionHeading } from "../../components/typography";
 import { PLANS } from "../../components/subscription";
 
 export default function SubscriptionPlans() {
-  const [plus, complete] = PLANS;
   return (
     <section
       aria-labelledby="subscription-heading"
@@ -17,17 +16,16 @@ export default function SubscriptionPlans() {
             title="Hustle Learning Membership"
             sub="Daily practice, weekly tests and clear solutions in one place."
             subTone="secondary"
-            description="Help your child stay consistent, understand mistakes and feel confident before every exam. Pick a monthly plan and cancel anytime."
+            description="Pick the tier that matches the student's level. Every tier includes the same six features — only the price varies. Monthly billing, cancel anytime."
           />
         </Reveal>
 
-        <div className="mx-auto mt-10 grid max-w-[880px] gap-6 md:grid-cols-2">
-          <Reveal className="h-full">
-            <PlanCard plan={plus} variant="plus" />
-          </Reveal>
-          <Reveal delay={100} className="h-full">
-            <PlanCard plan={complete} variant="complete" plusName={plus.name} />
-          </Reveal>
+        <div className="mx-auto mt-10 grid max-w-[1120px] gap-5 md:grid-cols-3">
+          {PLANS.map((plan, i) => (
+            <Reveal key={plan.id} delay={i * 80} className="h-full">
+              <PlanCard plan={plan} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
