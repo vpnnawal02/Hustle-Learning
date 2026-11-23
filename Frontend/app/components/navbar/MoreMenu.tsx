@@ -134,6 +134,24 @@ export default function MoreMenu({
                 <ul className="mt-2 flex flex-col gap-0.5">
                   {group.links.map((link) => {
                     const active = isActivePath(link.href);
+                    if (link.variant === "accent") {
+                      return (
+                        <li
+                          key={link.href}
+                          className="mt-1.5 border-t border-border pt-2.5"
+                        >
+                          <Link
+                            href={link.href}
+                            role="menuitem"
+                            aria-current={active ? "page" : undefined}
+                            onClick={() => onClose(false)}
+                            className="flex items-center justify-center rounded-md bg-accent px-3 py-2 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      );
+                    }
                     return (
                       <li key={link.href}>
                         <Link

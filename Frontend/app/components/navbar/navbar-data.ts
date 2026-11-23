@@ -10,6 +10,12 @@ import navigation from "@/data/navigation.json";
 export interface NavLink {
   label: string;
   href: string;
+  /**
+   * Optional visual treatment. `"accent"` renders the link as a
+   * highlighted button (e.g. "Join as a Tutor" — an action for tutors,
+   * distinct from the student-facing links around it).
+   */
+  variant?: "accent";
 }
 
 export interface MegaMenuClass {
@@ -81,16 +87,26 @@ export const MORE_MENU: MoreMenuGroup[] = [
   {
     heading: "Courses & Practice",
     links: [
-      { label: "One-on-One Classes", href: "/classes" },
-      { label: "Enroll Now", href: "/enroll" },
+      { label: "Class 6 Courses", href: "/courses/class-6" },
+      { label: "Class 7 Courses", href: "/courses/class-7" },
+      { label: "Class 8 Courses", href: "/courses/class-8" },
+      { label: "Class 9 Courses", href: "/courses/class-9" },
+      { label: "Class 10 Courses", href: "/courses/class-10" },
+      { label: "JEE Preparation", href: "/jee" },
+      { label: "NEET Preparation", href: "/neet" },
     ],
   },
   {
     heading: "Tutoring",
     links: [
-      { label: "Home Tuitions", href: "/home-tuitions" },
+      { label: "Personal Home Tutor", href: "/home-tuitions" },
+      { label: "Personal Online Tutor", href: "/pricing#tutoring" },
       { label: "Hire a Tutor", href: "/hire-a-tutor" },
-      { label: "Join as a Tutor", href: "/join-as-tutor" },
+      {
+        label: "Join as a Tutor",
+        href: "/join-as-tutor",
+        variant: "accent",
+      },
     ],
   },
   {

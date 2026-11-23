@@ -939,11 +939,6 @@ export default function HomeTuitionsPage() {
           <p className="text-sm font-bold text-text-primary">Keep exploring:</p>
           <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
             <li>
-              <Link href="/classes" className="text-text-secondary underline underline-offset-2 hover:text-text-primary">
-                One-on-one classes
-              </Link>
-            </li>
-            <li>
               <Link href="/pricing" className="text-text-secondary underline underline-offset-2 hover:text-text-primary">
                 Pricing & services
               </Link>

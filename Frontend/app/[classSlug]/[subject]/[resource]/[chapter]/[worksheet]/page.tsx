@@ -202,7 +202,7 @@ export default async function WorksheetPage({
       />
       <Breadcrumbs items={crumbs} />
 
-      <div className="mx-auto mt-6 max-w-[860px]">
+      <div className="mt-6 max-w-[860px]">
         <article className="flex min-w-0 flex-col gap-6">
           <WorksheetHero
             worksheetLabel={ws.title}

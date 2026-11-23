@@ -17,7 +17,6 @@ const TUTORING_LINKS = [
   { href: "/home-tuitions", label: "Home Tuitions in Delhi" },
   { href: "/hire-a-tutor", label: "Hire a Tutor" },
   { href: "/join-as-tutor", label: "Join as a Tutor" },
-  { href: "/classes", label: "One-on-One Classes" },
   { href: "/pricing", label: "Pricing & Services" },
 ];
 

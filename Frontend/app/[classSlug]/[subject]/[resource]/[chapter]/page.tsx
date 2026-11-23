@@ -208,7 +208,7 @@ export default async function ChapterPage({
       <Breadcrumbs items={crumbs} />
 
       <div className="mt-6 lg:grid lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start lg:gap-10">
-        <article className="mx-auto min-w-0 max-w-[860px]">
+        <article className="min-w-0 max-w-[860px]">
           <p className="text-sm leading-[1.6] text-text-secondary">
             {cls.label} · {subject.name} · {cat.title}
             {chapterMeta ? ` · Chapter ${chapterMeta.number}` : ""}

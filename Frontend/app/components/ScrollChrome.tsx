@@ -10,6 +10,7 @@ import { ArrowUp } from "lucide-react";
  */
 export default function ScrollChrome() {
   const barRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [showTop, setShowTop] = useState(false);
   const shownRef = useRef(false);
 
@@ -23,6 +24,14 @@ export default function ScrollChrome() {
       const progress = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
       if (barRef.current) {
         barRef.current.style.transform = `scaleX(${progress})`;
+      }
+      // When the navbar auto-hides on study pages, dock the progress
+      // bar to the top of the viewport instead of floating below it.
+      // Otherwise clear the inline offset so the CSS height class
+      // (h-16 mobile / h-20 desktop) controls the position.
+      if (wrapRef.current) {
+        wrapRef.current.style.top =
+          doc.dataset.navbarHidden === "1" ? "0px" : "";
       }
       const shouldShow = doc.scrollTop > 600;
       if (shouldShow !== shownRef.current) {
@@ -54,10 +63,13 @@ export default function ScrollChrome() {
 
   return (
     <>
-      {/* Reading progress — sits flush under the h-20 fixed navbar. */}
+      {/* Reading progress — sits flush under the fixed navbar
+          (h-16 on mobile, h-20 on desktop), and docks to the viewport
+          top when the navbar auto-hides. */}
       <div
+        ref={wrapRef}
         aria-hidden="true"
-        className="fixed inset-x-0 top-20 z-50 h-[3px] bg-black/[0.06] dark:bg-white/10"
+        className="fixed inset-x-0 top-16 z-50 h-[3px] bg-black/[0.06] transition-[top] duration-300 min-[1200px]:top-20 dark:bg-white/10"
       >
         <div
           ref={barRef}

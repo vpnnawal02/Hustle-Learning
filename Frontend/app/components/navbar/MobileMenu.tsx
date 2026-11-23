@@ -2,61 +2,80 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  CONTACT,
-  LOGIN_HREF,
-  MEGA_MENU,
-  MORE_MENU,
-  PRIMARY_LINKS,
-  SIGNUP_HREF,
-} from "./navbar-data";
+import { LOGIN_HREF, MEGA_MENU, MORE_MENU, SIGNUP_HREF } from "./navbar-data";
 import { useIsActivePath } from "./useActivePath";
-import { ChevronDown, ChevronRight, PhoneIcon } from "./icons";
+import { ChevronDown, CloseIcon } from "./icons";
+import Logo from "./Logo";
 
 interface Props {
   open: boolean;
   onNavigate: () => void;
 }
 
-/** Mobile accordion section wrapper */
-function Section({
+/** Plain primary row, e.g. Home / Drill Mode / Pricing */
+function PrimaryRow({
+  href,
+  label,
+  onNavigate,
+  delay = 0,
+}: {
+  href: string;
+  label: string;
+  onNavigate: () => void;
+  delay?: number;
+}) {
+  const isActivePath = useIsActivePath();
+  const active = isActivePath(href);
+  return (
+    <div className="menu-item-in" style={{ animationDelay: `${delay}ms` }}>
+      <Link
+        href={href}
+        onClick={onNavigate}
+        aria-current={active ? "page" : undefined}
+        className={`flex w-full items-center justify-between px-2 py-3 text-[15px] transition-colors ${
+          active
+            ? "font-semibold text-text-primary"
+            : "font-medium text-text-primary"
+        }`}
+      >
+        {label}
+      </Link>
+    </div>
+  );
+}
+
+/** Expandable primary row, e.g. Courses / Study Material */
+function ExpandableRow({
   id,
   title,
   expanded,
   onToggle,
+  delay = 0,
   children,
 }: {
   id: string;
   title: string;
   expanded: boolean;
   onToggle: () => void;
+  delay?: number;
   children: React.ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-surface">
+    <div className="menu-item-in" style={{ animationDelay: `${delay}ms` }}>
       <button
         type="button"
         aria-expanded={expanded}
         aria-controls={id}
         onClick={onToggle}
-        className={`flex w-full items-center justify-between gap-4 px-4 py-3.5 text-[15px] font-bold transition-colors ${
-          expanded ? "text-text-primary" : "text-text-primary"
-        }`}
+        className="flex w-full items-center justify-between px-2 py-3 text-[15px] font-medium text-text-primary"
       >
         {title}
-        <span
-          aria-hidden="true"
-          className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
-            expanded ? "bg-brand-navy text-brand-white" : "bg-surface-muted text-text-muted"
-          }`}
-        >
-          <ChevronDown
-            className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
-          />
-        </span>
+        <ChevronDown
+          className={`h-4 w-4 text-text-muted transition-transform ${expanded ? "rotate-180" : ""}`}
+        />
       </button>
       {expanded && (
-        <div id={id} className="border-t border-border px-3 pt-3 pb-3">
+        <div id={id} className="flex flex-col gap-0.5 pr-2 pb-3 pl-2">
           {children}
         </div>
       )}
@@ -64,46 +83,58 @@ function Section({
   );
 }
 
-function MenuRow({
+function SubHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="px-2 pt-3 text-[11px] font-bold tracking-wider text-text-muted uppercase">
+      {children}
+    </p>
+  );
+}
+
+function SubLink({
   href,
   onNavigate,
   children,
-  delay = 0,
 }: {
   href: string;
   onNavigate: () => void;
   children: React.ReactNode;
-  delay?: number;
 }) {
-  const isActivePath = useIsActivePath();
-  const active = isActivePath(href);
   return (
     <Link
       href={href}
       onClick={onNavigate}
-      aria-current={active ? "page" : undefined}
-      style={{ animationDelay: `${delay}ms` }}
-      className={`menu-item-in flex items-center justify-between gap-3 rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-colors active:bg-surface-muted ${
-        active
-          ? "bg-accent/15 text-text-primary"
-          : "text-text-secondary hover:bg-surface-muted hover:text-text-primary"
-      }`}
+      className="block rounded-lg px-2 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-muted hover:text-text-primary"
     >
-      <span className="flex items-center gap-3">
-        <span
-          aria-hidden="true"
-          className={`h-1.5 w-1.5 rounded-full ${active ? "bg-accent" : "bg-border-strong"}`}
-        />
-        {children}
-      </span>
-      <ChevronRight className="h-4 w-4 shrink-0 text-text-muted" />
+      {children}
     </Link>
+  );
+}
+
+function SecondaryLink({
+  href,
+  onNavigate,
+  children,
+}: {
+  href: string;
+  onNavigate: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        onClick={onNavigate}
+        className="block py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+      >
+        {children}
+      </Link>
+    </li>
   );
 }
 
 export default function MobileMenu({ open, onNavigate }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);
-  const isActivePath = useIsActivePath();
   const { school, resources, exams } = MEGA_MENU;
 
   if (!open) return null;
@@ -111,200 +142,171 @@ export default function MobileMenu({ open, onNavigate }: Props) {
   const toggle = (key: string) =>
     setExpanded((prev) => (prev === key ? null : key));
 
-  const links = PRIMARY_LINKS.filter((l) => l.label !== "Home");
+  const coursesLinks =
+    MORE_MENU.find((group) => group.heading === "Courses & Practice")
+      ?.links ?? [];
+  const exploreLinks =
+    MORE_MENU.find((group) => group.heading === "Explore")?.links ?? [];
+  const tutoringLinks =
+    MORE_MENU.find((group) => group.heading === "Tutoring")?.links ?? [];
 
   return (
     <div
       id="mobile-menu"
-      className="mobile-menu-drop absolute inset-x-3 top-[calc(100%+8px)] z-40 overflow-hidden rounded-2xl border border-border bg-surface min-[1200px]:hidden"
-      style={{ boxShadow: "0 24px 48px rgba(20,33,61,0.16)" }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+      className="mobile-menu-drop fixed inset-0 z-[60] flex min-h-dvh flex-col bg-surface min-[1200px]:hidden"
+      style={{
+        boxShadow: "0 24px 48px rgba(20,33,61,0.16)",
+        paddingTop: "env(safe-area-inset-top)",
+      }}
     >
+      {/* Top bar — mirrors the navbar height with logo + close */}
+      <div className="flex h-16 shrink-0 items-center justify-between px-4 md:px-6">
+        <Logo />
+        <button
+          type="button"
+          onClick={onNavigate}
+          aria-label="Close menu"
+          className="inline-flex h-10 w-10 items-center justify-center rounded border border-border bg-surface text-text-primary transition-colors hover:bg-surface-muted"
+        >
+          <CloseIcon />
+        </button>
+      </div>
+
+      {/* Scrollable middle: main links stay at the top, secondary
+          links are pushed to the bottom of the screen. */}
       <nav
         aria-label="Mobile"
-        className="max-h-[calc(100dvh-120px)] w-full overflow-y-auto px-3 py-3"
+        className="flex w-full flex-1 flex-col overflow-y-auto px-4 pb-4 md:px-6"
       >
-        {/* Auth actions */}
-        <div
-          className="menu-item-in grid grid-cols-2 gap-2 px-1 pt-1"
-          style={{ animationDelay: "0ms" }}
+        {/* Main links */}
+        <div>
+        <PrimaryRow href="/" label="Home" onNavigate={onNavigate} delay={40} />
+
+        <ExpandableRow
+          id="mobile-courses"
+          title="Courses"
+          expanded={expanded === "courses"}
+          onToggle={() => toggle("courses")}
+          delay={80}
         >
-          <Link
-            href={LOGIN_HREF}
-            onClick={onNavigate}
-            className="inline-flex h-11 items-center justify-center rounded-xl border border-border bg-surface px-4 text-sm font-bold text-text-primary transition-colors hover:border-text-muted"
-          >
-            Login
-          </Link>
-          <Link
-            href={SIGNUP_HREF}
-            onClick={onNavigate}
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-accent px-4 text-sm font-bold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
-          >
-            Sign Up
-          </Link>
-        </div>
-
-        <div className="mt-2 flex flex-col gap-1">
-          {/* Home */}
-          <div className="menu-item-in" style={{ animationDelay: "40ms" }}>
-            <Link
-              href="/"
-              onClick={onNavigate}
-              aria-current={isActivePath("/") ? "page" : undefined}
-              className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-colors active:bg-surface-muted ${
-                isActivePath("/")
-                  ? "bg-accent/15 text-text-primary"
-                  : "text-text-secondary hover:bg-surface-muted hover:text-text-primary"
-              }`}
-            >
-              <span className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className={`h-1.5 w-1.5 rounded-full ${isActivePath("/") ? "bg-accent" : "bg-border-strong"}`}
-                />
-                Home
-              </span>
-              <ChevronRight className="h-4 w-4 shrink-0 text-text-muted" />
-            </Link>
-          </div>
-
-          {/* Study Material accordion */}
-          <div className="menu-item-in" style={{ animationDelay: "80ms" }}>
-            <Section
-              id="mobile-study"
-              title="Study Material"
-              expanded={expanded === "study"}
-              onToggle={() => toggle("study")}
-            >
-              <div className="flex flex-col gap-3">
-                <div className="rounded-xl bg-surface-muted/60 p-3.5">
-                  <p className="text-[13px] font-bold text-text-primary">
-                    {school.heading} · Classes 6–10
-                  </p>
-                  <ul className="mt-2 grid grid-cols-2 gap-1.5">
-                    {school.classes.map((c) => (
-                      <li key={c.slug}>
-                        <Link
-                          href={c.href}
-                          onClick={onNavigate}
-                          className="flex h-10 items-center justify-center rounded-lg border border-border bg-surface px-2 text-sm font-semibold text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
-                        >
-                          {c.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-xl bg-surface-muted/60 p-3.5">
-                  <p className="text-[13px] font-bold text-text-primary">
-                    {resources.heading}
-                  </p>
-                  <ul className="mt-2 flex flex-col">
-                    {resources.links.map((link) => (
-                      <li key={link.slug}>
-                        <Link
-                          href={link.href}
-                          onClick={onNavigate}
-                          className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {exams.cards.map((exam) => (
-                    <Link
-                      key={exam.slug}
-                      href={exam.href}
-                      onClick={onNavigate}
-                      className="rounded-xl bg-brand-navy px-4 py-3.5 transition-transform active:scale-[0.99]"
-                    >
-                      <span className="block text-sm font-bold text-brand-white">
-                        {exam.label}
-                      </span>
-                      <span className="mt-0.5 block text-[13px] text-brand-white/70">
-                        {exam.subjects.map((s) => s.label).join(" · ")}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </Section>
-          </div>
-
-          {links.map((link, i) => (
-            <MenuRow
+          <SubLink href="/courses" onNavigate={onNavigate}>
+            All Courses
+          </SubLink>
+          {coursesLinks.map((link) => (
+            <SubLink
               key={link.href}
               href={link.href}
               onNavigate={onNavigate}
-              delay={120 + i * 40}
             >
               {link.label}
-            </MenuRow>
+            </SubLink>
           ))}
+        </ExpandableRow>
 
-          {/* More accordion — every other top-level page, grouped */}
-          <div
-            className="menu-item-in"
-            style={{ animationDelay: `${120 + links.length * 40}ms` }}
-          >
-            <Section
-              id="mobile-more"
-              title="More"
-              expanded={expanded === "more"}
-              onToggle={() => toggle("more")}
-            >
-              <div className="flex flex-col gap-3">
-                {MORE_MENU.map((group) => (
-                  <div
-                    key={group.heading}
-                    className="rounded-xl bg-surface-muted/60 p-3.5"
-                  >
-                    <p className="text-[13px] font-bold text-text-primary">
-                      {group.heading}
-                    </p>
-                    <ul className="mt-1 flex flex-col">
-                      {group.links.map((link) => (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            onClick={onNavigate}
-                            className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </Section>
+        <ExpandableRow
+          id="mobile-study"
+          title="Study Material"
+          expanded={expanded === "study"}
+          onToggle={() => toggle("study")}
+          delay={120}
+        >
+          <SubLink href={school.hubHref} onNavigate={onNavigate}>
+            All Study Material
+          </SubLink>
+          <SubHeading>{school.heading} · Classes 6–10</SubHeading>
+          {school.classes.map((c) => (
+            <SubLink key={c.slug} href={c.href} onNavigate={onNavigate}>
+              {c.label}
+            </SubLink>
+          ))}
+          <SubHeading>{resources.heading}</SubHeading>
+          {resources.links.map((link) => (
+            <SubLink key={link.slug} href={link.href} onNavigate={onNavigate}>
+              {link.label}
+            </SubLink>
+          ))}
+          <SubHeading>{exams.heading}</SubHeading>
+          {exams.cards.map((exam) => (
+            <SubLink key={exam.slug} href={exam.href} onNavigate={onNavigate}>
+              {exam.label}
+            </SubLink>
+          ))}
+        </ExpandableRow>
+
+        <PrimaryRow
+          href="/drill-mode"
+          label="Drill Mode"
+          onNavigate={onNavigate}
+          delay={160}
+        />
+        <PrimaryRow
+          href="/pricing"
+          label="Pricing"
+          onNavigate={onNavigate}
+          delay={200}
+        />
+        </div>
+
+        {/* Secondary two-column links — pinned to the bottom */}
+        <div
+          className="menu-item-in mt-auto px-2 pt-3"
+          style={{ animationDelay: "240ms" }}
+        >
+          <div className="border-t border-border">
+            <div className="grid grid-cols-2 gap-x-6 py-3">
+            <ul className="flex min-w-0 flex-col">
+              {exploreLinks.map((link) => (
+                <SecondaryLink
+                  key={link.href}
+                  href={link.href}
+                  onNavigate={onNavigate}
+                >
+                  {link.label}
+                </SecondaryLink>
+              ))}
+            </ul>
+            <ul className="flex min-w-0 flex-col">
+              {tutoringLinks.map((link) => (
+                <SecondaryLink
+                  key={link.href}
+                  href={link.href}
+                  onNavigate={onNavigate}
+                >
+                  {link.label}
+                </SecondaryLink>
+              ))}
+            </ul>
+            </div>
           </div>
         </div>
-
-        {/* Contact */}
-        <div className="menu-item-in px-1 pt-2 pb-1" style={{ animationDelay: `${120 + links.length * 40}ms` }}>
-          <a
-            href={CONTACT.telHref}
-            className="flex items-center gap-4 rounded-xl border border-border bg-surface-muted/60 px-4 py-3.5"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-navy text-brand-white">
-              <PhoneIcon className="h-5 w-5" />
-            </span>
-            <span>
-              <span className="block text-sm font-bold text-text-primary">
-                {CONTACT.label}
-              </span>
-              <span className="mt-0.5 block text-sm font-medium text-text-secondary">
-                {CONTACT.phoneDisplay}
-              </span>
-            </span>
-          </a>
-        </div>
       </nav>
+
+      {/* Pinned actions */}
+      <div
+        className="menu-item-in flex shrink-0 flex-col gap-2 px-6 pt-2 md:px-8"
+        style={{
+          animationDelay: "280ms",
+          paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
+        }}
+      >
+        <Link
+          href={LOGIN_HREF}
+          onClick={onNavigate}
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-navy px-4 text-[15px] font-semibold text-brand-white transition-transform active:scale-[0.99]"
+        >
+          Login
+        </Link>
+        <Link
+          href={SIGNUP_HREF}
+          onClick={onNavigate}
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-accent px-4 text-[15px] font-semibold text-on-accent transition-colors hover:bg-accent-hover active:bg-accent-pressed"
+        >
+          Sign Up
+        </Link>
+      </div>
     </div>
   );
 }

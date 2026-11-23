@@ -1,13 +1,34 @@
 import { PageTitle } from "../components/typography";
+import LegalTableOfContents, {
+  type LegalTocEntry,
+} from "../components/legal/LegalTableOfContents";
+
+const PRIVACY_TOC: LegalTocEntry[] = [
+  { id: "about-us", label: "1. Information About Us" },
+  { id: "information-we-collect", label: "2. Information We Collect" },
+  { id: "how-we-use", label: "3. How We Use Your Information" },
+  { id: "contact-forms", label: "4. Contact Forms and Consent" },
+  { id: "cookies", label: "5. Cookies and Similar Technologies" },
+  { id: "sharing", label: "6. Sharing and Disclosure" },
+  { id: "retention", label: "7. Data Storage and Retention" },
+  { id: "security", label: "8. Data Security" },
+  { id: "children", label: "9. Children's Privacy" },
+  { id: "your-rights", label: "10. Your Privacy Rights" },
+  { id: "third-party", label: "11. Third-Party Websites" },
+  { id: "transfers", label: "12. International Data Transfers" },
+  { id: "breach", label: "13. Data Breach Incidents" },
+  { id: "changes", label: "14. Changes to This Policy" },
+  { id: "contact", label: "15. Contact Us and Complaints" },
+];
 
 const CONTACT_EMAIL = "hustlelearning.info@gmail.com";
 const CONTACT_PHONE_DISPLAY = "+91 88519 48143";
 const CONTACT_PHONE_HREF = "tel:+918851948143";
 const SITE_URL_LABEL = "https://www.hustlelearning.in";
 
-function H2({ children }: { children: React.ReactNode }) {
+function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <h2 className="font-sans text-lg font-semibold text-text-primary">
+    <h2 id={id} className="scroll-mt-28 font-sans text-base font-semibold text-text-primary">
       {children}
     </h2>
   );
@@ -15,7 +36,7 @@ function H2({ children }: { children: React.ReactNode }) {
 
 function H3({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="font-sans text-base font-semibold text-text-primary">
+    <h3 className="font-sans text-sm font-semibold text-text-primary">
       {children}
     </h3>
   );
@@ -39,11 +60,12 @@ export default function PrivacyPage() {
   return (
     <main className="mx-auto w-full max-w-[var(--container-narrow)] px-4 py-10 md:px-6 md:py-14">
       <PageTitle>Privacy Policy</PageTitle>
-      <p className="mt-2 text-sm font-semibold text-text-muted">
+      <p className="mt-2 text-xs font-semibold text-text-muted">
         Last Updated: 19 November 2026
       </p>
 
-      <div className="mt-8 flex max-w-[68ch] flex-col gap-6 text-base leading-[1.6] text-text-secondary">
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
+        <div className="flex min-w-0 flex-col gap-6 text-sm leading-[1.6] text-text-secondary">
         <section>
           <P>
             At Hustle Learning, we respect your privacy and are committed to
@@ -72,7 +94,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>1. Information About Us</H2>
+          <H2 id="about-us">1. Information About Us</H2>
           <P>
             <strong className="text-text-primary">Platform Name:</strong>{" "}
             Hustle Learning
@@ -110,7 +132,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>2. Information We Collect</H2>
+          <H2 id="information-we-collect">2. Information We Collect</H2>
           <P>
             We collect personal information that is reasonably necessary to
             operate our website, provide educational services, process
@@ -271,7 +293,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>3. How We Use Your Information</H2>
+          <H2 id="how-we-use">3. How We Use Your Information</H2>
           <P>
             We use collected information for legitimate business and
             service-related purposes, including the following.
@@ -369,7 +391,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>4. Contact Forms and Consent</H2>
+          <H2 id="contact-forms">4. Contact Forms and Consent</H2>
           <P>
             When you submit a contact form on Hustle Learning, we collect the
             information you provide so that we can understand and respond to
@@ -409,7 +431,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>5. Cookies and Similar Technologies</H2>
+          <H2 id="cookies">5. Cookies and Similar Technologies</H2>
           <P>
             Our website or the third-party services integrated with it may use
             cookies or similar technologies to support website functionality
@@ -449,7 +471,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>6. Sharing and Disclosure of Information</H2>
+          <H2 id="sharing">6. Sharing and Disclosure of Information</H2>
           <P>
             Hustle Learning does not sell personal information to third
             parties.
@@ -541,7 +563,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>7. Data Storage and Retention</H2>
+          <H2 id="retention">7. Data Storage and Retention</H2>
           <P>
             We retain personal information only for as long as reasonably
             necessary for the purposes for which it was collected, including
@@ -575,7 +597,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>8. Data Security</H2>
+          <H2 id="security">8. Data Security</H2>
           <P>
             We take reasonable measures to protect personal information against
             unauthorised access, misuse, alteration, disclosure or loss.
@@ -612,7 +634,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>9. Children&apos;s Privacy</H2>
+          <H2 id="children">9. Children&apos;s Privacy</H2>
           <P>
             Hustle Learning provides educational resources and services that
             may be used by students below the age of 18.
@@ -650,7 +672,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>10. Your Privacy Rights and Choices</H2>
+          <H2 id="your-rights">10. Your Privacy Rights and Choices</H2>
           <P>
             Subject to applicable law, you may have rights regarding your
             personal information.
@@ -711,7 +733,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>11. Third-Party Websites and Services</H2>
+          <H2 id="third-party">11. Third-Party Websites and Services</H2>
           <P>
             Our website may contain links to external websites, applications,
             educational platforms, payment providers or other third-party
@@ -732,7 +754,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>12. International Data Transfers</H2>
+          <H2 id="transfers">12. International Data Transfers</H2>
           <P>
             Some third-party technology providers or service infrastructure may
             process or store information outside India.
@@ -746,7 +768,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>13. Data Breach and Security Incidents</H2>
+          <H2 id="breach">13. Data Breach and Security Incidents</H2>
           <P>
             We take reasonable precautions to prevent unauthorised access to
             personal information.
@@ -764,7 +786,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>14. Changes to This Privacy Policy</H2>
+          <H2 id="changes">14. Changes to This Privacy Policy</H2>
           <P>We may update this Privacy Policy from time to time to reflect:</P>
           <UL
             items={[
@@ -787,7 +809,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <H2>15. Contact Us and Privacy Complaints</H2>
+          <H2 id="contact">15. Contact Us and Privacy Complaints</H2>
           <P>
             If you have questions about this Privacy Policy, want to exercise
             your privacy rights, request correction or deletion of personal
@@ -847,6 +869,10 @@ export default function PrivacyPage() {
           </P>
           <P>Thank you for trusting Hustle Learning.</P>
         </section>
+        </div>
+        <aside className="hidden min-w-0 self-start lg:sticky lg:top-24 lg:block lg:max-h-[calc(100svh-7rem)] lg:overflow-y-auto">
+          <LegalTableOfContents entries={PRIVACY_TOC} />
+        </aside>
       </div>
     </main>
   );

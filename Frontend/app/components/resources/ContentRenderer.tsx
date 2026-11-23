@@ -310,11 +310,11 @@ export default function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) 
                 className="rounded-md border border-border bg-surface px-5 py-6 sm:px-8"
               >
                 {block.label && (
-                  <figcaption className="mb-3 text-center text-[13px] font-semibold tracking-wide text-text-muted uppercase">
+                  <figcaption className="mb-3 text-left text-[13px] font-semibold tracking-wide text-text-muted uppercase">
                     {block.label}
                   </figcaption>
                 )}
-                <blockquote className="mx-auto max-w-[60ch] text-center text-[17px] leading-[1.9] text-text-primary">
+                <blockquote className="max-w-[60ch] text-left text-[17px] leading-[1.9] text-text-primary">
                   {block.lines.map((ln, j) => (
                     <span key={j} className="block italic">
                       <RichText text={ln} />

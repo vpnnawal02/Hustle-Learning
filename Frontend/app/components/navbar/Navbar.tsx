@@ -10,6 +10,8 @@ import MoreMenu from "./MoreMenu";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
 import { CONTACT, LOGIN_HREF, MORE_MENU, SIGNUP_HREF } from "./navbar-data";
 import { ActiveBar, useIsActivePath } from "./useActivePath";
+import { useHideOnScroll } from "./useHideOnScroll";
+import { isStudyRoute } from "@/lib/study-routes";
 
 type OpenMenu = "study" | "more" | null;
 
@@ -33,6 +35,10 @@ export default function Navbar() {
   }, []);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
+
+  // On study routes the navbar hides while scrolling down and returns
+  // on scroll up, freeing reading space. It always stays visible while
+  // a menu is open or near the top of the page.
   const isActivePath = useIsActivePath();
   const pathname = usePathname() ?? "/";
   const isHome = isActivePath("/");
@@ -50,6 +56,18 @@ export default function Navbar() {
   const isMore = MORE_MENU.some((group) =>
     group.links.some((link) => isActivePath(link.href)),
   );
+  // Auto-hide on study material pages: hide while scrolling down,
+  // show again on scroll up. Never hide while a menu is open.
+  const studying = isStudyRoute(pathname);
+  const hideOnScroll = useHideOnScroll(!studying);
+  const hideNavbar =
+    studying && hideOnScroll && !mobileOpen && openMenu === null;
+
+  // Tell the scroll chrome (progress bar) when the navbar is hidden so
+  // it can dock to the top of the viewport.
+  useEffect(() => {
+    document.documentElement.dataset.navbarHidden = hideNavbar ? "1" : "";
+  }, [hideNavbar]);
 
   // Frosted at the very top, solid once content scrolls underneath.
   useEffect(() => {
@@ -104,12 +122,12 @@ export default function Navbar() {
     <>
       <header
         ref={navRef}
-        className={`fixed inset-x-0 top-0 z-50 border-b border-border backdrop-blur-xl backdrop-saturate-150 transition-colors ${scrolled
+        className={`fixed inset-x-0 top-0 z-50 border-b border-border backdrop-blur-xl backdrop-saturate-150 transition-[transform,background-color,border-color,box-shadow] duration-300 motion-reduce:transition-none ${hideNavbar ? "-translate-y-full motion-reduce:translate-y-0" : ""} ${scrolled
           ? "bg-surface/85 shadow-[0_8px_24px_rgba(20,33,61,0.08)]"
           : "bg-surface/70"
           }`}
       >
-        <div className="mx-auto flex h-20 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1280px]:gap-10">
+        <div className="mx-auto flex h-16 w-full max-w-[var(--container-wide)] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5 md:px-6 min-[1200px]:h-20 min-[1280px]:gap-10">
           <Logo />
 
           {/* Desktop nav — single row, no wrap */}
@@ -228,20 +246,15 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
-        <MobileMenu open={mobileOpen} onNavigate={closeMobile} />
       </header>
+
       {/* Spacer: the fixed header is out of flow — this reserves its exact
-          h-20 height so page content never slides underneath it. */}
-      <div aria-hidden="true" className="h-20 shrink-0" />
-      {mobileOpen && (
-        <button
-          type="button"
-          aria-label="Close menu"
-          onClick={closeMobile}
-          className="fixed inset-0 top-20 z-40 bg-black/30 min-[1200px]:hidden"
-        />
-      )}
+          height (h-16 on mobile, h-20 on desktop) so page content never
+          slides underneath it. */}
+      <div aria-hidden="true" className="h-16 shrink-0 min-[1200px]:h-20" />
+      {/* Full-screen menu lives outside the header: the header's backdrop
+          blur would otherwise trap its fixed positioning. */}
+      <MobileMenu open={mobileOpen} onNavigate={closeMobile} />
     </>
   );
 }

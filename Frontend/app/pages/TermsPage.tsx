@@ -1,12 +1,41 @@
 import { PageTitle } from "../components/typography";
+import LegalTableOfContents, {
+  type LegalTocEntry,
+} from "../components/legal/LegalTableOfContents";
+
+const TERMS_TOC: LegalTocEntry[] = [
+  { id: "about", label: "1. About Hustle Learning" },
+  { id: "eligibility", label: "2. Eligibility and User Accounts" },
+  { id: "resources", label: "3. Educational Resources" },
+  { id: "subscriptions", label: "4. Subscriptions" },
+  { id: "batch-classes", label: "5. Online Batch Classes" },
+  { id: "online-tutoring", label: "6. Personal Online Tutoring" },
+  { id: "home-tutoring", label: "7. Personal Home Tutoring" },
+  { id: "books", label: "8. Physical Books" },
+  { id: "payments", label: "9. Payments and Pricing" },
+  { id: "refunds", label: "10. Refunds and Cancellations" },
+  { id: "conduct", label: "11. User Conduct" },
+  { id: "intellectual-property", label: "12. Intellectual Property" },
+  { id: "third-party", label: "13. Third-Party Services" },
+  { id: "availability", label: "14. Website Availability" },
+  { id: "privacy-info", label: "15. Privacy and Personal Information" },
+  { id: "communications", label: "16. Communications and Marketing" },
+  { id: "liability", label: "17. Limitation of Liability" },
+  { id: "indemnification", label: "18. Indemnification" },
+  { id: "suspension", label: "19. Suspension and Termination" },
+  { id: "changes", label: "20. Changes to These Terms" },
+  { id: "governing-law", label: "21. Governing Law" },
+  { id: "grievance", label: "22. Grievance Redressal" },
+  { id: "general", label: "23. General Provisions" },
+];
 
 const CONTACT_EMAIL = "hustlelearning.info@gmail.com";
 const CONTACT_PHONE_DISPLAY = "+91 88519 48143";
 const CONTACT_PHONE_HREF = "tel:+918851948143";
 
-function H2({ children }: { children: React.ReactNode }) {
+function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <h2 className="font-sans text-lg font-semibold text-text-primary">
+    <h2 id={id} className="scroll-mt-28 font-sans text-base font-semibold text-text-primary">
       {children}
     </h2>
   );
@@ -14,7 +43,7 @@ function H2({ children }: { children: React.ReactNode }) {
 
 function H3({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="font-sans text-base font-semibold text-text-primary">
+    <h3 className="font-sans text-sm font-semibold text-text-primary">
       {children}
     </h3>
   );
@@ -38,11 +67,12 @@ export default function TermsPage() {
   return (
     <main className="mx-auto w-full max-w-[var(--container-narrow)] px-4 py-10 md:px-6 md:py-14">
       <PageTitle>Terms and Conditions</PageTitle>
-      <p className="mt-2 text-sm font-semibold text-text-muted">
+      <p className="mt-2 text-xs font-semibold text-text-muted">
         Last Updated: 19 November 2026
       </p>
 
-      <div className="mt-8 flex max-w-[68ch] flex-col gap-6 text-base leading-[1.6] text-text-secondary">
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
+        <div className="flex min-w-0 flex-col gap-6 text-sm leading-[1.6] text-text-secondary">
         <section>
           <P>Welcome to Hustle Learning.</P>
           <P>
@@ -71,7 +101,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>1. About Hustle Learning</H2>
+          <H2 id="about">1. About Hustle Learning</H2>
           <P>
             Hustle Learning is an independent educational platform that
             provides academic resources and learning support to school
@@ -107,7 +137,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>2. Eligibility and User Accounts</H2>
+          <H2 id="eligibility">2. Eligibility and User Accounts</H2>
           <P>
             You may browse publicly available content without creating an
             account.
@@ -156,7 +186,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>3. Educational Resources and Study Materials</H2>
+          <H2 id="resources">3. Educational Resources and Study Materials</H2>
           <P>
             Hustle Learning may provide educational resources, including:
           </P>
@@ -200,7 +230,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>4. Subscriptions and Premium Resources</H2>
+          <H2 id="subscriptions">4. Subscriptions and Premium Resources</H2>
           <P>
             Hustle Learning offers paid subscriptions that provide access to
             selected premium educational resources.
@@ -304,7 +334,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>5. Online Batch Classes</H2>
+          <H2 id="batch-classes">5. Online Batch Classes</H2>
           <P>
             Hustle Learning offers online batch classes for selected classes
             and subjects.
@@ -377,7 +407,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>6. Personal Online Tutoring</H2>
+          <H2 id="online-tutoring">6. Personal Online Tutoring</H2>
           <P>
             Hustle Learning offers individual online tutoring services at
             prices starting from{" "}
@@ -420,7 +450,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>7. Personal Home Tutoring</H2>
+          <H2 id="home-tutoring">7. Personal Home Tutoring</H2>
           <P>
             Hustle Learning offers personal home tutoring services at prices
             starting from <strong className="text-text-primary">₹4,999</strong>.
@@ -481,7 +511,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>8. Physical Books and Printed Materials</H2>
+          <H2 id="books">8. Physical Books and Printed Materials</H2>
           <P>
             Hustle Learning may offer physical educational books, printed notes
             or other learning materials for separate purchase.
@@ -525,7 +555,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>9. Payments and Pricing</H2>
+          <H2 id="payments">9. Payments and Pricing</H2>
           <P>
             All prices are displayed in Indian Rupees (INR), unless otherwise
             specified.
@@ -569,7 +599,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>10. Refunds and Cancellations</H2>
+          <H2 id="refunds">10. Refunds and Cancellations</H2>
           <P>
             Different services may have different cancellation and refund
             conditions.
@@ -600,7 +630,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>11. User Conduct and Acceptable Use</H2>
+          <H2 id="conduct">11. User Conduct and Acceptable Use</H2>
           <P>
             You agree to use Hustle Learning only for lawful and legitimate
             purposes.
@@ -628,7 +658,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>12. Intellectual Property Rights</H2>
+          <H2 id="intellectual-property">12. Intellectual Property Rights</H2>
           <P>
             Unless otherwise stated, the website, its branding, design, layout,
             original educational content, written materials, graphics,
@@ -659,7 +689,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>13. Third-Party Services and External Links</H2>
+          <H2 id="third-party">13. Third-Party Services and External Links</H2>
           <P>
             Our website may contain links to third-party websites,
             applications, video platforms, payment gateways, educational
@@ -678,7 +708,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>14. Website Availability and Technical Issues</H2>
+          <H2 id="availability">14. Website Availability and Technical Issues</H2>
           <P>
             We aim to keep the website and services available and functioning
             properly.
@@ -710,7 +740,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>15. Privacy and Personal Information</H2>
+          <H2 id="privacy-info">15. Privacy and Personal Information</H2>
           <P>
             Your use of Hustle Learning may involve the collection and
             processing of personal information, including:
@@ -759,7 +789,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>16. Communications and Marketing</H2>
+          <H2 id="communications">16. Communications and Marketing</H2>
           <P>
             By submitting an enquiry or using our contact forms, you may
             authorise Hustle Learning to contact you regarding your enquiry
@@ -795,7 +825,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>17. Limitation of Liability</H2>
+          <H2 id="liability">17. Limitation of Liability</H2>
           <P>
             To the maximum extent permitted by applicable law, Hustle Learning
             will not be liable for indirect, incidental, special or
@@ -825,7 +855,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>18. Indemnification</H2>
+          <H2 id="indemnification">18. Indemnification</H2>
           <P>
             To the extent permitted by applicable law, you agree to be
             responsible for losses, claims, liabilities or reasonable expenses
@@ -841,7 +871,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>19. Suspension and Termination</H2>
+          <H2 id="suspension">19. Suspension and Termination</H2>
           <P>
             We may suspend, restrict or terminate your access to the website or
             any service if:
@@ -872,7 +902,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>20. Changes to These Terms</H2>
+          <H2 id="changes">20. Changes to These Terms</H2>
           <P>
             We may update these Terms from time to time to reflect changes in
             our services, pricing, website functionality, business operations
@@ -895,7 +925,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>21. Governing Law and Dispute Resolution</H2>
+          <H2 id="governing-law">21. Governing Law and Dispute Resolution</H2>
           <P>These Terms are governed by the laws of India.</P>
           <P>
             If you have a complaint, concern or dispute relating to Hustle
@@ -914,7 +944,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>22. Grievance Redressal and Contact Information</H2>
+          <H2 id="grievance">22. Grievance Redressal and Contact Information</H2>
           <P>
             For questions, complaints, payment issues, refund requests, privacy
             concerns or other matters relating to these Terms, please contact:
@@ -957,7 +987,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <H2>23. General Provisions</H2>
+          <H2 id="general">23. General Provisions</H2>
           <H3>Severability</H3>
           <P>
             If any provision of these Terms is found to be invalid or
@@ -1004,6 +1034,10 @@ export default function TermsPage() {
           </P>
           <P>Thank you for choosing Hustle Learning.</P>
         </section>
+        </div>
+        <aside className="hidden min-w-0 self-start lg:sticky lg:top-24 lg:block lg:max-h-[calc(100svh-7rem)] lg:overflow-y-auto">
+          <LegalTableOfContents entries={TERMS_TOC} />
+        </aside>
       </div>
     </main>
   );
